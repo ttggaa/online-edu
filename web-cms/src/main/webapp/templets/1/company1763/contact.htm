@@ -1,0 +1,49 @@
+﻿<!DOCTYPE HTML>
+<html>
+	{ms:include filename=headFile.htm/}
+	<body>
+		{ms:include filename=header.htm/}
+		<div class="box2">
+			<div class="box2-left">
+				<!--只展开当前栏目所在一级栏目下的分类-->
+				<div class="left1">
+					<div class="left1_t"></div>
+					<div class="left1-1">
+						<h3>联系我们</h3><span>contact</span>
+					</div>
+					<ul>
+						{ms:channel typeid=19 size=1}
+						<li>
+							<a title="[field.typetitle/]" href="[field.typelink/]">[field.typetitle/]</a>
+						</li>
+						{/ms:channel}
+					</ul>
+					<div class="left1_b"></div>
+				</div>
+				<div class="blank20"></div>
+				<!--只展开当前栏目所在一级栏目下的分类-->
+			</div>
+			<div class="box2-right">
+				<div class="title20">
+					<h5>联系我们</h5><span>contact</span>
+					<div class="mianbao">
+						当前位置 :
+						<a title="首页" href="{ms:global.url/}">首页</a>
+						&gt;&gt;
+						<a title="联系我们" href="{ms:global.url/}/19/index.html">联系我们</a>
+					</div>
+				</div>
+				<div class="box2-content">
+					<div id="content_text">
+						<p>
+							{ms:field.content/}
+							<iframe src="http://cdn.mingsoft.net/global/map.htm?wmode=transparent&amp;wmode=transparent" id="ifrm" name="ifrm" width="100%" height="320" frameborder="0" scrolling="no" onload="document.all('ifrm').style.height=ifrm.document.body.scrollHeight+30;"></iframe>		
+						</p>
+					</div>
+				</div>
+			</div>
+			<div class="clear"></div>
+		</div>
+		{ms:include filename=footer.htm/}
+	</body>
+</html>

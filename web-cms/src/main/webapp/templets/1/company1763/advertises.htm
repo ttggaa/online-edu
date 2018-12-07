@@ -1,0 +1,57 @@
+﻿<!DOCTYPE HTML>
+<html>
+	{ms:include filename=headFile.htm/}
+	<body>
+		{ms:include filename=header.htm/}
+		<div class="box2">
+			<div class="box2-left">
+				<!--只展开当前栏目所在一级栏目下的分类-->
+				<div class="left1">
+					<div class="left1_t"></div>
+					<div class="left1-1">
+						<h3>人才招聘</h3><span>Recruitment</span>
+					</div>
+					<ul>
+						<li>
+							<a title="人才招聘" href="{ms:global.url/}/146/index.html">人才招聘</a>
+						</li>
+					</ul>
+					<div class="left1_b"></div>
+				</div>
+				<div class="blank20"></div>
+				<!--只展开当前栏目所在一级栏目下的分类-->
+			</div>
+			<div class="box2-right">
+				<div class="title20">
+					<h5>人才招聘</h5><span>Recruitment</span>
+					<div class="mianbao">
+						当前位置 :
+						<a title="首页" href="{ms:global.url/}">首页</a>
+						&gt;&gt;
+						<a title="人才招聘" href="{ms:global.url/}/146/index.html">人才招聘</a>
+					</div>
+				</div>
+				<div class="box2-content">
+					<style type="text/css">
+						#table table,
+						#table td,
+						#table tr {
+							border: 1px solid #ccc;
+							padding: 0.5em 0 0;
+						}
+					</style>
+					<!-- 内容列表开始 -->
+					<div>
+						<li>{ms:field.content/}</li>
+					</div>
+					<!-- 内容列表结束 -->
+					<!-- 列表分页开始 -->
+					<div class="blank30"></div>
+					<!-- 列表分页结束 -->
+				</div>
+			</div>
+			<div class="clear"></div>
+		</div>
+		{ms:include filename=footer.htm/}
+	</body>
+</html>

@@ -1,0 +1,171 @@
+<!DOCTYPE HTML>
+<html>
+	{ms:include filename=headFile.htm/}
+	<body>
+		{ms:include filename=header.htm/}
+		<div class="gonggao">
+			<div class="box">
+				<span>网站公告：</span>
+				<script type="text/javascript" src="{ms:globalskin.url/}/js/jqueryscroll.js"></script>
+				<div class="scrollGallery">
+					<ul class="scroll_t" delay="2500" step="35" style="height:35px;">
+						{ms:arclist typeid=59 size=3}
+						<li>
+							<a href="[field.link/]" title="[field.title/]">[field.title/]</a><span>2015-09-24</span>
+						</li>
+						{/ms:arclist}
+					</ul>
+				</div>
+			</div>
+		</div>
+		<div class="index-bg">
+			<div class="section1" style="background-color: #FFFFFF;">
+				<div class="box">
+					<div class="section1-1">
+						<div class="title10">
+							<a href="{ms:global.url/}/93/index.html">关于我们</a>
+							<span>about</span>
+						</div>
+						<div class="section1-1-content">
+							<a href="{ms:global.url/}/53/index.html"><img src="{ms:globalskin.url/}/images/1000guanyu.jpg" /></a>
+							{ms:arclist typeid=93}
+							<p>[field.descrip/]
+							</p>
+							{/ms:arclist}
+						</div>
+						<div class="more">
+							<a href="{ms:global.url/}/93/index.html">了解更多&gt;&gt;</a>
+						</div>
+					</div>
+					<div class="section1-2">
+						<div class="title10">
+							<a href="{ms:global.url/}/59/69/index.html">行业新闻</a>
+							<span>Enterprise_News</span>
+						</div>
+						<div class="section1-2-content">
+							<ul>
+								{ms:arclist typeid=68 size=4}
+								<li>
+									<a style="color:;" href="[field.link/]" title="[field.title/]" target="_blank">
+										<font style="color:;">[field.title/]</font>
+									</a>
+								</li>
+								{/ms:arclist}
+							</ul>
+						</div>
+						<div class="more">
+							<a href="{ms:global.url/}/59/index.html">了解更多&gt;&gt;</a>
+						</div>
+					</div>
+					<div class="section1-3">
+						<div class="title10">
+							<a href="{ms:global.url/}/59/68/index.htmll">公司新闻</a>
+							<span>News_Information</span>
+						</div>
+						<div class="section1-2-content">
+							<ul>
+								{ms:arclist typeid=68 size=4}
+								<li>
+									<a style="color:;" href="[field.link/]" title="[field.title/]" target="_blank">
+										<font style="color:;">[field.title/]</font>
+									</a>
+								</li>
+								{/ms:arclist}
+							</ul>
+						</div>
+						<div class="more">
+							<a href="{ms:global.url/}/59/68/index.htmll">了解更多&gt;&gt;</a>
+						</div>
+					</div>
+					<div class="clear"></div>
+				</div>
+			</div>
+			<div class="blank20" style="background-color: #FFFFFF;"></div>
+			<div class="section2" style="background-color: #FFFFFF;">
+				<div class="box">
+					<div class="title30">
+						<div class="title30-l">
+							<a href="{ms:global.url/}/106/index.html">产品列表</a>
+							<span>products</span>
+						</div>
+						<script type="text/javascript" src="{ms:globalskin.url/}/js/tab.js"></script>
+						<div class="TabTitle">
+							<ul id="myTab">
+                              <li class="active" onMouseOver="nTabs(this,0);"><a href="{ms:global.url/}/106/index.html">产品列表</a></li>
+                              <li class="normal" onMouseOver="nTabs(this,1);"><a href="{ms:global.url/}/59/index.html">新闻中心</a></li> 	
+                              <li class="normal" onMouseOver="nTabs(this,2);"><a href="{ms:global.url/}/106/index.html">产品列表</a></li> 	
+                              <li class="normal" onMouseOver="nTabs(this,3);"><a href="{ms:global.url/}/59/index.html">新闻中心</a></li> 	
+							</ul>
+						</div>
+					</div>
+					<div class="TabContent">
+						<div id="myTab_Content0">
+							<ul>
+								{ms:arclist typeid=106 size=4}
+								<li>
+									<div>
+										<a href="[field.link/]" target="_blank"><img alt="[field.title/]" src="{ms:global.host/}[field.litpic/]"/>[field.title/]</a>
+									</div>
+									<p>
+										<a href="[field.link/]" style="color:;" target="_blank">
+											<font style="color:;">[field.title/]</font>
+										</a>
+									</p>
+								</li>
+								{/ms:arclist}
+							</ul>
+						</div>
+						<div id="myTab_Content1" class="none">
+							<ul>
+                                {ms:arclist typeid=59 size=4}
+								<li>
+									<div>
+										<a href="[field.link/]" target="_blank"><img alt="[field.title/]" src="{ms:global.host/}[field.litpic/]" onerror='this.src="{ms:globalskin.url/}/images/nopic.gif"'/>[field.title/]</a>
+									</div>
+									<p>
+										<a href="[field.link/]" style="color:;" target="_blank">
+											<font style="color:; width: 200px; white-space:nowrap; overflow:heidden; text-overflow: ellipsis;">[field.title/]</font>
+										</a>
+									</p>
+								</li>
+                                {/ms:arclist}
+							</ul>
+						</div>
+						<div id="myTab_Content2" class="none">
+							<ul>
+								{ms:arclist typeid=106 size=4}
+								<li>
+									<div>
+										<a href="[field.link/]" target="_blank"><img alt="" src="{ms:global.host/}[field.litpic/]" onerror='this.src="{ms:globalskin.url/}/images/nopic.gif"' /></a>
+									</div>
+									<p>
+										<a href="[field.link/]" style="color:;" target="_blank">
+											<font style="color:;">[field.title/]</font>
+										</a>
+									</p>
+								</li>
+                                 {/ms:arclist}
+							</ul>
+						</div>
+						<div id="myTab_Content3" class="none">
+							<ul>
+                                {ms:arclist typeid=59 size=4}
+								<li>
+									<div>
+										<a href="[field.link/]" target="_blank"><img alt="" src="{ms:global.host/}[field.litpic/]" onerror='this.src="{ms:globalskin.url/}/images/nopic.gif"' /></a>
+									</div>
+									<p>
+										<a href="[field.link/]" style="color:;" target="_blank">
+											<font style="color:; width: 200px; white-space:nowrap; overflow:heidden; text-overflow: ellipsis;">[field.title/]</font>
+										</a>
+									</p>
+								</li>
+                                {/ms:arclist}
+							</ul>
+						</div>
+					</div>
+				</div>
+			</div>
+{ms:include filename=footer.htm/}
+</body>
+</html>

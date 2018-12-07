@@ -1,0 +1,70 @@
+﻿<!DOCTYPE html>
+<html lang="zh-CN">
+	<head>
+		{ms:include filename=headFile.htm/}
+	</head>
+	<body>
+		{ms:include filename=header.htm/} 
+		{ms:include filename=menu-left.htm/}
+		<!-- 面包屑导航开始 -->
+		<div class="container ">
+			<nav class="sub_menu">
+				<ol class="breadcrumb"><span class="glyphicon glyphicon-list"></span>
+					<li>
+						<a href="{ms:global.host/}">网站首页</a>
+					</li>
+					<li>
+						<a title="新闻栏目" href="{ms:global.url/}/59/index.html">新闻栏目</a>
+					</li>
+				</ol>
+			</nav>
+		</div>
+		<!--/sub_menu-->
+		<!-- 面包屑导航结束 -->
+		<!-- 中部开始 -->
+		<div class="container list-container">
+			<div class="row">
+				<div class="col-md-12">
+					<!-- 内容列表开始 -->
+					{ms:arclist typeid=59 size=6 ispaging=true}
+					<div class="news-list list-border list-border-w" style="height:131px;">
+						<div class="list-date">
+							<span>[field.date fmt=dd/]</span>
+							<p>[field.date fmt=yyyy-MM/]</p>
+						</div>
+						<h4><a title="[field.title/]" href="[field.link/]" target="_blank" >[field.title/]</a></h4>
+						<p>[field.descrip/]
+							<a href="[field.link/]" target="_blank">[了解更多]</a>
+						</p>
+					</div>
+					{/ms:arclist}
+					<!-- 内容列表结束 -->
+					<div class="blank30"></div>
+					<!-- 内容列表分页开始 -->
+					<div class="blank30"></div>
+					<nav>
+						<ul class="pagination">
+							<li><a href="{ms:page.index/}">首页</a></li>  
+    						<li><a href="{ms:page.pre/}">上一页</a></li>  
+    						<li><a href="{ms:page.next/}">下一页</a></li>  
+    						<li><a href="{ms:page.last/}">末页</a></li>  
+    						<li><span>共{ms:page.total/}页</span><li>  
+						</ul>
+					</nav>
+					<!-- 内容列表分页结束 -->
+				</div>
+			</div>
+			<!-- /row -->
+		</div>
+		<!-- /container -->
+		<!-- /中部开始 -->
+		<div class="blank30"></div>
+		{ms:include filename=menu-right.htm/}
+		<!-- /container -->
+		<div class="blank60"></div>
+		<!-- 页底推荐图文产品结束 -->
+		<div class="clearfix"></div>
+		<!--foot -->
+		{ms:include filename=footer.htm/}	 
+	</body>
+</html>

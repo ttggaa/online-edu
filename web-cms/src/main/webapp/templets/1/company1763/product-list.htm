@@ -1,0 +1,64 @@
+﻿<!DOCTYPE HTML>
+<html>
+	{ms:include filename=headFile.htm/}
+	<body>
+		{ms:include filename=header.htm/}
+		<div class="box2">
+			<div class="box2-left">
+				<!--只展开当前栏目所在一级栏目下的分类-->
+				<div class="left1">
+					<div class="left1_t"></div>
+					<div class="left1-1">
+						<h3>产品列表</h3><span>products</span>
+					</div>
+					<ul>
+						{ms:channel typeid=106 size=2}
+						<li>
+							<a title="[field.typetitle/]" href="[field.typelink/]">[field.typetitle/]</a>
+						</li>
+						{/ms:channel}
+					</ul>
+					<div class="left1_b"></div>
+				</div>
+				<div class="blank20"></div>
+				<!--只展开当前栏目所在一级栏目下的分类-->
+			</div>
+			<div class="box2-right">
+				<div class="title20">
+					<h5>产品列表</h5><span>products</span>
+					<div class="mianbao">
+						当前位置 :
+						<a title="首页" href="{ms:global.url/}">首页</a>
+						&gt;&gt;
+						<a title="产品列表" href="{ms:global.url/}/106/index.html">产品列表</a>
+					</div>
+				</div>
+				<div class="box2-content">
+					<ul class="ul1-pic">
+						{ms:arclist typeid=106 size=8 ispaging=true}
+						<li style="margin-left:0">
+							<div>
+								<a title="[field.title/]" target="_blank" href="[field.link/]"><img src="{ms:global.host/}[field.litpic/]" alt="[field.title/]" /></a>
+							</div>
+							<p>
+								<a title="[field.title/]" target="_blank" href="[field.link/]">[field.title/]</a>
+							</p>
+						</li>
+						{/ms:arclist}
+						<div class="clear"></div>
+					</ul>
+					<!-- 内容列表分页开始 -->
+					<div class="blank30"></div>
+					<div class="pages">
+						<span>{ms:page.rcount/}条记录/{ms:page.total/}页</span>
+						<a href="{ms:page.pre/}">上一页</a>
+						<a href="{ms:page.next/}">下一页</a>
+					</div>
+					<!-- 内容列表分页结束 -->
+				</div>
+			</div>
+			<div class="clear"></div>
+		</div>
+		{ms:include filename=footer.htm/}
+	</body>
+</html>

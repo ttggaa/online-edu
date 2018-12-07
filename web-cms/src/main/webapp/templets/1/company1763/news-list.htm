@@ -1,0 +1,72 @@
+﻿<!DOCTYPE HTML>
+<html>
+	{ms:include filename=headFile.htm/}
+	<body>
+		{ms:include filename=header.htm/}
+		<div class="box2">
+			<div class="box2-left">
+				<!--只展开当前栏目所在一级栏目下的分类-->
+				<div class="left1">
+					<div class="left1_t"></div>
+					<div class="left1-1">
+						<h3>新闻栏目</h3><span>news</span>
+					</div>
+					<ul>
+						{ms:channel typeid=59 size=3}
+						<li>
+							<a title="[field.typetitle/]" href="[field.typelink/]">[field.typetitle/]</a>
+						</li>
+						{/ms:channel}
+					</ul>
+					<div class="left1_b"></div>
+				</div>
+				<div class="blank20"></div>
+				<!--只展开当前栏目所在一级栏目下的分类-->
+			</div>
+			<div class="box2-right">
+				<div class="title20">
+					<h5>新闻栏目</h5><span>news</span>
+					<div class="mianbao">
+						当前位置 :
+						<a title="首页" href="{ms:global.url/}">首页</a>
+						&gt;&gt;
+						<a title="新闻中心" href="{ms:global.url/}/59/index.html">新闻中心</a>
+					</div>
+				</div>
+				<div class="box2-content">
+					<ul class="list_page_1">
+						<!-- 内容列表开始 -->
+						{ms:arclist typeid=68 size=6 ispaging=true}
+						<li>
+							<div class="list_page_date">
+								<p>[field.date fmt=MM-dd/]</p>
+							</div>
+							<div class="li_text">
+								<p>
+									<a title="[field.title/]" href="[field.link/]" target="_blank" class="list_page_t">[field.title/]</a>
+								</p>
+								<p>[field.descrip/]
+									<a href="[field.title/]" target="_blank">[了解更多]</a>
+								</p>
+								<div class="clear"></div>
+							</div>
+							<div class="clear"></div>
+						</li>
+						{/ms:arclist}
+						<!-- 内容列表结束 -->
+					</ul>
+					<!-- 内容列表分页开始 -->
+					<div class="blank30"></div>
+					<div class="pages">
+						<span>{ms:page.rcount/}条记录/{ms:page.total/}页</span>
+						<a href="{ms:page.pre/}">上一页</a>
+						<a href="{ms:page.next/}">下一页</a>
+					</div>
+					<!-- 内容列表分页结束 -->
+				</div>
+			</div>
+			<div class="clear"></div>
+		</div>
+		{ms:include filename=footer.htm/}
+	</body>
+</html>

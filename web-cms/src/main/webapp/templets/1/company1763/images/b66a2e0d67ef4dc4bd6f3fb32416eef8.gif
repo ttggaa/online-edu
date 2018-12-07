@@ -1,0 +1,817 @@
+<!DOCTYPE html>
+<html>
+<head>
+<meta name="Generator" content="CmsEasy 5_6_0_20170105_UTF8" />
+<title>CmsEasy | 可免费用于商业的企业网站管理系统</title>
+<meta name="renderer" content="webkit">
+<meta charset="utf-8" />
+<meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1">
+<meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=0, minimal-ui">
+<meta name="keywords" content="cms系统,企业网站管理系统,内容管理系统,建站系统" />
+<meta name="description" content="CmsEasy企业网站系统前台生成html完全符合SEO优化，是一款免费微信+手机+在线销售+多语言网站组合的企业营销管理平台。" />
+<meta name="author" content="CmsEasy Team" />
+<link rel="icon" href="/favicon.ico" type="image/x-icon" />
+<link rel="shortcut icon" href="/favicon.ico" type="image/x-icon" />
+
+<link href="/template/cms2016/skin/css/bootstrap.min.css" rel="stylesheet">
+<link href="data:text/css;charset=utf-8," data-href="/template/cms2016/skin/css/bootstrap-theme.min.css" rel="stylesheet" id="bs-theme-stylesheet">
+<link href="/template/cms2016/skin/css/bootstrap-submenu.css" rel="stylesheet">
+<link rel="stylesheet" href="/template/cms2016/skin/fonts/iconfont.css" type="text/css" />
+
+<script src="/template/cms2016/skin/js/jquery.min.js"></script>
+<!--[if lt IE 9]><!-->
+<script src="/template/cms2016/skin/js/ie/html5shiv.min.js"></script>
+<script src="/template/cms2016/skin/js/ie/respond.min.js"></script>
+<![endif]-->
+<link rel="stylesheet" href="/template/cms2016/skin/index.css" />
+<meta property="og:type" content="image"/>
+<meta property="og:image" content="http://www.cmseasy.cn//images/cmseasy.jpg"/>
+</head>
+<body>
+
+
+<!-- nav -->
+<nav class="navbar navbar-default navbar-fixed-top">
+<div class="container">
+<div class="navbar-header">
+<button type="button" class="navbar-toggle collapsed" data-toggle="collapse" data-target="#navbar" aria-expanded="false" aria-controls="navbar">
+<span class="sr-only">企业网站管理系统</span>
+<span class="icon-bar"></span>
+<span class="icon-bar"></span>
+<span class="icon-bar"></span>
+</button>
+
+
+
+<!-- logo -->
+<a href="/" class="navbar-brand text-center"><img src="/images/logo.png" class="img-responsive" alt="企业网站管理系统" width="260" /></a>
+<!-- logo end -->
+</div>
+<div id="navbar" class="navbar-collapse collapse">
+<ul class="nav navbar-nav nav_top">
+<li><a title="下载 CMSeasy" href="http://www.cmseasy.cn/download/">下载 CMSeasy <span>免费</span></a></li>
+<li><a title="模板" href="http://www.cmseasy.cn/template/">模板</a></li>
+<li><a title="购买" href="http://www.cmseasy.cn/service/">购买</a></li>
+<li><a title="教程" href="http://www.cmseasy.cn/chm/">教程</a></li>
+<li><a title="问答" href="http://www.cmseasy.org/">问答</a></li>
+</ul>
+<div class="navbar-right user-panel">
+<a href="http://buy.cmseasy.cn/index.php?vmod=user&vact=Login" target="_blank" class="top-login">登录</a><a href="http://buy.cmseasy.cn/index.php?vmod=User&vact=Reg" target="_blank">注册</a>
+</div>
+</div><!--/.nav-collapse -->
+
+</div>
+</nav>
+
+
+
+<!-- 第一屏 -->
+<div class="section section1">
+<div class="container">
+<h3 class="wow bounceInDown" data-wow-delay="0.5s">做一个响应式网站</h3>
+<strong class="wow bounceInLeft" data-wow-delay="0.5s">让客户更好的了解你</strong>
+<p class="wow bounceInRight" data-wow-delay="0.5s">稳定  可靠<span>免费的在线销售功能与订单管理！</span></p>
+
+<div class="demo-box col-xs-12 col-sm-12 col-md-8 col-lg-8 col-md-offset-2 col-lg-offset-2">
+<a href="http://demo.cmseasy.cn/" class="go_demo" target="_blank">前台演示</a>
+<a href="http://test.cmseasy.cn/admin/" class="go_backstage" target="_blank">后台演示</a>
+<a href="http://ftp.cmseasy.cn/CmsEasy5.x/CmsEasy_5.6_UTF-8_20170105.zip" class="go_down" target="_blank">立即下载</a>
+<a href="http://www.cmseasy.cn/cms/" class="go_info" target="_blank">功能介绍</a>
+<div class="blank20"></div>
+<div class="demo-box1">
+保留版权，任何网站可永久免费，且不限商业用途！<a href="http://www.cmseasy.cn/service/" target="_blank">了解更多</a>
+</div>
+</div>
+<div style="clear:both;height:20%;"></div>
+</div>
+</div>
+
+<div style="height:215px;background:url(http://www.cmseasy.cn/php7/skin/img/bbs_banner.jpg) center top no-repeat;">
+<a href="http://www.cmseasy.cn/php7/" title="php7专题" target="_blank" style="display:block;width:100%;height:215px;"></a>
+</div>
+
+<div class="container responsive-info">
+<div class="blank30"></div>
+<div class="blank30"></div>
+<div class="blank30"></div>
+<div class="blank30"></div>
+<center>
+<h3>更快，更简单</h3>
+<p>采用响应式技术构建的网站模板</p>
+<p>一次编辑，在所有设备下使用</p>
+<div class="blank30"></div>
+<div class="blank30"></div>
+<a href="http://www.cmseasy.cn/template/" title="响应式网站模板" target="_blank"><img src="http://www.cmseasy.cn/template/cms2016/skin/images/index/responsive.jpg" alt="响应式网站模板" class="img-responsive" /></a>
+</center>
+</div>
+
+
+<a href="/special/" title="企业建站优惠套餐" target="_blank"><img src="http://www.cmseasy.cn/template/cms2016/skin/images/index/special.jpg" alt="企业建站优惠套餐" class="img-responsive" /></a>
+
+
+
+<div class="mokuai">
+<div class="container">
+<div class="row">
+<div class="col-xs-12 col-sm-6 col-md-6 col-lg-6">
+<strong class="wow bounceInLeft" data-wow-delay="0.5s">完善的模块自定义及内容管理功能</strong>
+<p class="wow bounceIn" data-wow-delay="0.5s">拥有强大的内容发布模板自定义功能，可以通过模板自定义功能扩展出产品、新闻、招聘、下载等多种不同的内容发布及字段显示功能。</p>
+</div>
+<div class="col-xs-12 col-sm-6 col-md-6 col-lg-6 wow bounceInRight" data-wow-delay="1s">
+<a href="http://www.cmseasy.cn/chm/nei-rong/show_44.html" title="内容页模板设置" target="_blank"><img title="内容页模板设置" src="http://www.cmseasy.cn/template/cms2016/skin/images/index/mk.jpg" class="img-responsive" /></a>
+</div>
+</div>
+</div>
+</div>
+<!--mokuai-->
+
+
+
+<div class="seo">
+<div class="container">
+<div class="row">
+
+<div class="col-xs-12 col-sm-6 col-md-6 col-lg-6">
+<a href="http://www.cmseasy.cn/chm/yong-hu/show_114.html" title="推广联盟" target="_blank"><img src="http://www.cmseasy.cn/template/cms2016/skin/images/index/seo.jpg" alt="推广联盟" class="img-responsive wow bounceInLeft" data-wow-delay="1s" /></a>
+</div>
+<div class="col-xs-12 col-sm-6 col-md-6 col-lg-6">
+<strong class="wow bounceInRight" data-wow-delay="0.5s">强大的SEO搜索优化及营销功能</strong>
+<p class="wow bounceIn" data-wow-delay="0.5s">可自定义网页标题、关键词、描述、URL路径等多种优化项，可自动推送内容至百度搜索引擎。全国首家内置推广联盟模块的企业网站系统，为企业在营销推广方面，提供了非常便捷的方法和功能。</p>
+</div>
+</div>
+</div>
+</div>
+<!--seo-->
+
+<div class="weixin">
+<div class="container">
+<div class="row">
+<div class="col-xs-12 col-sm-6 col-md-6 col-lg-6">
+<strong class="wow bounceInLeft" data-wow-delay="0.5s">微信公众号管理系统（微官网）</strong>
+<p class="wow bounceIn" data-wow-delay="0.5s">为广大用户提供更为安全、稳定、强大的微信公众好管理系统。拥有强大的内容发布木板自定义功能，可以通过模板自定义功能扩展出产品、新闻、招聘、下载等多种不同的内容发布及字段显示功能。</p>
+</div>
+<div class="col-xs-12 col-sm-6 col-md-6 col-lg-6">
+<a href="http://www.cmseasy.cn/chm/ying-xiao/show_211.html" title="微信公共号" target="_blank"><img src="http://www.cmseasy.cn/template/cms2016/skin/images/index/wx.jpg" alt="微信公共号" class="img-responsive wow bounceInRight" data-wow-delay="1s" /></a>
+</div>
+</div>
+</div>
+</div>
+<!--zhifu-->
+
+<div class="zhifu">
+<div class="container">
+<div class="row">
+
+<div class="col-xs-12 col-sm-6 col-md-6 col-lg-6">
+<a href="http://www.cmseasy.cn/chm/ding-dan/show_68.html" title="支付宝、财付通、微信、贝宝支付配置" target="_blank"><img alt="支付宝、财付通、微信、贝宝支付配置" src="http://www.cmseasy.cn/template/cms2016/skin/images/index/zf.jpg" class="img-responsive wow bounceInLeft" data-wow-delay="1s" /></a>
+</div>
+<div class="col-xs-12 col-sm-6 col-md-6 col-lg-6">
+<strong class="wow bounceInRight" data-wow-delay="0.5s">强大的在线支付功能</strong>
+<p class="wow bounceIn" data-wow-delay="0.5s">继承了丰富的第三方支付组件，以满足您开展电子商务在线支付的需要。</p>
+</div>
+</div>
+</div>
+</div>
+<!--zhifu-->
+
+
+<div class="anli">
+
+<h3 class="wow bounceInDown" data-wow-delay="0.5s">丰富模板案例，建站更高效！</h3>
+<p class="wow bounceIn" data-wow-delay="0.5s">为企业带来全新的传播方式，为企业建立数字化营销生态圈，通过移动展示触及用户<br>
+影响社交营销方式和人们生活方式。</p>
+
+
+
+<div class="blank50"></div>
+<div class="tab_c wow bounceInUp" data-wow-delay="1.5s" id="h_info">
+<div class="row">
+<div id="projectlist" class="container-fluid">
+<ul>
+<li class="projectitem col-xs-12 col-sm-6 col-md-4 col-lg-4">
+<div class="projectitem_content"> 
+<div class="project_img"> 
+<img src="/skin/template_pic/301.jpg" /> 
+<div class="pro-mask"> 
+<a href="" class="preview" target="_blank">预览</a> 
+<a href="http://buy.cmseasy.cn/index.php?vmod=Product&vact=Buy&p_id=517" class="ontrial" target="_blank">购买</a> <a href="/template/show_880.html" class="pro-details" target="_blank">详情</a> 
+</div> 
+</div> 
+<div class="project_info"> 
+<div> 
+ <p class="projectitem-title">CmsEasy_V_301</p> 
+ <p class="projectitem-subtitle"> 红色冶金金属加工网站模板</p> 
+ <p class="description hide"></p> 
+</div> 
+</div> 
+         </div>
+</li>
+<li class="projectitem col-xs-12 col-sm-6 col-md-4 col-lg-4">
+<div class="projectitem_content"> 
+<div class="project_img"> 
+<img src="/skin/template_pic/free/119.jpg" /> 
+<div class="pro-mask"> 
+<a href="http://www.cmseasy.cn/demo/free-template/f119/" class="preview" target="_blank">预览</a> 
+<a href="http://ftp.cmseasy.cn/Free_Template/CmsEasy_F_119.zip" class="ontrial" target="_blank">下载</a> <a href="/template/show_1002.html" class="pro-details" target="_blank">详情</a> 
+</div> 
+</div> 
+<div class="project_info"> 
+<div> 
+ <p class="projectitem-title">CmsEasy_F_119</p> 
+ <p class="projectitem-subtitle"> <font style="color:;">html5健身器材网站模板</font></p> 
+ <p class="description hide"></p> 
+</div> 
+</div> 
+         </div>
+</li>
+<li class="projectitem col-xs-12 col-sm-6 col-md-4 col-lg-4">
+<div class="projectitem_content"> 
+<div class="project_img"> 
+<img src="/skin/template_pic/free/39.jpg" /> 
+<div class="pro-mask"> 
+<a href="" class="preview" target="_blank">预览</a> 
+<a href="http://ftp.cmseasy.cn/Free_Template/CmsEasy_F_039.zip" class="ontrial" target="_blank">下载</a> <a href="/template/show_221.html" class="pro-details" target="_blank">详情</a> 
+</div> 
+</div> 
+<div class="project_info"> 
+<div> 
+ <p class="projectitem-title">CmsEasy_F_039</p> 
+ <p class="projectitem-subtitle"> <font style="color:;">绿色淡雅企业网站模板,公司网站模板</font></p> 
+ <p class="description hide">绿色淡雅企业网站模板,公司网站模板</p> 
+</div> 
+</div> 
+         </div>
+</li>
+<li class="projectitem col-xs-12 col-sm-6 col-md-4 col-lg-4">
+<div class="projectitem_content"> 
+<div class="project_img"> 
+<img src="/skin/template_pic/165.jpg" /> 
+<div class="pro-mask"> 
+<a href="" class="preview" target="_blank">预览</a> 
+<a href="http://buy.cmseasy.cn/index.php?vmod=Product&vact=Buy&p_id=373" class="ontrial" target="_blank">购买</a> <a href="/template/show_725.html" class="pro-details" target="_blank">详情</a> 
+</div> 
+</div> 
+<div class="project_info"> 
+<div> 
+ <p class="projectitem-title">CmsEasy_V_165</p> 
+ <p class="projectitem-subtitle"> 蓝色教育培训亲子网站模板</p> 
+ <p class="description hide"></p> 
+</div> 
+</div> 
+         </div>
+</li>
+<li class="projectitem col-xs-12 col-sm-6 col-md-4 col-lg-4">
+<div class="projectitem_content"> 
+<div class="project_img"> 
+<img src="/skin/template_pic/140.jpg" /> 
+<div class="pro-mask"> 
+<a href="" class="preview" target="_blank">预览</a> 
+<a href="http://buy.cmseasy.cn/index.php?vmod=Product&vact=Buy&p_id=350" class="ontrial" target="_blank">购买</a> <a href="/template/show_692.html" class="pro-details" target="_blank">详情</a> 
+</div> 
+</div> 
+<div class="project_info"> 
+<div> 
+ <p class="projectitem-title">CmsEasy_V_140</p> 
+ <p class="projectitem-subtitle"> 精美大气培训企业网站模板,公司网站模板</p> 
+ <p class="description hide"></p> 
+</div> 
+</div> 
+         </div>
+</li>
+<li class="projectitem col-xs-12 col-sm-6 col-md-4 col-lg-4">
+<div class="projectitem_content"> 
+<div class="project_img"> 
+<img src="/skin/template_pic/98.jpg" /> 
+<div class="pro-mask"> 
+<a href="" class="preview" target="_blank">预览</a> 
+<a href="http://buy.cmseasy.cn/index.php?vmod=Product&vact=Buy&p_id=308" class="ontrial" target="_blank">购买</a> <a href="/template/show_656.html" class="pro-details" target="_blank">详情</a> 
+</div> 
+</div> 
+<div class="project_info"> 
+<div> 
+ <p class="projectitem-title">CmsEasy_V_098</p> 
+ <p class="projectitem-subtitle"> 蓝色数码科技网站模板</p> 
+ <p class="description hide"></p> 
+</div> 
+</div> 
+         </div>
+</li>
+<li class="projectitem col-xs-12 col-sm-6 col-md-4 col-lg-4">
+<div class="projectitem_content"> 
+<div class="project_img"> 
+<img src="/skin/template_pic/82.jpg" /> 
+<div class="pro-mask"> 
+<a href="" class="preview" target="_blank">预览</a> 
+<a href="http://buy.cmseasy.cn/index.php?vmod=Product&vact=Buy&p_id=292" class="ontrial" target="_blank">购买</a> <a href="/template/show_344.html" class="pro-details" target="_blank">详情</a> 
+</div> 
+</div> 
+<div class="project_info"> 
+<div> 
+ <p class="projectitem-title">CmsEasy_V_082</p> 
+ <p class="projectitem-subtitle"> 非常漂亮的旅游渡假旅行社网站模板</p> 
+ <p class="description hide">漂亮的旅游网站模板,旅行社网站模板</p> 
+</div> 
+</div> 
+         </div>
+</li>
+<li class="projectitem col-xs-12 col-sm-6 col-md-4 col-lg-4">
+<div class="projectitem_content"> 
+<div class="project_img"> 
+<img src="/skin/template_pic/61.jpg" /> 
+<div class="pro-mask"> 
+<a href="" class="preview" target="_blank">预览</a> 
+<a href="http://buy.cmseasy.cn/index.php?vmod=Product&vact=Buy&p_id=271" class="ontrial" target="_blank">购买</a> <a href="/template/show_352.html" class="pro-details" target="_blank">详情</a> 
+</div> 
+</div> 
+<div class="project_info"> 
+<div> 
+ <p class="projectitem-title">CmsEasy_V_061</p> 
+ <p class="projectitem-subtitle"> 美观的红色企业网站模板,公司网站模板</p> 
+ <p class="description hide">红色企业网站模板,公司网站模板,集团网站模板</p> 
+</div> 
+</div> 
+         </div>
+</li>
+<li class="projectitem col-xs-12 col-sm-6 col-md-4 col-lg-4">
+<div class="projectitem_content"> 
+<div class="project_img"> 
+<img src="/skin/template_pic/81.jpg" /> 
+<div class="pro-mask"> 
+<a href="" class="preview" target="_blank">预览</a> 
+<a href="http://buy.cmseasy.cn/index.php?vmod=Product&vact=Buy&p_id=291" class="ontrial" target="_blank">购买</a> <a href="/template/show_343.html" class="pro-details" target="_blank">详情</a> 
+</div> 
+</div> 
+<div class="project_info"> 
+<div> 
+ <p class="projectitem-title">CmsEasy_V_081</p> 
+ <p class="projectitem-subtitle"> 精美漂亮的酒店宾馆企业网站模板,公司网站</p> 
+ <p class="description hide">精美漂亮的酒店网站模板,宾馆企业网站模板,公司网站模板</p> 
+</div> 
+</div> 
+         </div>
+</li>
+</ul>
+</div>
+
+
+<!-- <div class="undis container-fluid" onclick="('tab',3)">3</div> -->
+<div class="blank50"></div>
+<div class="blank50"></div>
+</div>
+</div>
+<!--anli-->
+
+
+
+
+<div class="quanneng">
+<div class="container">
+
+<strong class="wow bounceInDown" data-wow-delay="0.5s">更多选择 更精彩</strong>
+<p class="wow bounceIn" data-wow-delay="0.5s">品质化网站构建，企业品牌在网站中的整体树立，网络互动的体验，以及在手机等移动端的优质呈现。</p>
+
+
+<ul class="row wow bounceInUp" data-wow-delay="1.5s">
+<li class="col-xs-4 col-sm-4 col-md-2 col-lg-2"><a href="http://www.cmseasy.cn/type/mobanfenlei/digit_1.html" title="IT行业网站模板"><i class="iconfont icon-xingye"></i><span>IT行业</span></a></li>
+<li class="col-xs-4 col-sm-4 col-md-2 col-lg-2"><a href="http://www.cmseasy.cn/type/mobanfenlei/manufacturing/type_1.html" title="制造行业网站模板"><i class="iconfont icon-gongju"></i><span>制造行业</span></a></li>
+<li class="col-xs-4 col-sm-4 col-md-2 col-lg-2"><a href="http://www.cmseasy.cn/type/mobanfenlei/clothing/type_1.html" title="服装行业网站模板"><i class="iconfont icon-fuzhuang"></i><span>服装行业</span></a></li>
+<li class="col-xs-4 col-sm-4 col-md-2 col-lg-2"><a href="http://www.cmseasy.cn/type/mobanfenlei/fitness/type_1.html" title="健康行业网站模板"><i class="iconfont icon-yiliao1"></i><span>健康行业</span></a></li>
+<li class="col-xs-4 col-sm-4 col-md-2 col-lg-2"><a href="http://www.cmseasy.cn/type/mobanfenlei/construction/type_1.html" title="地产行业网站模板"><i class="iconfont icon-weifangchan"></i><span>地产行业</span></a></li>
+<li class="col-xs-4 col-sm-4 col-md-2 col-lg-2"><a href="http://www.cmseasy.cn/type/mobanfenlei/beauty/type_1.html" title="美容行业网站模板"><i class="iconfont icon-meirong1"></i><span>美容行业</span></a></li>
+<li class="col-xs-4 col-sm-4 col-md-2 col-lg-2"><a href="http://www.cmseasy.cn/type/mobanfenlei/advertising/type_1.html" title="传媒行业网站模板"><i class="iconfont icon-dianying"></i><span>传媒行业</span></a></li>
+<li class="col-xs-4 col-sm-4 col-md-2 col-lg-2"><a href="http://www.cmseasy.cn/type/mobanfenlei/electronic/type_1.html" title="家电行业网站模板"><i class="iconfont icon-jiadian"></i><span>家电行业</span></a></li>
+<li class="col-xs-4 col-sm-4 col-md-2 col-lg-2"><a href="http://www.cmseasy.cn/type/mobanfenlei/automobile/type_1.html" title="汽车行业网站模板"><i class="iconfont icon-qiche"></i><span>汽车行业</span></a></li>
+<li class="col-xs-4 col-sm-4 col-md-2 col-lg-2"><a href="http://www.cmseasy.cn/type/mobanfenlei/food/type_1.html" title="烟酒行业网站模板"><i class="iconfont icon-jiu"></i><span>烟酒行业</span></a></li>
+<li class="col-xs-4 col-sm-4 col-md-2 col-lg-2"><a href="http://www.cmseasy.cn/type/mobanfenlei/culture/type_1.html" title="教育行业网站模板"><i class="iconfont icon-jiaoyu"></i><span>教育行业</span></a></li>
+<li class="col-xs-4 col-sm-4 col-md-2 col-lg-2"><a href="http://www.cmseasy.cn/type/mobanfenlei/culture/type_1.html" title="政府机构网站模板"><i class="iconfont icon-m-law"></i><span>政府机构</span></a></li>
+</ul>
+</div>
+</div>
+<!--quanneng-->
+
+
+
+
+
+
+<!-- 第四屏 -->
+<div class="section section4">
+<div class="container">
+<div class="row">
+
+<center><img src="http://www.cmseasy.cn/template/cms2016/skin/images/index/use1.png" class="use img-responsive wow bounceInDown" data-wow-delay="0.5s" /></center>
+
+<p class="wow bounceIn" data-wow-delay="0.5s">
+无拘无束，创意无限！轻松创建卓尔不群的<strong>企业网站</strong>！
+</p>
+<div class="features wow bounceInUp" data-wow-delay="0.5s">      
+
+<span>3</span>
+<span>1</span>
+<span>5</span>
+<span>0</span>
+<span>0</span>
+<span>0</span>
+<span class="last">人</span>
+</div>
+<a href="http://demo.cmseasy.cn/" target="_blank" class="foot-a wow bounceInUp" data-wow-delay="0.5s"><i>立刻体验</i></a>
+</div>
+</div>
+</div>
+
+<!-- 第五屏 -->
+<div class="section section5">
+<footer>
+<div class="footer">
+<div class="container">
+<div class="nav_footer col-xs-12 col-sm-8 col-md-8 col-lg-8">
+<dl>
+<dt>产品</dt>
+<dd><a title="CmsEasy 介绍" href="http://www.cmseasy.cn/cms/" target="_blank">CmsEasy 介绍</a></dd>
+<dd><a title="网站模板" href="http://www.cmseasy.cn/template/" target="_blank">网站模板</a></dd>
+<dd><a title="主机域名" href="http://www.cmseasy.net/" target="_blank">主机域名</a></dd>
+</dl>
+<dl>
+<dt>服务</dt>
+<dd>
+<dd><a title="商业授权" href="http://www.cmseasy.cn/service/" target="_blank">商业授权</a></dd>
+<dd><a title="建站套餐" href="http://www.cmseasy.cn/special/" target="_blank">建站套餐</a></dd>
+<dd><a title="模板定制" href="http://www.cmseasy.cn/custom/" target="_blank">模板定制</a></dd>
+<dd><a title="模板定制" href="http://www.cmseasy.cn/fuwu/" target="_blank">服务价格</a></dd>
+<dd><a title="付款方式" href="http://www.cmseasy.cn/pay/" target="_blank">付款方式</a></dd>
+</dl>
+<dl>
+<dt>支持</dt>
+<dd><a title="建站教程" href="http://www.cmseasy.cn/help/" target="_blank">建站教程</a></dd>
+<dd><a title="问答百科" href="http://www.cmseasy.cn/chm/" target="_blank">问答百科</a></dd>
+<dd><a title="模板制作" href="http://www.cmseasy.cn/chm/mo-ban/" target="_blank"> 模板制作</a></dd>
+<dd><a title="典型案例" href="http://www.cmseasy.cn/case/" target="_blank">典型案例</a></dd>
+<dd><a title href="http://www.cmseasy.cn/doc/ht.doc" target="_blank">合同</a>/<a title href="http://www.cmseasy.cn/doc/fp.doc" target="_blank">发票</a></span></dd>
+</dl>
+
+<dl>
+<dt>公司</dt>
+<dd><a title="关于易通" href="http://www.cmseasy.cn/about/" target="_blank">关于易通</a></dd>
+<dd><a title="新闻资讯" href="http://www.cmseasy.cn/news/" target="_blank">新闻资讯</a></dd>
+<dd><a title="联系方式" href="http://www.cmseasy.cn/contact/" target="_blank">联系方式</a></dd>
+<dd><a title="公司资质" href="http://www.cmseasy.cn/qualifications/" target="_blank">公司资质</a></dd>
+</dl>
+<div class="clear"></div>
+</div>
+<!--nav_footer-->
+
+<div class="tel col-xs-12 col-sm-3 col-md-2 col-lg-2">
+<p><img src="/images/w.gif" width="150" onerror='this.src="/skin/cmseasy_product.jpg"' /></p>
+<p>官方微信</p>
+</div>
+
+<div class="tel col-xs-12 col-sm-3 col-md-2 col-lg-2">
+<p><img src="/images/w2.gif" width="150" onerror='this.src="/skin/cmseasy_product.jpg"' /></p>
+<p>客服微信</p>
+</div>
+<!--tel-->
+
+<div class="a_flink">友情链接： 
+<br />
+<a href="http://down.admin5.com/php/77392.html" title="admin5下载站" target="_blank">admin5下载站</a>
+<a href="http://www.kuangren.cc/" title="狂人采集器" target="_blank">狂人采集器</a>
+<a href="http://www.extmail.org" title="邮件服务器" target="_blank">邮件服务器</a>
+<a href="http://www.cmseasy.cn" title="易通cms" target="_blank">易通cms</a>
+<a href="http://www.locoy.com/" title="火车头采集器" target="_blank">火车头采集器</a>
+<a href="http://www.alexa.cn/" target="_blank">Alexa</a>
+<a href="http://www.22.cn/domain/" target="_blank">域名注册</a>
+<a href="http://www.0bug.org" target="_blank">零BUG漏洞平台</a>
+<a href="http://www.hostucan.cn/" target="_blank">IDC排名</a>
+<a href="http://www.knowsky.com/" target="_blank">动态网站制作</a>
+<a href="http://www.68ecshop.com/" target="_blank">ecshop模板</a>
+<a href="http://www.zkeys.com" target="_blank">zkeys</a>
+<a href="http://changchun.fang.com/" target="_blank">长春房产网</a>
+<a href="http://www.ay3.net/" target="_blank">免费企业网站模板</a>
+<a href="http://www.cmseasy.cn/" target="_blank">企业网站模板</a>
+<a href="http://www.links.cn/" target="_blank">站长工具</a>
+<a href="http://www.cmseasy.cn/" target="_blank">企业建站</a>
+<a href="http://www.cmseasy.org" target="_blank">CmsEasy论坛</a>
+<a href="http://webscan.360.cn/" target="_blank">360网站安全检测</a>
+</div>
+
+</div>
+</div>
+<!--w-->
+</footer>
+<!--footer-->
+
+
+<div class="copyright">
+<div class="container">
+<p>© 易通软件 <a rel="nofollow" href="http://www.miibeian.gov.cn/" target="_blank">吉ICP备11001680号-3</a></p>
+<p>Powered by <a href="http://www.cmseasy.cn" title="CmsEasy企业网站系统" target="_blank">CmsEasy</a></p>
+<p class="clearfix">
+<a rel="nofollow" href="http://jmlxt.jl.gov.cn/jmlxt/xxlr.do?xxlb=P_1&xxmb=P_A&xxbldw=24108353-45D2-5214-E704-C1DEFB52CC8D" target="_blank" class="f_png_1 fixpng" title="网警110"></a>
+<a rel="nofollow" href="http://www.jlgswj.gov.cn/ei/Ei!certificate.action?id=2c9403b23f65ed9a013f7fa1cba50014" target="_blank" class="f_png_2 fixpng" title="四平工商"></a>
+<a rel="nofollow" href="http://www.miitbeian.gov.cn" target="_blank" class="f_png_3 fixpng" title="吉ICP备11001680号-3"></a>
+<a target="_blank" rel="nofollow" href="http://www.ccopyright.com.cn/cpcc/RRegisterAction.do?method=list&no=fck&sql_name=&sql_regnum=2009SR031147&sql_author=&curPage=1&count=&sortOrder=&sortLabel=" class="f_png_4 fixpng" title="著作权登记号：2009SR031147"></a>
+</p>
+</div>
+</div>
+
+</div>
+<!--  -->
+
+</div>
+
+
+<!--[if (gte IE 7)|!(IE)]><!-->
+<div class="servers">
+<!-- 在线客服 -->
+
+
+
+<style type="text/css">
+.izl-rmenu{position:fixed; right:0; margin-right:20px; bottom:0px; padding-bottom:0px;  z-index:999; }
+.izl-rmenu .sbtn{width:72px; height:73px; margin-bottom:1px; cursor:pointer; position:relative;}
+
+
+
+.izl-rmenu .btn-qq{background:url(/template/cms2016/skin/images/servers/metro_color/r_qq.png) 0px 0px no-repeat; background-color:#6da9de;color:#FFF;}
+.izl-rmenu .btn-qq:hover{background-color:#488bc7;color:#FFF;}
+.izl-rmenu .btn-qq .qq{background-color:#488bc7; position:absolute; width:160px; left:-160px; top:0px; line-height:73px; color:#FFF; font-size:18px; text-align:center; display:none;}
+.izl-rmenu .btn-qq a {color:#FFF;font-size:14px;}
+
+.izl-rmenu .btn-wx{background:url(/template/cms2016/skin/images/servers/metro_color/r_wx.png) 0px 0px no-repeat; background-color:#78c340;}
+.izl-rmenu .btn-wx:hover{background-color:#58a81c;}
+.izl-rmenu .btn-wx .pic{position:absolute; left:-160px; top:0px; display:none;width:140px;height:140px;}
+
+.izl-rmenu .btn-phone{height:73px;line-height:73px;height:73px;line-height:73px;background:url(/template/cms2016/skin/images/servers/metro_color/r_phone.png) 0px 0px no-repeat; background-color:#fbb01f;}
+.izl-rmenu .btn-phone:hover{background-color:#ff811b;}
+.izl-rmenu .btn-phone .phone{background-color:#ff811b; position:absolute; width:160px; left:-160px; top:0px; line-height:36px; color:#FFF; font-size:16px; text-align:center; display:none;}
+
+.izl-rmenu .btn-ali{background:url(/template/cms2016/skin/images/servers/metro_color/r_ali.png) 0px 0px no-repeat; background-color:#B8860B;}
+.izl-rmenu .btn-ali:hover{background-color:#808000;}
+.izl-rmenu a.btn-ali,.izl-rmenu a.btn-ali:visited{background:url(/template/cms2016/skin/images/servers/metro_color/r_ali.png) 0px 0px no-repeat; background-color:#B8860B; text-decoration:none; display:block;}
+
+
+.izl-rmenu .btn-wangwang{background:url(/template/cms2016/skin/images/servers/metro_color/r_wangwang.png) 0px 0px no-repeat; background-color:#FFD700;}
+.izl-rmenu .btn-wangwang:hover{background-color:#DAA520;}
+.izl-rmenu a.btn-wangwang,.izl-rmenu a.btn-wangwang:visited{background:url(/template/cms2016/skin/images/servers/metro_color/r_wangwang.png) 0px 0px no-repeat; background-color:#FFD700; text-decoration:none; display:block;}
+
+
+.izl-rmenu .btn-skype{background:url(/template/cms2016/skin/images/servers/metro_color/r_skype.png) 0px 0px no-repeat; background-color:#FF69B4;}
+.izl-rmenu .btn-skype:hover{background-color:#8B008B;}
+.izl-rmenu a.btn-skype,.izl-rmenu a.btn-skype:visited{background:url(/template/cms2016/skin/images/servers/metro_color/r_skype.png) 0px 0px no-repeat; background-color:#FF69B4; text-decoration:none; display:block;}
+
+.izl-rmenu .btn-web{background:url(/template/cms2016/skin/images/servers/metro_color/r_web.png) 0px 0px no-repeat; background-color:#008a46;}
+.izl-rmenu .btn-web:hover{background-color:#00663a;}
+.izl-rmenu a.btn-web,.izl-rmenu a.btn-web:visited{background:url(/template/cms2016/skin/images/servers/metro_color/r_web.png) 0px 0px no-repeat; background-color:#008a46; text-decoration:none; display:block;}
+
+
+.izl-rmenu .btn-top{background:url(/template/cms2016/skin/images/servers/metro_color/r_top.png) 0px 0px no-repeat; background-color:#666666; display:none;}
+.izl-rmenu .btn-top:hover{background-color:#444;}
+</style>
+
+<script language="javascript" type="text/javascript">
+$(function(){
+var tophtml="<div id=\"izl_rmenu\" class=\"izl-rmenu\"><div class=\"sbtn btn-qq\"><div class=\"qq\"><a rel=\"nofollow\" target=\"_blank\" href=\"tencent://Message/?Uin=871148347&websiteName=http://127.0.0.2/=&Menu=yes\">购买咨询</a><br /><a rel=\"nofollow\" target=\"_blank\" href=\"tencent://Message/?Uin=1721768801&websiteName=http://127.0.0.2/=&Menu=yes\">购买咨询</a><br /><a rel=\"nofollow\" target=\"_blank\" href=\"tencent://Message/?Uin=1121774038&websiteName=http://127.0.0.2/=&Menu=yes\">定制咨询</a></div></div><a rel=\"nofollow\" href=\"http://amos.im.alisoft.com/msg.aw?v=2&uid=mymoban&site=cntaobao&s=1&charset=utf-8\" target=\"_blank\" class=\"sbtn btn-wangwang\"></a><div class=\"sbtn btn-wx\"><img class=\"pic\" src=\"/images/w.gif\" onclick=\"window.location.href=\'http:\'\"/></div><div class=\"sbtn btn-phone\"><div class=\"phone\">0434-6063021</div></div><div class=\"sbtn btn-top\"></div></div>";
+$("#top").html(tophtml);
+$("#izl_rmenu").each(function(){
+$(this).find(".btn-qq").mouseenter(function(){
+$(this).find(".qq").fadeIn("fast");
+});
+$(this).find(".btn-qq").mouseleave(function(){
+$(this).find(".qq").fadeOut("fast");
+});
+$(this).find(".btn-wx").mouseenter(function(){
+$(this).find(".pic").fadeIn("fast");
+});
+$(this).find(".btn-wx").mouseleave(function(){
+$(this).find(".pic").fadeOut("fast");
+});
+$(this).find(".btn-phone").mouseenter(function(){
+$(this).find(".phone").fadeIn("fast");
+});
+$(this).find(".btn-phone").mouseleave(function(){
+$(this).find(".phone").fadeOut("fast");
+});
+$(this).find(".btn-top").click(function(){
+$("html, body").animate({
+"scroll-top":0
+},"fast");
+});
+});
+var lastRmenuStatus=false;
+$(window).scroll(function(){//bug
+var _top=$(window).scrollTop();
+if(_top>200){
+$("#izl_rmenu").data("expanded",true);
+}else{
+$("#izl_rmenu").data("expanded",false);
+}
+if($("#izl_rmenu").data("expanded")!=lastRmenuStatus){
+lastRmenuStatus=$("#izl_rmenu").data("expanded");
+if(lastRmenuStatus){
+$("#izl_rmenu .btn-top").slideDown();
+}else{
+$("#izl_rmenu .btn-top").slideUp();
+}
+}
+});
+});
+</script>
+<div id="top"></div></div>
+<![endif]-->
+<div class="servers-wap">
+
+<style type="text/css">
+
+
+
+#plug-wrap {
+    position: fixed;
+top: 0;
+left: 0;
+width: 100%;
+height: 100%;
+background: rgba(0, 0, 0, 0);
+    z-index:800;
+}
+.top_bar {
+    position:fixed;
+    bottom:0;
+    right:0px;
+    z-index:900;
+    -webkit-tap-highlight-color: rgba(0, 0, 0, 0);
+    font-family: Helvetica, Tahoma, Arial, Microsoft YaHei, sans-serif;
+}
+.plug-menu {
+    -webkit-appearance:button;
+    display:inline-block;
+    width:36px;
+    height:36px;
+    border-radius:36px;
+    position: absolute;
+    bottom:17px;
+    right: 17px;
+    z-index:999;
+    box-shadow: 0 0 0 4px #FFFFFF, 0 2px 5px 4px rgba(0, 0, 0, 0.25);
+   
+    -webkit-transition: -webkit-transform 200ms;
+    -webkit-transform:rotate(1deg);
+    color:#fff;
+    background-image:url('/template/cms2016/skin/images/wao/plug.png');
+    background-repeat: no-repeat;
+    -webkit-background-size: 80% auto;
+    background-size: 80% auto;
+    background-position: center center;
+}
+.plug-menu:before {
+    font-size:20px;
+    margin:9px 0 0 9px;
+}
+.plug-menu:checked {
+    -webkit-transform:rotate(135deg);
+}
+.top_menu>li {
+    width: 32px;
+    height:32px;
+    border-radius:32px;
+    box-shadow: 0 0 0 3px #FFFFFF, 0 2px 5px 3px rgba(0, 0, 0, 0.25);
+    
+    position:absolute;
+    bottom:0;
+    right:0;
+    margin-bottom: 20px;
+    margin-right:20px;
+    z-index:900;
+    -webkit-transition: -webkit-transform 200ms;
+}
+.top_menu>li a {
+    color:#fff;
+    font-size:20px;
+    display: block;
+    height: 100%;
+    line-height: 33px;
+    text-align: center;
+}
+.top_menu>li>a label{
+display:none;
+}
+.top_menu>li a img {
+display: block;
+width: 22px;
+height: 22px;
+text-indent: -999px;
+position: absolute;
+top: 50%;
+left: 50%;
+margin-top: -11px;
+margin-left: -11px;
+}
+.top_menu>li.on:nth-of-type(1) {
+-webkit-transform: translate(-0, -100px) rotate(720deg);
+}
+.top_menu>li.on:nth-of-type(2) {
+-webkit-transform: translate(-47px, -81px) rotate(720deg);
+}
+.top_menu>li.on:nth-of-type(3) {
+-webkit-transform: translate(-81px, -45px) rotate(720deg);
+}
+.top_menu>li.on:nth-of-type(4) {
+-webkit-transform: translate(-100px, 0) rotate(720deg);
+}
+ 
+#sharemcover {
+position: fixed;
+top: 0;
+left: 0;
+width: 100%;
+height: 100%;
+background: rgba(0, 0, 0, 0.7);
+display: none;
+z-index: 20000;
+}
+#sharemcover img {
+position: fixed;
+right: 18px;
+top: 5px;
+width: 260px;
+height: 180px;
+z-index: 20001;
+border:0;
+}
+
+</style>
+<div class="top_bar" style="-webkit-transform:translate3d(0,0,0)">
+<nav>
+     <ul id="top_menu" class="top_menu">
+      <input type="checkbox" id="plug-btn" class="plug-menu themeStyle" style="background-image:url('/template/cms2016/skin/images/wap/plug.png');border:0px;">
+       <li class="themeStyle out" style="background:"> 
+  <a href="tel:0434-6063021"><img src="/template/cms2016/skin/images/wap/plugmenu1.png"><label>电 话</label></a>
+  </li>
+  <li class="themeStyle out" style="background:">
+<a href="sms:13298895000"><img src="/template/cms2016/skin/images/wap/plugmenu3.png"><label>短信</label></a>
+</li>
+<li class="themeStyle out" style="background:">
+<a href="http://wpa.qq.com/msgrd?v=3&uin=871148347&site=qq&menu=yes" id="btn_fenxiang"><img src="/template/cms2016/skin/images/wap/plugmenu5.png"><label>QQ号码</label></a>
+</li>   
+<li class="themeStyle out" style="background:">
+<a href="/index.php?case=guestbook&act=index"><img src="/template/cms2016/skin/images/wap/plugmenu6.png"><label>留言</label></a>
+</li>
+
+
+</ul>
+  </nav>
+</div>
+
+<div id="plug-wrap" style="display: none;" ></div>
+<script>
+$(function(){
+        $(".plug-menu").click(function(){
+        var li = $(this).parents('ul').find('li');
+        if(li.attr("class") == "themeStyle on"){
+                li.removeClass("themeStyle on");
+                li.addClass("themeStyle out");
+        }else{
+                li.removeClass("themeStyle out");
+                li.addClass("themeStyle on");
+        }
+        });
+});
+</script>  
+</div>
+
+
+
+
+
+
+<span style="display:none;">
+<script>
+(function(){
+    var bp = document.createElement('script');
+    bp.src = '';
+    var s = document.getElementsByTagName("script")[0];
+    s.parentNode.insertBefore(bp, s);
+})();
+</script>
+
+<!-- 屏蔽错误 -->
+<script language="JavaScript" type="text/javascript">
+<!-- 
+function killErrors() {
+return true;
+}
+window.onerror = killErrors;
+// -->
+</script>
+<script src="/template/cms2016/skin/js/bootstrap.min.js"></script>
+<link rel="stylesheet" href="/template/cms2016/skin/animate.min.css" />
+<script src="/template/cms2016/skin/js/wow.min.js"></script>
+<script>
+if (!(/msie [6|7|8|9]/i.test(navigator.userAgent))){
+new WOW().init();
+};
+</script>
+
+
+</span>
+</body>
+</html>

@@ -1,0 +1,54 @@
+﻿<!DOCTYPE HTML>
+<html>
+	{ms:include filename=headFile.htm/}
+	<body>
+		{ms:include filename=header.htm/}
+		<div class="box2">
+			<div class="box2-left">
+				<!--只展开当前栏目所在一级栏目下的分类-->
+				<div class="left1">
+					<div class="left1_t"></div>
+					<div class="left1-1">
+						<h3>服务</h3><span>download</span>
+					</div>
+					<ul>
+						{ms:channel typeid=63 size=1}
+						<li>
+							<a title="[field.typetitle/]" href="[field.typelink/]">[field.typetitle/]</a>
+						</li>
+						{/ms:channel}
+					</ul>
+					<div class="left1_b"></div>
+				</div>
+				<div class="blank20"></div>
+				<!--只展开当前栏目所在一级栏目下的分类-->
+			</div>
+			<div class="box2-right">
+				<div class="title20">
+					<h5>服务</h5>
+					<div class="mianbao">
+						当前位置 :
+						<a title="首页" href="{ms:global.url/}">首页</a>
+						&gt;&gt;
+						<a title="服务" href="{ms:global.url/}/63/138/index.html">服务</a>
+					</div>
+				</div>
+				<div class="box2-content">
+
+					<ul>
+						<!-- 内容列表开始 -->
+						<li>
+							{ms:field.content/}
+						</li>
+						<!-- 内容列表结束 -->
+					</ul>
+					<!-- 内容列表分页开始 -->
+					<div class="blank30"></div>
+					<!-- 内容列表分页结束 -->
+			    </div>
+			 </div>
+			<div class="clear"></div>
+		</div>
+		{ms:include filename=footer.htm/}
+	</body>
+</html>

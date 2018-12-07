@@ -1,0 +1,63 @@
+﻿<!DOCTYPE html>
+<html lang="zh-CN">
+	<head>
+		{ms:include filename=headFile.htm/}
+	</head>
+	<body>
+		{ms:include filename=header.htm/} 
+		{ms:include filename=menu-left.htm/}
+		<div class="container ">
+			<nav class="sub_menu">
+				<ol class="breadcrumb"><span class="glyphicon glyphicon-list"></span>
+					<li>
+						<a href="{ms:global.host/}">网站首页</a>
+					</li>
+					<li>
+						<a title="{ms:field.typetitle/}" href="{ms:field.typelink/}">{ms:field.typetitle/}</a>
+					</li>
+				</ol>
+			</nav>
+		</div>
+		<!--/sub_menu-->
+		<!-- 面包屑导航结束 -->
+		<!-- 中部开始 -->
+		<div class="title">
+			<h3><a>{ms:field.title/}<small></small></a></h3>
+			<p></p>
+			<span>——</span>
+		</div>
+		<div class="container">
+			<div class="row">
+				<div class="col-md-12">
+					<!-- 内容开始 -->
+					<div class="table-responsive">{ms:field.content/}</div>
+					<!-- /table-responsive -->
+					<!-- 内容结束 -->
+					<div class="blank20"></div>
+					<!-- 自定义表单开始 -->
+					<!-- 自定义表单结束 -->
+					<div class="blank60"></div>
+					<!-- 上下页开始 -->
+					<div id="page">
+						<strong>上一篇</strong>
+						<a href="{ms:field.nextlink/}">{ms:field.nexttitle/}</a>
+						<div class="blank10"></div>
+						<strong>下一篇</strong>
+						<a href="{ms:field.prelink/}">{ms:field.pretitle/}</a>
+					</div>
+					<!-- 上下页结束 -->
+				</div>
+				<!-- /col-md-12 -->
+			</div>
+			<!-- /row -->
+		</div>
+		<!-- /container -->
+		<div class="blank30"></div>
+		<!-- 页底推荐图文产品开始 -->
+		{ms:include filename=menu-right.htm/}
+		<div class="blank60"></div>
+		<!-- 页底推荐图文产品结束 -->
+		<div class="clearfix"></div>
+		{ms:include filename=footer.htm/}
+	</body>
+</html>

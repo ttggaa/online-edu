@@ -1,0 +1,66 @@
+﻿<!DOCTYPE HTML>
+<html>
+	{ms:include filename=headFile.htm/}
+	<body>
+		{ms:include filename=header.htm/}
+		<div class="box2">
+			<div class="box2-left">
+				<!--只展开当前栏目所在一级栏目下的分类-->
+				<div class="left1">
+					<div class="left1_t"></div>
+					<div class="left1-1">
+						<h3>关于我们</h3><span>about</span>
+					</div>
+					<ul>
+						{ms:channel typeid=93 size=5}
+						<li>
+							<a title="[field.typetitle/]" href="[field.typelink/]">[field.typetitle/]</a>
+						</li>
+						{/ms:channel}
+					</ul>
+					<div class="left1_b"></div>
+				</div>
+				<div class="blank20"></div>
+				<!--只展开当前栏目所在一级栏目下的分类-->
+			</div>
+			<div class="box2-right">
+				<div class="title20">
+					<h5>关于我们</h5><span>about</span>
+					<div class="mianbao">
+						当前位置 :
+						<a title="首页" href="{ms:global.url/}">首页</a>
+						&gt;&gt;
+						<a title="关于我们" href="{ms:global.url/}/93/index.html">关于我们</a>
+					</div>
+				</div>
+				<div class="box2-content">
+					<div id="content_text">
+						<p>{ms:field.content/}</p>
+					</div>
+					<!-- 分享开始 -->
+					<div class="blank30"></div>
+					<!-- JiaThis Button BEGIN -->
+					<div class="jiathis_style pc_show">
+						<a class="jiathis_button_qzone"></a>
+						<a class="jiathis_button_tsina"></a>
+						<a class="jiathis_button_tqq"></a>
+						<a class="jiathis_button_weixin"></a>
+						<a class="jiathis_button_renren"></a>
+						<a href="#" class="jiathis jiathis_txt jiathis_separator jtico jtico_jiathis"></a>
+						<a class="jiathis_counter_style"></a>
+					</div>
+					<script type="text/javascript">
+						var jiathis_config = {
+							hideMore: false
+						}
+					</script>
+					<script type="text/javascript" src="{ms:globalskin.url/}/js/jia.js" charset="utf-8"></script>
+					<!-- JiaThis Button END -->
+					<!-- 分享结束 -->
+				</div>
+			</div>
+			<div class="clear"></div>
+		</div>
+		{ms:include filename=footer.htm/}
+	</body>
+</html>

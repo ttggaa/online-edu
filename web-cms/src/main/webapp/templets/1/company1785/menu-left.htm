@@ -1,0 +1,18 @@
+<script>
+	//<!CDATA[
+	var bodyBgs = [];
+	bodyBgs[0] = "{ms:globalskin.url/}/images/s1.jpg";
+	bodyBgs[1] = "{ms:globalskin.url/}/images/s2.jpg";
+	bodyBgs[2] = "{ms:globalskin.url/}/images/s3.jpg";
+	bodyBgs[3] = "{ms:globalskin.url/}/images/s4.jpg";
+	bodyBgs[4] = "{ms:globalskin.url/}/images/s5.jpg";
+	var randomBgIndex = Math.round(Math.random() * 4);
+	//输出随机的背景图
+	document.write('<style>.banner{background:url(' + bodyBgs[randomBgIndex] +
+		') no-repeat 50% bottom}</style>');
+	//]]>
+</script>
+<section>
+	<div class="banner" style="height:160px;margin-top:-18px;"></div>
+</section>
+<!-- 面包屑导航开始 -->

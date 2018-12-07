@@ -1,0 +1,75 @@
+﻿<!DOCTYPE HTML>
+<html>
+	{ms:include filename=headFile.htm/}
+	<body>
+		{ms:include filename=header.htm/}
+		<div class="box2">
+			<div class="box2-left">
+				<!--只展开当前栏目所在一级栏目下的分类-->
+				<div class="left1">
+					<div class="left1_t"></div>
+					<div class="left1-1">
+						<h3>新闻中心</h3><span>news</span>
+					</div>
+					<ul>
+						{ms:channel typeid=59 size=3}
+						<li>
+							<a title="[field.typetitle/]" href="[field.typelink/]">[field.typetitle/]</a>
+						</li>
+						{/ms:channel}
+					</ul>
+					<div class="left1_b"></div>
+				</div>
+				<div class="blank20"></div>
+				<!--只展开当前栏目所在一级栏目下的分类-->
+			</div>
+			<div class="box2-right">
+				<div class="title20">
+					<h5>公司新闻</h5><span>Enterprise_News</span>
+					<div class="mianbao">
+						当前位置 :
+						<a title="首页" href="{ms:global.url/}">首页</a>
+						&gt;&gt;
+						<a title="新闻栏目" href="{ms:global.url/}/59/index.html">新闻中心</a>
+						&gt;&gt;
+						<a title="公司新闻" href="{ms:global.url/}/59/index.html">公司新闻</a>
+					</div>
+				</div>
+				<div class="box2-content">
+					<div class="title21">{ms:field.title/}</div>
+					<div class="title22">{ms:field.author/}：
+						<a>{ms:field.author/}</a>{ms:field.date fmt=MM-dd/}浏览：</div>
+					<div id="content_text">
+						{ms:field.content/}</div>
+					<div class="blank30"></div>
+					<div class="blank30"></div>
+					<!--自动调用自定义字段-->
+					<div class="blank20"></div>
+					<div class="blank30"></div>
+				</div>
+				<!-- 投票 -->
+				<div class="w_set">
+					<!-- 自定义表单开始 -->
+					<!-- 自定义表单结束 -->
+					<div class="blank60"></div>
+					<!-- 上下页开始 -->
+					<div id="page">
+						<strong>上一篇</strong>
+						<a href="{ms:field.prelink/}">{ms:field.pretitle/}</a>
+						<div class="blank10"></div>
+						<strong>下一篇</strong>
+						<a href="{ms:field.nextlink/}">{ms:field.nexttitle/}</a>
+					</div>
+					<!-- 上下页结束 -->
+				</div>
+				<!-- 相关文章开始 -->
+				<!-- 相关文章结束 -->
+				<div class="blank30"></div>
+				<div class="clear"></div>
+			</div>
+		</div>
+		<div class="clear"></div>
+		</div>
+		{ms:include filename=footer.htm/}
+	</body>
+</html>

@@ -1,0 +1,80 @@
+<!-- nav -->
+<nav class="navbar navbar-default navbar-fixed-top" style="position: relative;">
+	<div class="container">
+		<div class="navbar-header">
+			<button type="button" class="navbar-toggle collapsed" data-toggle="collapse" data-target="#navbar" aria-expanded="false" aria-controls="navbar">
+				<span class="sr-only">html5健身俱乐部模板</span>
+				<span class="icon-bar"></span>
+				<span class="icon-bar"></span>
+				<span class="icon-bar"></span>
+			</button>
+			<div class="top-nav-right navbar-right">
+				<ul>
+					<li id="fat-menu" class="dropdown">
+						<a class="dropdown-toggleglyphicon glyphicon glyphicon-globe" data-toggle="dropdown" role="button" aria-haspopup="true" aria-expanded="false"></a>
+						<ul class="dropdown-menu" aria-labelledby="drop3">
+							<li>
+								<a id="StranLink" name="StranLink">繁體</a>
+							</li>
+							<li>
+								<a href="#" target="_blank">公司网站</a>
+							</li>
+						</ul>
+					</li>
+					<li class="glyphicon glyphicon-shopping-cart nav-shopping">
+						<a href="#" target="_blank"></a>
+					</li>
+					<li class="glyphicon glyphicon-search" data-toggle="modal" data-target=".bs-example-modal-lg-search" aria-hidden="true"></li>
+				</ul>
+			</div>
+			<!-- logo -->
+			<a href="{ms:global.host/}" class="navbar-brand text-center"><img src="http://cdn.mingsoft.net/global/images/MStore300.png" class="img-responsive" style="height:35px;"/></a>
+			<!-- logo end -->
+		</div>
+		<div id="navbar" class="navbar-collapse collapse">
+			<ul class="nav navbar-nav" style="margin-right: 40px;">
+				<li class="oen active">
+					<a href="{ms:global.host/}">网站首页</a>
+				</li>
+				<li class="oen dropdown">
+					<a href="{ms:global.url/}/53/index.html" data-toggle="dropdown" data-submenu="">关于我们<span class="caret"></span></a>
+					<ul class="two dropdown-menu">
+						{ms:channel typeid=53}
+						<li>
+							<a title="[field.typetitle/]" href="[field.typelink/]">[field.typetitle/]</a>
+						</li>
+						{/ms:channel}
+					</ul>
+				</li>
+				<li class="oen dropdown">
+					<a href="{ms:global.url/}/59/index.html" data-toggle="dropdown" data-submenu="">新闻栏目<span class="caret"></span></a>
+					<ul class="two dropdown-menu">
+						{ms:channel typeid=59}
+						<li>
+							<a title="[field.typetitle/]" href="[field.typelink/]">[field.typetitle/]</a>
+						</li>
+						{/ms:channel}
+					</ul>
+				</li>
+				<li class="oen dropdown">
+					<a href="{ms:global.url/}/106/index.html" data-toggle="dropdown" data-submenu="">产品中心<span class="caret"></span></a>
+					<ul class="two dropdown-menu">
+						{ms:channel typeid=106}
+						<li>
+							<a title="[field.typetitle/]" href="[field.typelink/]">[field.typetitle/]</a>
+						</li>
+						{/ms:channel}
+					</ul>
+				</li>
+				<li class="oen">
+					<a href="{ms:global.url/}/19/index.html">联系我们</a>
+				</li>
+				<li class="oen">
+					<a href="{ms:global.url/}/115/index.html">专家研究院</a>
+				</li>
+			</ul>
+			<div class="navbar-right user-panel">
+			</div>
+		</div>
+	</div>
+</nav>

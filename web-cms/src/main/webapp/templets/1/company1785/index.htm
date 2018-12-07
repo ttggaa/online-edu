@@ -1,0 +1,272 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+	<head>
+		{ms:include filename=headFile.htm/}
+	</head>
+	<body>
+		{ms:include filename=header.htm/}
+		<div id="myCarousel" class="carousel slide" data-ride="carousel">
+			<!-- Indicators -->
+			<ol class="carousel-indicators">
+				<li data-target="#myCarousel" data-slide-to="0" class="active"></li>
+				<li data-target="#myCarousel" data-slide-to="1"></li>
+				<li data-target="#myCarousel" data-slide-to="2"></li>
+			</ol>
+			<div class="carousel-inner" role="listbox" style="margin-top: -20px;">
+				<div class="item active">
+					<img class="first-slide" src="{ms:globalskin.url/}/images/1464858626484.jpg" style="width:100%;height:400px;" />
+					<div class="container">
+						<div class="carousel-caption"></div>
+					</div>
+				</div>
+				{ms:arclist typeid=147 size=2}
+				<div class="item">
+					<img class="first-slide" src="{ms:global.host/}[field.litpic/]" style="width:100%;height:400px;" />
+					<div class="container">
+						<div class="carousel-caption"></div>
+					</div>
+				</div>
+				{/ms:arclist}
+			</div>
+			<a class="left carousel-control" href="#myCarousel" role="button" data-slide="prev">
+				<span class="glyphicon glyphicon-chevron-left" aria-hidden="true"></span>
+				<span class="sr-only">Previous</span>
+			</a>
+			<a class="right carousel-control" href="#myCarousel" role="button" data-slide="next">
+				<span class="glyphicon glyphicon-chevron-right" aria-hidden="true"></span>
+				<span class="sr-only">Next</span>
+			</a>
+		</div>
+		<!-- /.carousel -->
+		<!-- Large modal -->
+		<!--about-->
+		<div class="about wow fadeInUp" id="about" data-wow-duration="2s" data-wow-delay=".5s">
+			<div class="container">
+				<h3 class="title"><a href="{ms:global.url/}/93/index.html">关于我们</a></h3>
+				<p>网络媒体不同于传统媒体，如果在网站设计的时候仅仅是将文字和图片做一个简单堆积和展示的话，这样的网站跟一片丢落在街头的破旧宣传资料没有任何区别。客户往往通过企业网站就留下了对企业的第一印象，这个第一印象是决定客户是否与你合作的重要因素。</p>
+			</div>
+		</div>
+		<!--//about-->
+		<!--slid-->
+		<div class="slid  wow fadeInUp" id="slid">
+			<div class="container">
+				<div class="slid-info">
+					<h4><a href="{ms:global.url/}/53/133/index.html	">网站优化</a></h4> 
+					<p>企业网站建设目的何在？如何充分挖掘互联网络的资源和优势，如何合理地组织网站内容与功能从而达到客户的需求？我们将根据市场分析、客户产品及服务的优势、竞争对手分析等等，有效的确立网站定位。根据相关需求分析获得相应网站运营策略，在网站建立之初我们就网站VI形象、网站营销手段、运营模式、网站发展前景等等进行定位。</p>
+				</div>
+			</div>
+		</div>
+		<!--//about-->
+		<!--team-->
+		<div class="team wow fadeInUp" id="team" data-wow-duration="2s" data-wow-delay=".5s">
+			<div class="container">
+				<h3 class="title" style="margin-top:50px;"><a href="{ms:global.url/}/59/index.html">新闻中心</a></h3>
+				<div class="team-grids">
+					{ms:arclist typeid=59 size=2}
+					<div class="col-md-6 team-grid">
+						<div class="team-grid-left">
+							<h4 style="width:310px; white-space:nowrap;overflow:hidden;text-overflow:ellipsis;"><a href="[field.link/]" style="color:;" target="_blank"><font style="color:;">[field.title/]</font></a></h4>
+							<p>[field.descrip/]</p>
+						</div>
+						<div class="team-grid-right">
+							<img alt="[field.title/]" src="{ms:global.host/}/[field.litpic/]" class="img-responsive" />
+						</div>
+						<div class="clearfix"> </div>
+					</div>
+					{/ms:arclist}
+					<div class="clearfix"> </div>
+				</div>
+				<div class="team-grids">
+					{ms:arclist typeid=106 size=2}
+					<div class="col-md-6 team-grid">
+						<div class="team-grid-left">
+							<h4 style="width:320px; white-space:nowrap;overflow:hidden;text-overflow:ellipsis;"><a href="[field.link/]" style="color:;" target="_blank"><font style="color:;">[field.title/]</font></a></h4>
+							<p>[field.descrip/]</p>
+						</div>
+						<div class="team-grid-right">
+							<img alt="[field.title/]" src="{ms:global.host/}/[field.litpic/]" class="img-responsive" />
+						</div>
+						<div class="clearfix"> </div>
+					</div>
+					{/ms:arclist}					
+					<div class="clearfix"> </div>
+				</div>
+			</div>
+		</div>
+		<!--//team-->
+		<!--gallery-->
+		<div class="gallery wow fadeInUp" id="gallery" data-wow-duration="2s" data-wow-delay=".5s">
+			<div class="container">
+				<h3 class="title"><a href="{ms:global.url/}/106/index.html">产品中心</a></h3>
+				<div class="top-gallery">
+					{ms:arclist typeid=106 size=6}
+					<div class="col-md-4 gallery-grid gallery1">
+						<a href="[field.link/]" style="color:;" target="_blank" class="swipebox">
+							<img alt="[field.title/]" src="{ms:global.host/}[field.litpic/]" class="img-responsive" style="width:380px;height:380px;">
+							<div class="textbox">
+								<h4><font style="color:;">[field.title/]</font></h4>
+							</div>
+						</a>
+					</div>
+					{/ms:arclist}
+					<div class="clearfix"> </div>
+				</div>
+			</div>
+		</div>
+		<!--//gallery-->
+		<!--news-->
+		<div class="news  wow fadeInUp" id="news">
+			<div class="container">
+				<h3 class="title" style="margin-top:50px;"><a href="{ms:global.url/}/106/index.html">新闻中心</a></h3> {ms:arclist typeid=106 size=4}
+				<div class="col-md-6 news-grids">
+					<div class="news-grids-left">
+						<img alt="[field.title/]" src="{ms:global.host/}[field.litpic/]" class="img-responsive">
+					</div>
+					<div class="news-grids-right">
+						<h5><a href="[field.link/]" style="color:;" target="_blank" ><font style="color:;">[field.title/]</font></a></h5>
+						<p>[field.descrip/]</p>
+					</div>
+					<div class="clearfix"> </div>
+				</div>
+				{/ms:arclist}
+				<div class="clearfix"> </div>
+			</div>
+		</div>
+		<!--//news-->
+		<!-- services -->
+		<div class="services wow fadeInUp" id="services" data-wow-duration="2s" data-wow-delay=".5s">
+			<div class="container">
+				<h3 class="title"><a href="#">我们的优势</a></h3>
+				<div class="servc-grids">
+					<div class="col-md-6 servc-grid">
+						<div class="col-xs-4 servc-grid-left">
+							<span class="glyphicon glyphicon-thumbs-up" aria-hidden="true"></span>
+						</div>
+						<div class="col-xs-8 servc-grid-right">
+							<h4><a href="#">企业实力优势</a></h4>
+							<p>&nbsp;我们倡导金牌服务，倡导以营销结果为导向的网站建设服务，我们从来不介入价格战，因为我们相信：品质创造价</p>
+						</div>
+						<div class="clearfix"> </div>
+					</div>
+					<div class="col-md-6 servc-grid">
+						<div class="col-xs-4 servc-grid-left">
+							<span class="glyphicon glyphicon-time" aria-hidden="true"></span>
+						</div>
+						<div class="col-xs-8 servc-grid-right">
+							<h4><a href="#">运营经验优势</a></h4>
+							<p>&nbsp;主要运营人员从2004年开始介入网站建设领域，无论是在狂热的年代、还是在寒冷的冬天，我们都没有放弃自</p>
+						</div>
+						<div class="clearfix"> </div>
+					</div>
+					<div class="clearfix"> </div>
+				</div>
+				<div class="servc-grids">
+					<div class="col-md-6 servc-grid">
+						<div class="col-xs-4 servc-grid-left">
+							<span class="glyphicon glyphicon-certificate" aria-hidden="true"></span>
+						</div>
+						<div class="col-xs-8 servc-grid-right">
+							<h4><a href="#">技术人才优势</a></h4>
+							<p>&nbsp;技术的优势归结到底还是人才的优势，当然对人才的培养和管理也显得尤为重要。远航科技对技术性人才的要求几</p>
+						</div>
+						<div class="clearfix"> </div>
+					</div>
+					<div class="col-md-6 servc-grid">
+						<div class="col-xs-4 servc-grid-left">
+							<span class="glyphicon glyphicon-globe" aria-hidden="true"></span>
+						</div>
+						<div class="col-xs-8 servc-grid-right">
+							<h4><a href="#">开发模式优势</a></h4>
+							<p>&nbsp;我们采用前台全部自动生成或定时生成HTM静态页面(本程序为远航科技自行开发设计,并正在积极申请软件著</p>
+						</div>
+						<div class="clearfix"> </div>
+					</div>
+					<div class="clearfix"> </div>
+				</div>
+				<div class="servc-grids">
+					<div class="col-md-6 servc-grid">
+						<div class="col-xs-4 servc-grid-left">
+							<span class="glyphicon glyphicon-user" aria-hidden="true"></span>
+						</div>
+						<div class="col-xs-8 servc-grid-right">
+							<h4><a href="#">开发模式优势</a></h4>
+							<p>&nbsp;我们采用前台全部自动生成或定时生成HTM静态页面(本程序为远航科技自行开发设计,并正在积极申请软件著</p>
+						</div>
+						<div class="clearfix"> </div>
+					</div>
+					<div class="col-md-6 servc-grid">
+						<div class="col-xs-4 servc-grid-left">
+							<span class="glyphicon glyphicon-question-sign" aria-hidden="true"></span>
+						</div>
+						<div class="col-xs-8 servc-grid-right">
+							<h4><a href="#">良性循环优势</a></h4>
+							<p>&nbsp;我们一直相信良性和恶性两种循环的存在，当一个企业在迫于生存压力、不断压缩服务成本、着眼眼前利益的时候</p>
+						</div>
+						<div class="clearfix"> </div>
+					</div>
+					<div class="clearfix"> </div>
+				</div>
+			</div>
+		</div>
+		<!-- //services -->
+		<!--contact-->
+		<div id="contact" class="contact  wow fadeInUp" data-wow-duration="2s" data-wow-delay=".5s">
+			<div class="container">
+				<h3 class="title">联系我们</h3>
+				<div class="col-md-7 contact-right">
+					<form method="post" action="#" name="form1" class="form_message">
+						<div>姓名<span>Name</span></div>
+						<input name="nickname" id="nickname" value="" class="guestbook_input" />
+						<div>标题<span>Title</span></div>
+						<input type="text" name="title" id="title" value="" class="guestbook_input" />
+						<div>邮 箱<span>Emali</span></div>
+						<input name="guestemail" id="guestemail" value="" class="guestbook_input" />
+						<div>联系电话<span>Tel</span></div>
+						<input name="guesttel" id="guestetel" value="" class="guestbook_input" />
+						<div>内容<span>Content</span></div>
+						<textarea name="content" class="guestbook_textarea"></textarea>
+						<div class="blank20"></div>
+						<input type="button" name="submit" value="提交" class="guestbook_btn">
+					</form>
+				</div>
+				<div class="col-md-5 contact-left">
+					<p>
+						如果你想拥有一份自由有趣的工作，如果你对界面设计拥有一份热情和动力，那么请与我们联系。在这里你能发现一群志同道合的年轻人，并为了实践理想而努力！ 我们的团队为自己的理想奋斗，我们互补性强，分工明确，
+					</p>
+					<ul>
+						<li><span class="glyphicon glyphicon-map-marker" aria-hidden="true"></span> 健身俱乐部模板
+						</li>
+						<li><span class="glyphicon glyphicon-earphone" aria-hidden="true"></span> 8888-88888888
+						</li>
+						<li><span class="glyphicon glyphicon-envelope" aria-hidden="true"></span>
+							<a href="#">admin@admin.com</a>
+						</li>
+					</ul>
+				</div>
+				<div class="clearfix"> </div>
+			</div>
+		</div>
+		<!--//contact-->
+		<div class="clearfix"></div>
+		{ms:include filename=footer.htm/}
+		<div class="home-links ">
+			<div class="hr "></div>
+			<div class="container ">
+				<div class="col-xs-12 col-sm-12 col-md-2 col-lg-1 home-links-left ">
+					友情链接：
+				</div>
+				<div class="col-xs-12 col-sm-12 col-md-10 col-lg-11 ">
+					<div class="links-logo ">
+						<a href="http://ms.mingsoft.net/ " title="Mcms "><img src="http://cdn.mingsoft.net/global/images/MStore.png " width="88 " height="31 " /></a>
+					</div>
+					<div class="links-a ">
+						<a href="http://ms.mingsoft.net/ " target="_blank ">Mcms</a>/
+						<a href="http://ms.mingsoft.net/ " target="_blank ">铭飞科技有限公司</a>/
+					</div>
+				</div>
+			</div>
+			<!-- /container -->
+		</div>
+		<!-- /home-links -->
+	</body>
+</html>

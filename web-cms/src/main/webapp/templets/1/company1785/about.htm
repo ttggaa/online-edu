@@ -1,0 +1,67 @@
+﻿<!DOCTYPE html>
+<html lang="zh-CN">
+	<head>
+		{ms:include filename=headFile.htm/}
+	</head>
+	<body>
+ 		{ms:include filename=header.htm/}
+		{ms:include filename=menu-left.htm/}
+		<div class="container ">
+			<nav class="sub_menu">
+				<ol class="breadcrumb"><span class="glyphicon glyphicon-list"></span>
+					<li>
+						<a href="{ms:global.url/}">网站首页</a>
+					</li>
+					<li>
+						<a title="关于我们" href="{ms:global.url/}/93/index.html">关于我们</a>
+					</li>
+					<li>
+						<a title="{ms:field.typetitle/}" href="{ms:field.typelink/}">{ms:field.typetitle/}</a>
+					</li>
+				</ol>
+			</nav>
+		</div>
+		<!--/sub_menu-->
+		<!-- 面包屑导航结束 -->
+		<!-- 页面标题开始 -->
+		<div class="title">
+			<h3><a href="">{ms:field.title/}<small></small></a></h3>
+			<p></p>
+			<span>——</span>
+		</div>
+		<!-- 页面标题结束 -->
+		<!-- 中部开始 -->
+		<div class="container">
+			<!--用于打印和文字放大-->
+			<div class="content_tools_box">
+				<p class="content_tools">
+					<a href="javascript:CallPrint('print');">打印本文</a> &nbsp; &nbsp; &nbsp;
+					<a href="javascript:doZoom(14)">小</a>&nbsp; &nbsp;
+					<a href="javascript:doZoom(18)">中</a>&nbsp; &nbsp;
+					<a href="javascript:doZoom(20)">大</a>
+				</p>
+				<div class="clearfix"></div>
+				<script src="{ms:globalskin.url/}/js/c_tool_1.js" type="text/javascript"></script>
+			</div>
+			<!--/用于打印和文字放大-->
+			<div class="content lead" id="print">
+				<!-- 内容 -->
+				<div>
+					<div>{ms:field.content/}</div>
+					<div style="color: rgb(102, 102, 102); font-family: tahoma, Helvetica, arial, 宋体, sans-serif; font-size: 14px; line-height: 28px;">&nbsp;</div>
+				</div>
+				<!-- 内容结束 -->
+			</div>
+		</div>
+		<!-- /container -->
+		<div class="blank30"></div>
+		<!-- 页底推荐图文产品开始 -->
+	 	{ms:include filename=menu-right.htm/}
+		<!-- /container -->
+		<div class="blank60"></div>
+		<!-- 页底推荐图文产品结束 -->
+		<div class="clearfix"></div>
+		<!--foot -->
+		{ms:include filename=footer.htm/}
+	</body>
+</html>

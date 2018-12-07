@@ -1,0 +1,13 @@
+﻿@media (max-width: 768px) {
+#Layer1 {display:none;}
+}
+@media (max-width: 1200px) {
+#Layer1 a {display:block;}
+}
+#Layer1 {background: rgba(00, 00, 00, 0.8);padding:25px 0px;position: fixed;right: 5%;bottom: 0;left:5%;font-style: normal;text-align:center;color:#FFF;font-size:20px;}
+#Layer1 a {padding:10px 30px; background: #FFD700;color:#FF5C00;}
+#Layer1 a.template-down {background:#B78806;color:#FFF; }
+#Layer1 a.template-down:hover {background: #928203;}
+#Layer1 a.template-more {background: #FF5C00;color:#FFF;}
+#Layer1 a.template-more:hover {background:#FF0000;}
+#Layer1 a.template-colse {position:absolute; right:10px;top:10px; font-size:14px;color:#FFF;background:none;}
