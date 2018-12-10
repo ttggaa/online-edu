@@ -1,0 +1,39 @@
+{
+  "hints": [],
+  "groups": [
+    {
+      "sourceType": "io.renren.modules.app.utils.JwtUtils",
+      "name": "renren.jwt",
+      "type": "io.renren.modules.app.utils.JwtUtils"
+    },
+    {
+      "sourceType": "io.renren.datasources.DynamicDataSourceConfig",
+      "name": "spring.datasource.druid.first",
+      "sourceMethod": "public javax.sql.DataSource firstDataSource() ",
+      "type": "javax.sql.DataSource"
+    },
+    {
+      "sourceType": "io.renren.datasources.DynamicDataSourceConfig",
+      "name": "spring.datasource.druid.second",
+      "sourceMethod": "public javax.sql.DataSource secondDataSource() ",
+      "type": "javax.sql.DataSource"
+    }
+  ],
+  "properties": [
+    {
+      "sourceType": "io.renren.modules.app.utils.JwtUtils",
+      "name": "renren.jwt.expire",
+      "type": "java.lang.Long"
+    },
+    {
+      "sourceType": "io.renren.modules.app.utils.JwtUtils",
+      "name": "renren.jwt.header",
+      "type": "java.lang.String"
+    },
+    {
+      "sourceType": "io.renren.modules.app.utils.JwtUtils",
+      "name": "renren.jwt.secret",
+      "type": "java.lang.String"
+    }
+  ]
+}
