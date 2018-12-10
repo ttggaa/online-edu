@@ -18,7 +18,7 @@
             <dependency-type>consumes</dependency-type>
         </dependent-module>
         <property name="java-output-path" value="/mcms/target/classes"/>
-        <property name="context-root" value="ms-mcms"/>
         <property name="component.exclusion.patterns"/>
+        <property name="context-root" value="/web-cms"/>
     </wb-module>
 </project-modules>
