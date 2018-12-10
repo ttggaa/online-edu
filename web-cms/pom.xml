@@ -2,10 +2,10 @@
 	xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/maven-v4_0_0.xsd">
 	<modelVersion>4.0.0</modelVersion>
 	<groupId>net.mingsoft</groupId>
-	<artifactId>ms-mcms</artifactId>
+	<artifactId>web-cms</artifactId>
 	<packaging>war</packaging>
 	<version>4.6.5</version>
-	<name>MCMS</name>
+	<name>web-cms</name>
 	<url>http://ms.mingsoft.net</url>
 	<repositories>
 		<repository>
