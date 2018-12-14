@@ -1,0 +1,40 @@
+<?xml version="1.0" encoding="GBK"?>
+<beans xmlns="http://www.springframework.org/schema/beans"
+	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:aop="http://www.springframework.org/schema/aop"
+	xmlns:tx="http://www.springframework.org/schema/tx" xmlns:context="http://www.springframework.org/schema/context"
+	xsi:schemaLocation=" 
+		http://www.springframework.org/schema/beans 
+		http://www.springframework.org/schema/beans/spring-beans-2.5.xsd 
+		http://www.springframework.org/schema/aop 
+		http://www.springframework.org/schema/aop/spring-aop-2.5.xsd 
+		http://www.springframework.org/schema/tx 
+		http://www.springframework.org/schema/tx/spring-tx-2.5.xsd 
+		http://www.springframework.org/schema/context 
+		http://www.springframework.org/schema/context/spring-context-2.5.xsd">
+		
+	<!--  *****************Job**********************   -->
+	<bean id="webServicesLogClearJob" class="com.education.framework.util.quartz.webServicesLogJob.WebServicesLogClearJob" ></bean>
+	
+	<!--  *****************JobDetail**********************   -->
+	<!--webserviceslog 数据清除任务 -->
+	<bean id="webServicesLogClearJobDetail"
+		class="org.springframework.scheduling.quartz.MethodInvokingJobDetailFactoryBean">
+		<property name="targetObject" ref="webServicesLogClearJob" />
+		<property name="targetMethod" value="task" />
+		<property name="concurrent" value="false" />
+	</bean>
+	
+	<!--每天凌晨1点执行一次 -->
+	<bean id="trigger2" class="org.springframework.scheduling.quartz.CronTriggerBean">
+		<property name="jobDetail" ref="webServicesLogClearJobDetail" />
+		<property name="cronExpression" value="0 0 1 * * ?" />
+	</bean>
+	
+	<bean class="org.springframework.scheduling.quartz.SchedulerFactoryBean">
+		<property name="triggers">
+			<list>
+				<ref bean="trigger2" />
+			</list>
+		</property>
+	</bean>
+</beans> 

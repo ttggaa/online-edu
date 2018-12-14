@@ -1,0 +1,107 @@
+<?xml version="1.0" encoding="UTF-8" standalone="no"?>
+<!DOCTYPE properties SYSTEM "http://java.sun.com/dtd/properties.dtd">
+<properties>
+<entry key="app_preset_prof_preset_name">RSACoderTest (1) Launch Configuration</entry>
+<entry key="app_preset_prof_preset_filter_s"/>
+<entry key="app_preset_prof_preset_filter_p">com.education.domain.*,
+com.education.exception.*,
+com.education.framework.application.*,
+com.education.framework.base.*,
+com.education.framework.constants.*,
+com.education.framework.dao.*,
+com.education.framework.domain.*,
+com.education.framework.interceptor.*,
+com.education.framework.listener.*,
+com.education.framework.page.*,
+com.education.framework.session.*,
+com.education.framework.tag.data.*,
+com.education.framework.tag.dict.*,
+com.education.framework.tag.pageTag.*,
+com.education.framework.util.*,
+com.education.module.bizChinapayConfig.*,
+com.education.module.console.*,
+com.education.module.dshMenuGroupSetting.*,
+com.education.module.dshType.*,
+com.education.module.index.*,
+com.education.module.integralSetting.*,
+com.education.module.login.*,
+com.education.module.meal.*,
+com.education.module.payOrder.*,
+com.education.module.pracmain.*,
+com.education.module.resChapter.*,
+com.education.module.resCourse.*,
+com.education.module.studyLog.*,
+com.education.module.sysDictionary.*,
+com.education.module.sysMessage.*,
+com.education.module.sysSection.*,
+com.education.module.system.sysLogs.*,
+com.education.module.system.sysMenu.*,
+com.education.module.system.sysRole.*,
+com.education.module.system.sysUserRole.*,
+com.education.module.system.user.*,
+com.education.module.teacher.*,
+com.education.module.test.*,
+com.education.module.tkExamination.*,
+com.education.module.type.*,
+com.education.module.user.*,
+com.education.test.*,
+com.education.webInterface.ksClient.*</entry>
+<entry key="app_preset_prof_preset_alloc_p">10</entry>
+<entry key="app_preset_"/>
+<entry key="app_preset_prof_preset_samplingRefreshRate_s">1000</entry>
+<entry key="app_preset_prof_preset_stacks_p">false</entry>
+<entry key="app_preset_prof_preset_roots_p">com.education.domain.**
+com.education.exception.**
+com.education.framework.application.**
+com.education.framework.base.**
+com.education.framework.constants.**
+com.education.framework.dao.**
+com.education.framework.domain.**
+com.education.framework.interceptor.**
+com.education.framework.listener.**
+com.education.framework.page.**
+com.education.framework.session.**
+com.education.framework.tag.data.**
+com.education.framework.tag.dict.**
+com.education.framework.tag.pageTag.**
+com.education.framework.util.**
+com.education.module.bizChinapayConfig.**
+com.education.module.console.**
+com.education.module.dshMenuGroupSetting.**
+com.education.module.dshType.**
+com.education.module.index.**
+com.education.module.integralSetting.**
+com.education.module.login.**
+com.education.module.meal.**
+com.education.module.payOrder.**
+com.education.module.pracmain.**
+com.education.module.resChapter.**
+com.education.module.resCourse.**
+com.education.module.studyLog.**
+com.education.module.sysDictionary.**
+com.education.module.sysMessage.**
+com.education.module.sysSection.**
+com.education.module.system.sysLogs.**
+com.education.module.system.sysMenu.**
+com.education.module.system.sysRole.**
+com.education.module.system.sysUserRole.**
+com.education.module.system.user.**
+com.education.module.teacher.**
+com.education.module.test.**
+com.education.module.tkExamination.**
+com.education.module.type.**
+com.education.module.user.**
+com.education.test.**
+com.education.webInterface.ksClient.**
+</entry>
+<entry key="profiler.settings.instrument.empty.methods">false</entry>
+<entry key="myeclipse.profiling.mode">0</entry>
+<entry key="profiler.settings.istrument.getter.setter.methods">false</entry>
+<entry key="app_preset_prof_preset_samplingRate_s">100</entry>
+<entry key="app_preset_prof_preset_filterMode_s">true</entry>
+<entry key="app_preset_prof_preset_selector"/>
+<entry key="app_preset_prof_preset_refreshRate_s">1000</entry>
+<entry key="app_preset_prof_preset_runnables_p">true</entry>
+<entry key="app_preset_prof_preset_filterMode_p">false</entry>
+<entry key="app_preset_prof_preset_memoryMode_p">true</entry>
+</properties>

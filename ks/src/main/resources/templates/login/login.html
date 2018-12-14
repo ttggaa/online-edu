@@ -1,0 +1,66 @@
+<!DOCTYPE html>
+<!--[if lt IE 9]>
+<div style="background: #eeeeee;border-bottom: 1px solid #cccccc;color: #000;padding: 15px;margin: 0;z-index: 9999;">
+    您的浏览器版本过低，请升级您的浏览器。（chrome、百度浏览器体验更加）
+</div>
+<![endif]-->
+<!--[if IE 8]><html class="no-js ie8" xmlns:th="http://www.thymeleaf.org"> <![endif]-->
+<!--[if gt IE 8]><!-->
+<html class="no-js" xmlns:th="http://www.thymeleaf.org">
+<head>
+	<title>考试系统</title>
+	<link rel="stylesheet" href="/js/amazeui2.7.2/css/amazeui.min.css"/>
+	<link rel="stylesheet" href="http://pi6lghe8f.bkt.clouddn.com/login.css"/>
+	<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1, user-scalable=no"/>
+	<script type="text/javascript" src="http://pi6lghe8f.bkt.clouddn.com/jquery-2.1.4.min.js"></script>
+	<link rel="shortcut icon" href="http://pi6lghe8f.bkt.clouddn.com/favicon.ico" />
+	<script type="text/javascript">
+	<!--
+		history.go(1);
+		function login() {
+			if ($("#idcard").val() == "") {
+				alert("请输入准考证号");
+				$("#idcard").focus();
+				return false;
+			}
+			if ($("#truename").val() == "") {
+				alert("请输入姓名");
+				$("#truename").focus();
+				return false;
+			}
+			$("#loginForm").submit();
+		}
+	//-->
+	</script>
+</head>
+<body>
+<div class="am-g myapp-login">
+	<div class="myapp-login-bg">
+		 <div id="main">
+			<div class="ctbox">
+				<form id="loginForm" method="post" class="am-form" action="/login/login">
+				  <fieldset style="float: right; margin-right: 20px; margin-top: 120px;width:300px;">
+				    <div class="am-form-group">
+				      <label style="float: left;line-height: 35px;margin-right: 6px;width:70px;">准考证:</label>
+				      <div><input type="text" name="idcard" id="idcard" value="" style="width: 180px;" th:value="${examStu?.idcard}" size="18"/></div>
+				    </div>
+				    <div class="am-form-group">
+				      <label style="float: left;line-height: 35px;margin-right: 6px;width:70px;">姓&nbsp;&nbsp;名:</label>
+				      <div><input type="text" name="truename" id="truename" value="" th:value="${examStu?.truename}" size="16" style="width: 180px;"/></div>
+				    </div>
+				    <div class="am-form-group">
+				      <p><button type="button" onclick="login();" class="am-btn am-btn-primary am-round">&nbsp;登&nbsp;&nbsp;录&nbsp;</button></p>
+				    </div>
+				    <div class="login-text">
+				    	<div th:if="${MESSAGE != null}" th:text="${MESSAGE}" style="color: red;"></div>&nbsp;
+				    </div>
+				  </fieldset>
+				</form>
+			</div>
+		</div>
+	</div>
+</div>
+<div th:fragment="copyright">
+  <footer class="footer am-navbar am-navbar-default" style="text-align: center;"><p>由大连领航世纪提供技术支持</p></footer>
+</div>
+</body></html>

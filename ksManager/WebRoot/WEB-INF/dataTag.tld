@@ -1,0 +1,67 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE taglib PUBLIC "-//Sun Microsystems, Inc.//DTD JSP Tag Library 1.2//EN" "http://java.sun.com/dtd/web-jsptaglibrary_1_2.dtd">
+<taglib>
+	<tlib-version>2.2.3</tlib-version>
+	<jsp-version>1.2</jsp-version>
+	<short-name>data</short-name>
+	<uri>/data</uri>
+	<display-name>"data Tags"</display-name>
+	<tag>
+		<name>view</name>
+		<tag-class>com.education.framework.tag.data.DataTag</tag-class>
+		<body-content>empty</body-content>
+		<attribute>
+			<name>tableName</name>
+			<required>true</required>
+			<rtexprvalue>true</rtexprvalue>
+		</attribute>
+		<attribute>
+			<name>primaryValue</name>
+			<required>true</required>
+			<rtexprvalue>true</rtexprvalue>
+		</attribute>
+		<attribute>
+			<name>field</name>
+			<required>true</required>
+			<rtexprvalue>true</rtexprvalue>
+		</attribute>
+	</tag>
+	
+	<tag>
+		<name>titleLimit</name>
+		<tag-class>com.education.framework.tag.data.TitleLimitTag</tag-class>
+		<body-content>empty</body-content>
+		<attribute>
+			<name>str</name>
+			<required>true</required>
+			<rtexprvalue>true</rtexprvalue>
+		</attribute>
+		<attribute>
+			<name>maxCount</name>
+			<required>true</required>
+			<rtexprvalue>true</rtexprvalue>
+		</attribute>
+	</tag>
+	
+	<!-- 当前用户是否具有funccode 权限 -->
+	<tag>
+		<name>existFunc</name>
+		<tag-class>com.education.framework.tag.data.FuncTag</tag-class>
+		<attribute>
+			<name>funcCode</name>
+			<required>true</required>
+			<rtexprvalue>true</rtexprvalue>
+		</attribute>
+	</tag>
+	
+	<!-- 当前用户是否具有菜单 权限 -->
+	<tag>
+		<name>existMenu</name>
+		<tag-class>com.education.framework.tag.data.MenuTag</tag-class>
+		<attribute>
+			<name>requestMapping</name>
+			<required>true</required>
+			<rtexprvalue>true</rtexprvalue>
+		</attribute>
+	</tag>
+</taglib>

@@ -1,0 +1,417 @@
+<!DOCTYPE html>
+<!--[if IE 8]><html class="no-js ie8" xmlns:th="http://www.thymeleaf.org"> <![endif]-->
+<!--[if gt IE 8]><!-->
+<html class="no-js" xmlns:th="http://www.thymeleaf.org">
+<head>
+  <title>考试系统</title>
+  <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, minimum-scale=1.0, maximum-scale=1.0, user-scalable=no" />
+  <meta name="format-detection" content="telephone=no" />
+  <meta name="renderer" content="webkit" />
+  <meta http-equiv="Cache-Control" content="no-siteapp"/>
+  <link rel="stylesheet" href="/js/amazeui2.7.2/css/amazeui.min.css"/>
+  <link rel="stylesheet" href="/js/amazeui2.7.2/css/amaze.min.css"/>
+  <link rel="stylesheet" href="/css/paper.css"/>
+  <link rel="shortcut icon" href="/images/favicon.ico" />
+</head>
+<body>
+<header class="am-topbar am-topbar-fixed-top">
+    <h1 class="am-topbar-brand" th:text="${session?.ExamStu?.exam?.examName}"></h1>
+    <div class="am-topbar-form am-topbar-left am-form-inline am-topbar-right">
+      <div class="am-form-group">剩余时间：<span id="timeMinSpan" class="am-badge am-badge-warning am-round am-text-lg"></span></div>
+      <button type="button" class="am-btn am-btn-primary am-btn-sm" onclick="handSubmitPaper();">交 卷</button>
+    </div>
+</header>
+<div class="get am-g am-g-fixed blog-g-fixed" style="padding-left:5px;margin-right: 0px;padding-top: 5px;">
+  <div class="am-u-md-9">
+    <article class="blog-main" th:each="type,status : ${examCourse?.examinationTypeList}">
+      <h2>
+        <span id="quesTypeSpan" th:text="${type?.type?.typename}+'(共:' + ${type?.quesCount} + '题,每题' + ${type?.score} + '分)'"></span>
+        <hr data-am-widget="divider" style="" class="am-divider am-divider-default" />
+      </h2>
+      <div class="am-g blog-content">
+        <div class="am-u-lg-12" th:each="ques,quesStatus : ${type?.paperExaminationList}">
+          <p th:id="'question_'+${ques.id}">
+          	 <a class="am-badge" th:text="${quesStatus.index+1}+'.'" href="javascript:void();" th:onclick="'setTag(this,' + ${ques.id} + ')'"></a>
+          	 <span th:text="${ques?.examinationContent}"></span>
+          	 <span id="haveAnswerFlagSpan" class="am-badge am-badge-success am-round" style="display: none;">已答</span>
+          </p>
+          <div style="margin-left: 15px;" th:if="${type?.type?.typeCode=='danx'}">
+          	<div class="am-radio" th:if="${ques.optionA != null and ques.optionA != ''}">
+		      <label>
+		        <input type="radio" th:name="danx_+${ques.id}" value="a" style="transform: scale(1.5);width:17px;" th:onclick="'saveAnswer(\''+${ques.id}+'\',\''+${type?.type?.typeCode}+'\',\'a\');'" th:checked="${ques.optionASel=='1'}"/>
+		        A) <span th:text="${ques.optionA}"></span>
+		      </label>
+		    </div>
+		    <div class="am-radio" th:if="${ques.optionB != null and ques.optionB != ''}">
+		      <label>
+		        <input type="radio" th:name="danx_+${ques.id}" value="b" style="transform: scale(1.5);width:17px;" th:onclick="'saveAnswer(\''+${ques.id}+'\',\''+${type?.type?.typeCode}+'\',\'b\');'" th:checked="${ques.optionBSel=='1'}"/>
+		        B) <span th:text="${ques.optionB}"></span>
+		      </label>
+		    </div>
+		    <div class="am-radio" th:if="${ques.optionC != null and ques.optionC != ''}">
+		      <label>
+		        <input type="radio" th:name="danx_+${ques.id}" value="c" style="transform: scale(1.5);width:17px;" th:onclick="'saveAnswer(\''+${ques.id}+'\',\''+${type?.type?.typeCode}+'\',\'c\');'" th:checked="${ques.optionCSel=='1'}"/>
+		        C) <span th:text="${ques.optionC}"></span>
+		      </label>
+		    </div>
+		    <div class="am-radio" th:if="${ques.optionD != null and ques.optionD != ''}">
+		      <label>
+		        <input type="radio" th:name="danx_+${ques.id}" value="d" style="transform: scale(1.5);width:17px;" th:onclick="'saveAnswer(\''+${ques.id}+'\',\''+${type?.type?.typeCode}+'\',\'d\');'" th:checked="${ques.optionDSel=='1'}"/>
+		        D) <span th:text="${ques.optionD}"></span>
+		      </label>
+		    </div>
+		    <div class="am-radio" th:if="${ques.optionE != null and ques.optionE != ''}">
+		      <label>
+		        <input type="radio" th:name="danx_+${ques.id}" value="e" style="transform: scale(1.5);width:17px;" th:onclick="'saveAnswer(\''+${ques.id}+'\',\''+${type?.type?.typeCode}+'\',\'e\');'" th:checked="${ques.optionESel=='1'}"/>
+		        E) <span th:text="${ques.optionE}"></span>
+		      </label>
+		    </div>
+		    <div class="am-radio" th:if="${ques.optionF != null and ques.optionF != ''}">
+		      <label>
+		        <input type="radio" th:name="danx_+${ques.id}" value="f" style="transform: scale(1.5);width:17px;" th:onclick="'saveAnswer(\''+${ques.id}+'\',\''+${type?.type?.typeCode}+'\',\'f\');'" th:checked="${ques.optionFSel=='1'}"/>
+		        F) <span th:text="${ques.optionF}"></span>
+		      </label>
+		    </div>
+          </div>
+          <div style="margin-left: 15px;" th:if="${type?.type?.typeCode=='duox'}">
+          	<div class="am-checkbox" th:if="${ques.optionA != null and ques.optionA != ''}">
+		      <label>
+		        <input type="checkbox" th:name="duox_+${ques.id}" value="a" style="transform: scale(1.5);width:17px;" th:onclick="'saveAnswer(\''+${ques.id}+'\',\''+${type?.type?.typeCode}+'\',\'a\');'" th:checked="${ques.optionASel=='1'}"/>
+		        A) <span th:text="${ques.optionA}"></span>
+		      </label>
+		    </div>
+		    <div class="am-checkbox" th:if="${ques.optionB != null and ques.optionB != ''}">
+		      <label>
+		        <input type="checkbox" th:name="duox_+${ques.id}" value="b" style="transform: scale(1.5);width:17px;" th:onclick="'saveAnswer(\''+${ques.id}+'\',\''+${type?.type?.typeCode}+'\',\'b\');'" th:checked="${ques.optionBSel=='1'}"/>
+		        B) <span th:text="${ques.optionB}"></span>
+		      </label>
+		    </div>
+		    <div class="am-checkbox" th:if="${ques.optionC != null and ques.optionC != ''}">
+		      <label>
+		        <input type="checkbox" th:name="duox_+${ques.id}" value="c" style="transform: scale(1.5);width:17px;" th:onclick="'saveAnswer(\''+${ques.id}+'\',\''+${type?.type?.typeCode}+'\',\'c\');'" th:checked="${ques.optionCSel=='1'}"/>
+		        C) <span th:text="${ques.optionC}"></span>
+		      </label>
+		    </div>
+		    <div class="am-checkbox" th:if="${ques.optionD != null and ques.optionD != ''}">
+		      <label>
+		        <input type="checkbox" th:name="duox_+${ques.id}" value="d" style="transform: scale(1.5);width:17px;" th:onclick="'saveAnswer(\''+${ques.id}+'\',\''+${type?.type?.typeCode}+'\',\'d\');'" th:checked="${ques.optionDSel=='1'}"/>
+		        D) <span th:text="${ques.optionD}"></span>
+		      </label>
+		    </div>
+		    <div class="am-checkbox" th:if="${ques.optionE != null and ques.optionE != ''}">
+		      <label>
+		        <input type="checkbox" th:name="duox_+${ques.id}" value="e" style="transform: scale(1.5);width:17px;" th:onclick="'saveAnswer(\''+${ques.id}+'\',\''+${type?.type?.typeCode}+'\',\'e\');'" th:checked="${ques.optionESel=='1'}"/>
+		        E) <span th:text="${ques.optionE}"></span>
+		      </label>
+		    </div>
+		    <div class="am-checkbox" th:if="${ques.optionF != null and ques.optionF != ''}">
+		      <label>
+		        <input type="checkbox" th:name="duox_+${ques.id}" value="f" style="transform: scale(1.5);width:17px;" th:onclick="'saveAnswer(\''+${ques.id}+'\',\''+${type?.type?.typeCode}+'\',\'f\');'" th:checked="${ques.optionFSel=='1'}"/>
+		        F) <span th:text="${ques.optionF}"></span>
+		      </label>
+		    </div>
+          </div>
+          <div style="margin-left: 15px;" th:if="${type?.type?.typeCode=='pand'}">
+          	<div class="am-form-group">
+		      <label class="am-checkbox-inline">
+		        <input type="radio" th:name="pand_+${ques.id}" value="正确" style="transform: scale(1.5);width:17px;" th:onclick="'saveAnswer(\''+${ques.id}+'\',\''+${type?.type?.typeCode}+'\',\'正确\');'" th:checked="${ques.userAnswer=='正确'}"/> 正确
+		      </label>
+		      <label class="am-checkbox-inline">
+		        <input type="radio" th:name="pand_+${ques.id}" value="错误" style="transform: scale(1.5);width:17px;" th:onclick="'saveAnswer(\''+${ques.id}+'\',\''+${type?.type?.typeCode}+'\',\'错误\');'" th:checked="${ques.userAnswer=='错误'}"/> 错误
+		      </label>
+		    </div>
+          </div>
+          <hr data-am-widget="divider" style="" class="am-divider am-divider-dotted" />
+        </div>
+      </div>
+    </article>
+  </div>
+  <div class="am-u-md-3 blog-sidebar" style="position: fixed;right: 4px;margin-top: 0px;">
+    <div id="blog-sidebar-div" class="am-panel-group" style="overflow-y: scroll;overflow-x:hidden;">
+      <section class="am-panel am-panel-default">
+        <div class="am-panel-hd">考生信息</div>
+        <div class="am-g blog-person">
+	        <div class="am-u-lg-12" th:if="${session?.ExamStu?.photo != ''}" style="text-align: center;">
+	        	<img th:src="${session?.ExamStu?.photo}" style="width: 75px;height: 95px;" />
+	        </div>
+	        <div class="am-u-lg-12">
+	        	<div>准考证号：<span th:text="${session?.ExamStu?.idcard}"></span></div>
+	        	<div>姓名：<span th:text="${session?.ExamStu?.truename}"></span></div>
+	        </div>
+        </div>
+      </section>
+      <section class="am-panel am-panel-default" 
+      		th:each="type,status : ${examCourse?.examinationTypeList}">
+      	<div class="am-panel-hd" th:text="'['+${type?.type?.typename}+'] 题板'"></div>
+        <ul class="am-list blog-list" style="padding-left: 8px;">
+        	<!-- class="am-badge am-radius ${qboard.uncertain == '1' ? 'am-badge-warning':'' } ${qboard.state == '1' ? 'am-badge-success':'' } "  -->
+   			<a th:id="board_+${ques.id}"
+   				th:each="ques,quesStatus : ${type?.paperExaminationList}"
+   				th:text="${quesStatus.index+1}"
+   				th:class="'am-badge am-radius ' + ${ques?.userAnswer!=null and ques?.userAnswer!=''?'am-badge-success':''}"
+   				style="min-width: 29px;" href="javascript:void();" th:onclick="'gotoLocation(' + ${ques?.id} + ');'" >
+   			</a>
+        </ul>
+      </section>
+    </div>
+  </div>
+</div>
+
+<div class="amz-toolbar" id="amz-toolbar" style="right: 40px;">
+	<a href="#top" title="回到顶部" class="am-icon-btn am-icon-arrow-up am-active" id="amz-go-top"></a> 
+	<a href="javascript:void();" title="自动保存异常提醒" class="am-icon-faq am-icon-btn am-icon-question-circle" id="amz-faq" onclick="alertAutoSaveMsg();"></a>
+</div>
+
+<div class="am-modal am-modal-loading am-modal-no-btn" tabindex="-1" id="my-modal-loading">
+  <div class="am-modal-dialog">
+    <div class="am-modal-hd" id="modalDivTitle"></div>
+    <div class="am-modal-bd">
+      <span class="am-icon-spinner am-icon-spin"></span>
+    </div>
+  </div>
+</div>
+<div class="am-modal am-modal-prompt" tabindex="-1" id="submit-prompt">
+  <div class="am-modal-dialog">
+    <div class="am-modal-hd">交卷</div>
+    <div class="am-modal-bd" id="submit_prompt_msg">
+      	确定要提交吗？
+    </div>
+    <div class="am-modal-footer">
+      <span class="am-modal-btn">取消</span>
+      <span class="am-modal-btn" onclick="javascript:submitPaper();">确定提交</span>
+    </div>
+  </div>
+</div>
+<div class="am-modal am-modal-prompt" tabindex="-1" id="error-prompt">
+  <div class="am-modal-dialog">
+    <div class="am-modal-hd" id="prompt_title">未保存试题</div>
+    <div class="am-modal-bd" id="prompt_msg">
+      
+    </div>
+    <div class="am-modal-footer">
+      <button type="button" class="am-btn am-btn-primary" onclick="handSavePaper();">手动保存</button>
+    </div>
+  </div>
+</div>
+<!--[if lt IE 9]>
+<script src="http://libs.baidu.com/jquery/1.11.1/jquery.min.js"></script>
+<script src="http://cdn.staticfile.org/modernizr/2.8.3/modernizr.js"></script>
+<script src="{{assets}}js/amazeui.ie8polyfill.min.js"></script>
+<![endif]-->
+<!--[if (gte IE 9)|!(IE)]><!-->
+<script type="text/javascript" src="/js/jquery-2.1.4.min.js"></script>
+<!--<![endif]-->
+<script src="/js/amazeui2.7.2/js/amazeui.min.js"></script>
+<script src="/js/map.js"></script>
+<script th:inline="javascript"> 
+/*<![CDATA[*/
+	var deadlineTimeMinute;//parseInt([[${overTimeSecond}]]);
+	var second = 0;
+	var minite = 0;
+	var saveQueueMap = new Map();
+	var InterValObj; 
+	$(document).ready(function() { 
+		showLoading("正在载入试卷内容...","open");
+    	$("#amz-go-top").hide();
+    	$("#amz-faq").hide();
+    	$(window).scroll(function(){
+  		   if ($(window).scrollTop()>400){
+  		    $("#amz-go-top").show();
+  		   }else{
+  			 $("#amz-go-top").hide();
+  		   }
+    	});
+    	if($("#blog-sidebar-div").height() > window.screen.availHeight-170){
+    		$("#blog-sidebar-div").height(window.screen.availHeight-170);
+    	}
+    	
+    	reqExamendTime();
+    	
+	}); 
+	
+	function reqExamendTime(){
+		var examId = [[${examCourse.examId}]];
+		var cid = [[${examCourse.courseId}]];
+	    $.ajax({
+          type: "POST",
+          url: "getOverTimeSecond",
+          data: {
+        	  examId: examId,
+        	  cid : cid
+          },
+          success: function(data){
+        	  if(data.code == 1){
+	        	  deadlineTimeMinute = parseInt(data.data);
+	        	  viewTimeMinSpan();
+	          	  if(deadlineTimeMinute > 0) { 
+		          	 InterValObj = setInterval(decTimeMin, 1000); //间隔函数，1秒执行 
+		          	 $('#my-modal-loading').modal('close');
+		      	  }
+        	  }else{
+        		  alert("数据加载失败，请刷新重试！");
+        	  }
+          }
+        });
+	}
+	function handSavePaper(){
+		saveAnswer('','','');
+		$('#error-prompt').modal('close');
+	}
+	function saveAnswer(quesId, typeCode, optionValue){
+		if(quesId != ""){
+			if(typeCode == "duox"){
+				optionValue = "";
+				$.each($("input[name='duox_" + quesId + "']:checked"),function(){
+					optionValue += $(this).val();
+	            });
+			}
+			var paramTemp = quesId + "#" + typeCode + "#" + optionValue;
+			saveQueueMap.set(quesId, paramTemp);
+			//空选项，清除答题板
+			if(optionValue == ""){
+				$("#board_" + quesId).removeClass("am-badge-success");
+			}
+		}
+		var param = "";
+		var lp = "";
+		saveQueueMap.forEach(function (item, key, mapObj) {
+		    param += lp + item.toString();
+		    lp = ",";
+		});
+		
+		if(param == "") return false;
+		var stuId = [[${session?.ExamStu?.id}]];
+		var courseId = [[${examCourse?.courseId}]];
+		var quesSaveServer = [[${quesSaveServer}]];
+		
+		$.ajax({
+          url: quesSaveServer+"common/saveQues/"+stuId+"/"+courseId,
+          dataType: "jsonp",jsonp: "callback",jsonpCallback:"callback",type: "get",
+          data:{param: param},
+          success: function(json){
+        	  if(json.code == '1'){
+        		  $("#amz-faq").hide();
+        		  $.each(json.data, function(idx, obj) {
+       			 	  //更新题版
+                	  $("#board_" + obj).removeClass("am-badge-success");
+        			  $("#board_" + obj).addClass("am-badge-success");
+        			  saveQueueMap.delete(obj);
+       			  });
+        	  }
+        	 
+          },error: function(XMLHttpRequest, textStatus, errorThrown){
+        	  if(textStatus != "parsererror"){
+        		  $("#amz-faq").show();
+        	  }
+          }
+        });
+	}
+	function setTag(o,qid){}
+	function decTimeMin(){
+		if(deadlineTimeMinute > 0) {
+			deadlineTimeMinute --;
+		}
+		viewTimeMinSpan();
+	}
+	function viewTimeMinSpan(){
+		second = Math.floor(deadlineTimeMinute % 60);        //计算秒     
+    	minite = Math.floor((deadlineTimeMinute / 60));      //计算分
+		var timeMin = "";
+    	
+		if(minite > 0 && second >0){
+			timeMin = minite + "分" + second + "秒";
+    	}else if(minite > 0 && second == 0){
+    		timeMin = minite + "分";
+    	}else if(minite == 0 && second > 0){
+    		timeMin = second + "秒";
+    	}
+		
+    	if(deadlineTimeMinute <= 0){
+    		timeMin = "即将自动提交试卷";
+    		$("#timeMinSpan").html(timeMin);
+	    	autoSubmitPaper();
+	    }else{
+	    	$("#timeMinSpan").html(timeMin);
+	    }
+	}
+	
+	function gotoLocation(qid){
+		$("html,body").animate({scrollTop:$("#question_" + qid).offset().top-100},200);
+	}
+	
+	function alertAutoSaveMsg(){
+		var param = "";
+		var lp = "";
+		//saveQueueMap.forEach(function (item, key, mapObj) {
+		//    param += lp + key;
+		//    lp = ",";
+		//});
+		showModal("error-prompt","自动保存失败提示","请点击以下'手动保存'按扭，保存成功后，错误提示按扭会自动消失！");
+	}
+	function showModal(id, title,msg){
+	   $('#'+id).modal('close');
+	   $("#prompt_title").html(title);
+	   if(msg != "") $("#prompt_msg").html(msg);
+	   $('#'+id).modal(true);
+    }
+	function showSubmitModal(id ,msg){
+	   $('#'+id).modal('close');
+	   $("#submit_prompt_msg").html(msg);
+	   $('#'+id).modal(true);
+    }
+	function showLoading(title,kind){
+	   $('#re-prompt').modal('close');
+	   $("#modalDivTitle").html(title);
+	   $('#my-modal-loading').modal(kind);
+    }
+	function autoSubmitPaper(){
+		clearInterval(InterValObj);
+		$('#submit-prompt').modal('close');
+		setTimeout(autoSubmitPaperDelay,1000);
+	}
+	
+	function autoSubmitPaperDelay(){
+		showLoading("考试时间已到，系统将自动提交您的试卷...","open");
+		setTimeout(submitPaper,1000);
+	}
+	function handSubmitPaper(){
+		showSubmitModal('submit-prompt','确定要提交试卷吗？');
+	}
+	function submitPaper(){
+		clearInterval(InterValObj);
+		showLoading("正在为您提交试卷，请稍候...","open");
+		var param = "";
+		var lp = "";
+		saveQueueMap.forEach(function (item, key, mapObj) {
+		    param += lp + item.toString();
+		    lp = ",";
+		});
+		
+		var stuId = [[${session?.ExamStu?.id}]];
+		var courseId = [[${examCourse?.courseId}]];
+		var quesSaveServer = [[${quesSaveServer}]];
+		var authCode = [[${examCourse?.authCode}]];
+		$.ajax({
+          url: quesSaveServer+"common/submitPaper/"+stuId+"/"+courseId,
+          timeout : 13000, 
+          dataType: "jsonp",jsonp: "callback",jsonpCallback:"callback",type: "get",
+          data:{param: param , authCode: authCode},
+          success: function(json){
+        	  if(json.code == '1'){
+        		  showLoading("试卷已提交成功，页面自动跳转中...","open");
+        		  setTimeout(backPrepare,1500);
+        	  }
+          },error: function(){
+          	  $('#my-modal-loading').modal('close');
+        	  alert("试卷提交失败，有可能是网络原因导致，请稍候重试！");
+          }
+        });
+	}
+	function backPrepare(){
+		window.location = "/prepare";
+	}
+/*]]>*/
+</script>
+</body>
+</html>

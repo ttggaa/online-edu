@@ -1,0 +1,170 @@
+<project name="${projectname}" default="build" basedir=".">
+
+<!--============================================Project Definitions====================================-->
+	<property file="build.properties"/>
+	<property name="app.home"        value="."/>
+	<property name="app.name"        value="${projectname}"/>
+	<property name="javadoc.pkg.top" value="${projectname}" />
+	<property name="src.home"        value="${app.home}/src"/>
+	<property name="lib.home"        value="${app.home}/lib"/>
+	<property name="deploy.home"     value="${builder.path}/${projectname}/release"/>
+	<property name="web.home"        value="${app.home}/WebRoot"/>
+	<property name="WEB-INF/lib"     value="${app.home}/WebRoot/WEB-INF/lib/"/>
+	
+	<property name="svn.username"     value="${svn.username}"/>
+	<property name="svn.password"     value="${svn.password}"/>
+	
+	<property name="build.home"      value="${builder.path}/${projectname}/build"/>
+	<property name="build.classes"   value="${build.home}/WEB-INF/classes"/>
+	<property name="build.lib"       value="${build.home}/WEB-INF/lib"/>
+	
+	<!--=========================================Compilation Classpath=================================-->
+	
+	  <!-- 
+	       This section creates the classpath for compilation.
+	  -->
+	   <path id="compile.classpath">
+	     <!--The object files for this application -->
+		 <pathelement location="${classes.home}"/>
+		 
+		 <!-- The lib files for this application-->
+		 <fileset dir="${WEB-INF/lib}">
+	        <include name="*.jar"/>
+			<include name="*.zip"/>
+		 </fileset>
+		 
+		 <!--All files/jars that Tomcat makes available-->
+		 
+		 <fileset dir="${tomcat.home}/lib">
+		   <include name="*.jar"/>
+		 </fileset>
+		 <pathelement location="${tomcat.home}/common/classes"/>
+	   </path>
+	 <!--=====================================Build Targets below here==================================-->
+	 
+	<!--====================================="help" Target ============================================-->  
+    <!--
+	     This is the default ant target executes if no target is specified.
+		 This helps avoid users just typing 'ant'and running a
+		 default target that may not to what they are anticipating...
+	-->
+	<target name="help">
+		<echo message="Please specify a target! [usage:ant&lt;targetname&gt;]"/>
+		<echo message="Here is a list of possible targets:"/>
+		<echo message="  clean-all....Delete build dir,all.class and war files"/>
+		<echo message="  prepare .....Creates directories if required"/>
+		<echo message="  compile......Compiles source files "/>
+		<echo message="  build........Build war file from .class and other files"/>
+		<echo message="  deploy.......Copy war file to the webapps directory"/>
+		<echo message="  javadoc......Generates javadoc for this application"/>
+	</target>
+	
+		<target name="clean-all" >
+			<delete dir="${build.home}">
+				<exclude name=".svn"/>
+			</delete>
+			
+			<delete dir="${deploy.home}">
+				<exclude name=".svn"/>
+			</delete>
+			
+			<!--can't delete directory if Tomcat is running-->
+			<!-- does not make sense to delete ${webapps.home}-->
+			<!--
+			<delete dir="${webapps.home}/${app.home}" failonerror="false"/>
+			-->
+		</target>
+		
+		
+     <!--=================================="perpare"Target=========================================-->
+	   
+	     <!--
+             This target is executed prior to any of the later targets
+			 to make sure the directories exist.It only creates them
+			 if they need to be created....
+			 Orther,similar,perparation steps can be placed here.		 
+		 -->
+		 
+		<target name="prepare" depends="clean-all">
+		  <echo message="Tomcat Home=${tomcat.home}"/>
+		  <echo message="webapps Home=${webapps.home}"/>		 
+		 
+		  <mkdir dir="${deploy.home}"/>
+		  <mkdir dir="${build.home}"/>
+		  <mkdir dir="${build.home}/WEB-INF"/>
+		  <mkdir dir="${build.home}/WEB-INF/classes"/>
+		  <mkdir dir="${build.home}/WEB-INF/lib"/>
+		</target>
+		
+		
+		
+	<!--==========================================="compile"Target===========================================-->
+	
+		<!--
+			This only compiles java files that aer newer
+			than their corresponding.class files
+		-->	
+		
+		
+	  <target name="compile" depends="prepare" >
+	  	<javac srcdir="${src.home}" destdir="${build.classes}" debug="yes" encoding="utf-8" target="1.7">
+	  		<classpath refid="compile.classpath"/>
+		</javac>
+		<copy    todir="${build.classes}">
+		 	<fileset dir="${src.home}">
+		 		<exclude name="**/*.java"/>
+		 	</fileset>
+		 </copy>
+      </target>	
+	  
+	  
+	  
+	<!--==========================================="build"Target==============================================-->
+	
+		<!--
+			This target builds the war file for the application
+			by first building the directory structure of the 
+			application in ${build.home}and then creating the
+			war file using the ant<war>task
+		-->   
+		
+		<target name="build" depends="compile">
+			<!--Copy all the webapp content(jsp's,html,tld's,xml,etc.)-->
+			<!--Note that this also copies the META-INF directory-->
+	         <copy    todir="${build.home}">
+			 	<fileset dir="${web.home}">
+			 		<exclude name="**/javaee.jar"/>
+			 	</fileset>
+			 </copy>
+	        
+			<tstamp>
+			    <format property="nowstamp" pattern="yyyyMMdd" locale="en"/>
+			</tstamp>
+			<!--Creat the <war> file-->
+			<jar jarfile="${deploy.home}/${app.name}.war"
+			       basedir="${build.home}"/>
+	    </target>
+  <!--======================================================"deploy"Target================================================-->	
+  
+  		<!--
+			This target simply copies the war file from the deploy
+			directory into the Tomcat webapp directory.
+		-->
+		
+		
+		<target name="deploy" depends="build">
+			<delete dir="${webapps.home}/work/Catalina"/>
+			<!--Copy the contents of the build directory-->
+			<delete dir="${webapps.home}/${projectname}"/>
+			<delete dir="${webapps.home}/${projectname}.war"/>
+			<copyfile dest="${webapps.home}/${projectname}.war" src="${deploy.home}/${app.name}.war"/>
+		</target>
+	
+		<target name="production_deploy" depends="build">
+			<delete dir="${webapps.home}/work/Catalina"/>
+			<delete dir="${webapps.home}/${projectname}"/>
+			<delete dir="${webapps.home}/${projectname}.war"/>
+			<copy tofile="${webapps.home}/${projectname}.war" file="${deploy.home}/${app.name}.war"/>
+		</target>
+		
+</project>

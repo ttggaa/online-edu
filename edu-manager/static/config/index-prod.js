@@ -5,7 +5,7 @@
   window.SITE_CONFIG = {};
 
   // api接口请求地址
-  window.SITE_CONFIG['baseUrl'] = 'http://demo.renren.io/renren-fast';
+  window.SITE_CONFIG['baseUrl'] = 'http://10.10.10.208/edu-manager-server';
 
   // cdn地址 = 域名 + 版本号
   window.SITE_CONFIG['domain']  = './'; // 域名

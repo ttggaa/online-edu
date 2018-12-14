@@ -1,0 +1,137 @@
+<!DOCTYPE html>
+<!--[if IE 8]><html class="no-js ie8" xmlns:th="http://www.thymeleaf.org"> <![endif]-->
+<!--[if gt IE 8]><!-->
+<html class="no-js" xmlns:th="http://www.thymeleaf.org">
+<head>
+	<title>考试系统</title>
+	<meta content="${meta-keywords}" name="keywords"/>
+    <meta content="${meta-description}" name="description"/>
+    <meta http-equiv="X-UA-Compatible" content="IE=edge"/>
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, minimum-scale=1.0, maximum-scale=1.0, user-scalable=no"/>
+    <link rel="alternate icon" type="image/ico" href="http://pi6lghe8f.bkt.clouddn.com/favicon.ico"/>
+	<link rel="stylesheet" href="/js/amazeui2.7.2/css/amazeui.min.css"/>
+	<link rel="stylesheet" href="/css/prepareExam.css"/>
+	<script type="text/javascript" src="http://pi6lghe8f.bkt.clouddn.com/jquery-2.1.4.min.js"></script>
+	<script src="/js/exam.js"></script>
+</head>
+<body>
+	<div class="container">
+		<header class="am-topbar am-topbar-fixed-top">
+		  <div class="am-container">
+		    <h1 class="am-topbar-brand" th:text="${session?.ExamStu?.exam?.examName}">
+		    </h1>
+		    <div class="am-collapse am-topbar-collapse" id="collapse-head">
+		      <div class="am-topbar-right">
+		      	<span class="am-topbar-brand">
+			      <a href="#" th:text="${session?.ExamStu?.truename}"></a>
+			    </span>
+		        <button class="am-btn am-btn-primary am-topbar-btn am-btn-sm" onclick="logout();"><span class="am-icon-user"></span> 退出</button>
+		      </div>
+		    </div>
+		  </div>
+		</header>
+		<div class="get">
+		  <div class="am-g">
+		    <div class="am-u-lg-12">
+		      <h1 id="titleTipsH1" class="get-title"><i class="am-icon-spinner am-icon-spin"></i>
+		      	&nbsp;距离考试开始还剩:<span id="remainTime" style="color:#FF9900;min-width: 80px;"></span>
+		      </h1>
+		      <div th:utext="${session?.ExamStu?.exam?.introduce}" style="text-align: left;padding-left:10px;"></div>
+		    </div>
+		  </div>
+		</div>
+		<div class="detail" style="margin-top: 10px;">
+		  <div class="am-g am-container">
+		    <div class="am-u-lg-12">
+		      <div class="am-g">
+		      	<table class="am-table am-table-bordered am-table-striped am-table-hover">
+				    <thead>
+				        <tr>
+				            <th style="text-align: center;">考试科目</th>
+				            <th style="text-align: center;width:140px;">考试时间</th>
+				            <th style="text-align: center;width:140px;">成绩</th>
+				            <th style="width:140px;">&nbsp;</th>
+				        </tr>
+				    </thead>
+				    <tbody>
+				        <tr class="am-active" th:each="examCourse,status : ${examCourseList}">
+				            <td th:text="${examCourse?.courseName}" style="text-align: center;"></td>
+				            <td th:text="${examCourse?.examSumTime}+分钟" style="text-align: center;"></td>
+				            <td th:text="${examCourse?.score}" style="text-align: center;"></td>
+				            <td style="text-align: center;">
+				            	<button id="startBtn" type="button" th:if="${examCourse?.ksBtnFlag=='1'}" class="am-btn am-btn-primary am-round" 
+				            		th:onclick="'javascript:startExam('+${examCourse?.courseId}+');'" style="display: none;">开始考试</button>
+				            </td>
+				        </tr>
+				    </tbody>
+				</table>
+		      </div>
+		    </div>
+		  </div>
+		</div>
+	</div>
+	<form id="paperForm" method="post"></form>
+	<div th:fragment="copyright">
+		<footer class="footer am-navbar am-navbar-default" style="text-align: center;">
+		  <p>由大连领航世纪提供技术支持</p>
+		</footer>
+	</div>
+</body>
+<script th:inline="javascript">
+ history.go(1);
+ var SysSecond = parseInt([[${diffSecond}]]); 
+ var InterValObj; 
+ var examId=[[${session?.ExamStu?.exam?.id}]];
+ $(document).ready(function() { 
+     if(SysSecond > 0) { 
+    	viewRemainTime();
+  	    InterValObj = window.setInterval(SetRemainTime, 1000); //间隔函数，1秒执行 
+     }else{
+    	timeOver();
+     }
+ }); 
+ 
+ //将时间减去1秒，计算天、时、分、秒 
+ function SetRemainTime() { 
+   if (SysSecond > 0) { 
+     SysSecond = SysSecond - 1; 
+     viewRemainTime();
+   }
+ } 
+ 
+ function viewRemainTime(){
+	 var second = Math.floor(SysSecond % 60);             // 计算秒     
+     var minite = Math.floor((SysSecond / 60) % 60);      //计算分 
+     var hour = Math.floor((SysSecond / 3600) % 24);      //计算小时 
+     var day = Math.floor((SysSecond / 3600) / 24);        //计算天 
+     var s = "";
+     if(day != '0') s += day + "天";
+     if(day != '0' || hour != '0') s += hour + "时";
+     if(day != '0' || hour != '0' || minite != '0') s += minite + "分";
+     if(day != '0' || hour != '0' || minite != '0' || second != '0') s += second + "秒";
+     if (SysSecond > 0) { 
+    	 $("#remainTime").html(s); 
+     }else{
+    	 window.clearInterval(InterValObj); 
+    	 $("#titleTipsH1").html("请准备，马上开始考试！");
+    	 setTimeout(timeOver,1500);
+     }
+ }
+ 
+ function timeOver(){
+	$("#titleTipsH1").hide();
+	$("#startBtn").show();
+ }
+ 
+ function startExam(cid){
+	 if(SysSecond > 0) { 
+		alert("考试尚未开始，请稍候..."); 
+	 }else{
+		 var action="paper/" + cid;
+		 $("#paperForm").attr('action',action);
+		 $("#paperForm").submit();
+		 $("#paperForm").attr('action','');
+	 }
+ }
+</script>
+</html>

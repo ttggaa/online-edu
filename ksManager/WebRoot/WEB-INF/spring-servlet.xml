@@ -1,0 +1,134 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<beans xmlns="http://www.springframework.org/schema/beans"
+	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:p="http://www.springframework.org/schema/p"
+	xmlns:context="http://www.springframework.org/schema/context"
+	xmlns:mongo="http://www.springframework.org/schema/data/mongo"
+	xmlns:mvc="http://www.springframework.org/schema/mvc" 
+	xmlns:util="http://www.springframework.org/schema/util"
+	xsi:schemaLocation="http://www.springframework.org/schema/beans 
+        http://www.springframework.org/schema/beans/spring-beans-3.1.xsd 
+        http://www.springframework.org/schema/context 
+        http://www.springframework.org/schema/context/spring-context-3.1.xsd
+        http://www.springframework.org/schema/data/mongo
+        http://www.springframework.org/schema/data/mongo/spring-mongo-1.1.xsd
+        http://www.springframework.org/schema/mvc 
+        http://www.springframework.org/schema/mvc/spring-mvc-3.2.xsd
+		http://www.springframework.org/schema/util
+        http://www.springframework.org/schema/util/spring-util-2.0.xsd">
+
+	<import resource="spring-configuration/propertyFileConfigurer.xml" />
+	<!-- session timeout interceptor -->
+	
+	<mvc:annotation-driven/>
+	<mvc:default-servlet-handler/>
+	<mvc:resources location="/resource/**" mapping="/resource/"/>	
+	<mvc:view-controller path="/" view-name="redirect:login"/> 
+	
+	<context:component-scan base-package="com.education" />
+	<bean class="com.education.framework.listener.InitListener" lazy-init="false"></bean>
+	<mvc:interceptors>
+		<mvc:interceptor>
+			<mvc:mapping path="/**" />
+			<bean class="com.education.framework.interceptor.SessionTimeoutInterceptor" >
+				<property name="allowUrls">  
+			        <list>  
+			          <value>/login</value>  
+			          <value>/sysUser/initLogin</value>  
+			          <value>/sysUser/login</value>  
+			          <value>/sysUser/logout</value>  
+			          <value>/forgetPwd</value>
+			          <value>/forgetPwd/submitForgetPwd</value>
+			          <value>/forgetPwd/userResetPwdSave</value>
+			          <value>/forgetPwd/userResetPwdOver</value>
+			          <value>/rand</value>
+			          <value>/resource</value>  
+			          <value>/html</value> 
+			          <value>/certQuery</value>   
+			          <value>/test/qiniu/testUpload</value>
+			          <value>/openApi/register</value>
+			          <!-- 
+			          <value>/index</value>  
+			          <value>/register</value>  
+			          <value>/register/save</value>  
+			          <value>/buy</value>  
+			          <value>/meal/findMealInfo</value>  
+			          <value>/message/newMessage</value>  
+			          <value>/message/newMessageContent</value>  
+			          <value>/message/newMessageContentBySection</value>  
+			          <value>/index/pxCompany</value>  
+			          <value>/index/helper</value>  
+			          <value>index/business/login</value>  
+			          <value>index/business/mainConsole</value>  
+			          <value>index/business/login</value>  
+			          <value>/study</value>  
+			          <value>/myCourse</value>  
+			          <value>/chinapay/chinaPayBgReturn</value>  
+			          <value>/webInterface/ksClient/Test</value>  
+			          <value>/webInterface/ksClient/ExamLogin</value>  
+			          <value>/webInterface/ksClient/ExamStart</value>  
+			          <value>/webInterface/ksClient/Submit</value>  
+			          <value>/webInterface/ksClient/checkNewVersion</value>  
+			          <value>/webInterface/ksClient/checkMac</value>  
+			          <value>/webInterface/ksClient/checkToken</value>  
+			          <value>/webInterface/ksClient/examPaperLog</value>  
+			          <value>/webInterface/ksClient/examRecord</value>  
+			          <value>/webInterface/ksClient/examRecordJson</value>  
+			          <value>/webInterface/ksClient/examLevelJson</value>  
+			          <value>/webInterface/ksClient/findExamNoLevel</value>  
+			          <value>/webInterface/ksClient/clearExamNoMsg</value>  
+			          <value>/webInterface/ksClient/getOtherModJson</value> 
+			          <value>/recommendOrg/listJson</value>  
+			          <value>/commonQuestion/listJson</value>  
+			          <value>/teachingMaterial/listJson</value>  
+			          <value>/alipay/notifyBack</value>  
+			          <value>/alipay/pageReturn</value>  
+			          <value>/answerRecord/examPaperLogById</value> 
+			           --> 
+			        </list>  
+		     	</property> 
+		    </bean>
+		</mvc:interceptor>
+		
+		<mvc:interceptor>
+			<mvc:mapping path="/**" />
+			<bean class="com.education.framework.interceptor.RequestInterceptor" />
+		</mvc:interceptor>
+	</mvc:interceptors>
+	<bean id="viewResolver"
+		class="org.springframework.web.servlet.view.UrlBasedViewResolver">
+		<property name="viewClass"
+			value="org.springframework.web.servlet.view.JstlView" />
+		<property name="prefix" value="/WEB-INF/jsps/" />
+		<property name="suffix" value=".jsp" />
+	</bean>
+	
+	
+	<!-- 配置 文件上传的支持 -->  
+	<bean id="multipartResolver" class="org.springframework.web.multipart.commons.CommonsMultipartResolver" p:defaultEncoding="utf-8">  
+		<property name="maxUploadSize" value="1024000000"/>  
+		<property name="resolveLazily" value="true"/>  
+		<property name="maxInMemorySize" value="4096"/>  
+	</bean>  
+  
+	<!-- Load messages -->
+	<bean id="messageSource"
+		class="org.springframework.context.support.ResourceBundleMessageSource"
+		p:basenames="messages" />
+	
+	<bean class="org.springframework.web.servlet.mvc.annotation.AnnotationMethodHandlerAdapter">
+	   <property name="messageConverters">
+		  <list>
+		   <bean class="org.springframework.http.converter.json.MappingJacksonHttpMessageConverter" />
+		   <bean class="org.springframework.http.converter.StringHttpMessageConverter">
+				<property name="supportedMediaTypes">
+					<list>
+						<value>text/plain;charset=UTF-8</value>
+					</list>
+				</property>
+			</bean>
+		  </list>
+	   </property>
+	</bean>
+	
+	<!--<import resource="spring-configuration/applicationContext-quartz.xml" /> -->  
+</beans>
