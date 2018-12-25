@@ -60,7 +60,16 @@ public class ExamStu implements Serializable {
     private String examName;//考试活动名称
     private ExamCourse examCourse; 
     private Integer businessId;
+    private String testFlag;
     
+	public String getTestFlag() {
+		return testFlag;
+	}
+
+	public void setTestFlag(String testFlag) {
+		this.testFlag = testFlag;
+	}
+
 	public Integer getBusinessId() {
 		return businessId;
 	}

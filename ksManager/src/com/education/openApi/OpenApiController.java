@@ -10,6 +10,7 @@ import org.springframework.web.bind.annotation.ResponseBody;
 import com.education.beans.ApiResult;
 import com.education.framework.base.BaseController;
 import com.education.framework.constants.ApiConstants;
+import com.education.framework.listener.InitServices;
 import com.education.framework.util.CommonTools;
 
 @Controller
@@ -18,6 +19,8 @@ public class OpenApiController extends BaseController{
 
 	@Autowired
 	private OpenApiServices services;
+	@Autowired
+	private InitServices initServices; 
 	
 	/**
 	 * 注册平台商户
@@ -37,6 +40,7 @@ public class OpenApiController extends BaseController{
 		ApiResult result = new ApiResult();
 		if(CommonTools.isMobileNO(telephone)){
 			RegisterRetBean rrb = services.register(type, name ,telephone, email);
+			initServices.initBusinessCache();
 			result.setMsg(rrb.getMsg());
 			result.setObj(rrb);
 			result.setCode(ApiConstants.RET_SUCCESS);

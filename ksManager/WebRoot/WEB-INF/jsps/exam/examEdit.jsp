@@ -93,11 +93,48 @@
 											</select>
 									   </div> 
 									</div> 
+									<div class="control-group">
+									   <label class="control-label">试卷配置</label> 
+									   <div class="controls"> 
+									      <div style="color: red;margin-bottom: 10px;margin-left: 10px;">*根据考试具体要求自行设定，试卷配置前，需先将对应考试科目"题库"创建完成！</div>
+									      <label class="control-label">题型构成</label>
+									   	  <div class="controls">
+									        <div class="input-prepend input-append">
+												<span class="add-on">单选<input type="hidden" name="pracList[0].typeCode" value="danx"/></span>
+												<input class="m-wrap" type="text" style="width:50px;" size="6" name="pracList[0].count" value="${exam.pracList[0].count}"><span class="add-on">道</span>
+												<input class="m-wrap" type="text" style="width:50px;" size="6" name="pracList[0].score" value="${exam.pracList[0].score}"><span class="add-on">分</span>
+										    </div>
+										  </div>
+										  <div class="controls">
+											<div class="input-prepend input-append">
+												<span class="add-on">多选<input type="hidden" name="pracList[1].typeCode" value="duox"/></span>
+												<input class="m-wrap" type="text" style="width:50px;" size="6" name="pracList[1].count" value="${exam.pracList[1].count}"><span class="add-on">道</span>
+												<input class="m-wrap" type="text" style="width:50px;" size="6" name="pracList[1].score" value="${exam.pracList[1].score}"><span class="add-on">分</span>
+											</div>
+										  </div>
+										  <div class="controls">
+											<div class="input-prepend input-append">
+												<span class="add-on">判断<input type="hidden" name="pracList[2].typeCode" value="pand"/></span>
+												<input class="m-wrap" type="text" style="width:50px;" size="6" name="pracList[2].count" value="${exam.pracList[2].count}"><span class="add-on">道</span>
+												<input class="m-wrap" type="text" style="width:50px;" size="6" name="pracList[2].score" value="${exam.pracList[2].score}"><span class="add-on">分</span>
+											</div>
+										  </div>
+										  
+										  <label class="control-label">及格分数线</label>
+										  <div class="controls" style="margin-top: 10px;"> 
+										        <input name="passScore" class="span2 m-wrap required number" type="text" value="${exam.passScore}"> 
+										  </div> 
+										  <label class="control-label" title="系统随机生成指定数量的试卷，考生同样以随机方式获取试卷">试卷生成套数</label>
+										  <div class="controls" style="margin-top: 10px;"> 
+										        <input name="paperBuildCount" class="span2 m-wrap required number" type="text" value="${exam.paperBuildCount}"> 
+										  </div> 
+										  <label class="control-label">试卷构成</label>
+										  <div class="controls" style="margin-top: 10px;"> 
+										        总题数：* 题 ， 总分：*分
+										  </div> 
+									   </div> 
+									</div> 
 									<div class="form-actions clearfix">
-										<button class="btn blue" type="button" onclick="cachePaper();"><i class="icon-ok"></i>缓存试卷</button>
-										&nbsp;&nbsp;
-										<button class="btn blue" type="button" onclick="cacheRemovePaper();"><i class="icon-ok"></i>清除缓存试卷</button>
-										&nbsp;&nbsp;
 										<button class="btn blue" type="submit"><i class="icon-ok"></i>完成</button>
 										&nbsp;&nbsp;
 										<a class="btn" onclick="cancle();">取消</a>

@@ -64,8 +64,8 @@ public class TkExaminationController extends BaseController{
 	public String createForm(TkExamination tkExamination,Model model) {
 		model.addAttribute("typeList",typeServices.find());
 		model.addAttribute("courseList",resCourseServices.find());
-		model.addAttribute("difficultyList",DictionaryUtil.getSysDictionaryList(DictionaryConstants.difficulty));
-		model.addAttribute("quesSourceList",quesSourceServices.find());
+//		model.addAttribute("difficultyList",DictionaryUtil.getSysDictionaryList(DictionaryConstants.difficulty));
+//		model.addAttribute("quesSourceList",quesSourceServices.find());
 		model.addAttribute("action","create");
 		tkExamination.setAuditState("1");
 		model.addAttribute("tkExamination", tkExamination);
@@ -83,8 +83,7 @@ public class TkExaminationController extends BaseController{
 		services.updateQuesSumCountByCid(tkExamination.getCourseId());
 		redirectAttributes.addFlashAttribute("MESSAGE", "SUCCESS");
 		return "redirect:/tkExamination/create?courseId=" + tkExamination.getCourseId() + "&typeCode=" 
-			+ tkExamination.getTypeCode()+"&accountCode=" + tkExamination.getAccountCode()
-			+ "&defaultPoint=" + tkExamination.getDefaultPoint() + "&difficulty="+tkExamination.getDifficulty()+"&sourceId=" + tkExamination.getSourceId()+"&knowledgePoint=" + tkExamination.getKnowledgePoint();
+			+ tkExamination.getTypeCode();
 	}
 
 	@RequestMapping(value = "update/{id}", method = RequestMethod.GET)

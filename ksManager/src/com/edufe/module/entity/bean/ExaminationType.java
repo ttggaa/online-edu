@@ -3,7 +3,7 @@ package com.edufe.module.entity.bean;
 import java.io.Serializable;
 import java.util.List;
 
-import com.edufe.module.entity.PaperExamination;
+import com.edufe.module.entity.PaperExaminationOld;
 import com.edufe.module.entity.Type;
 
 /* 
@@ -14,7 +14,7 @@ public class ExaminationType implements Serializable {
 
 	private static final long serialVersionUID = 2L;
 	private Type type ;
-	private List<PaperExamination> paperExaminationList = null;
+	private List<PaperExaminationOld> paperExaminationList = null;
 	private Integer quesCount; //共多少题
 	private String score;//题型分值
 	
@@ -36,10 +36,10 @@ public class ExaminationType implements Serializable {
 	public void setType(Type type) {
 		this.type = type;
 	}
-	public List<PaperExamination> getPaperExaminationList() {
+	public List<PaperExaminationOld> getPaperExaminationList() {
 		return paperExaminationList;
 	}
-	public void setPaperExaminationList(List<PaperExamination> paperExaminationList) {
+	public void setPaperExaminationList(List<PaperExaminationOld> paperExaminationList) {
 		this.paperExaminationList = paperExaminationList;
 	}
 	

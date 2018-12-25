@@ -24,7 +24,11 @@ public class OpenApiServices extends BaseServices{
 			return rrb;
 		}else{
 			//查询可用的DOMAIN
-			String domain = dao.queryForObject("select domain from grant_business_domain where state='0' limit 1 for update", String.class);
+			String domain = "";
+			try{
+				domain = dao.queryForObject("select domain from grant_business_domain where state='0' limit 1 for update", String.class);
+			}catch(Exception ex){
+			}
 			dao.update("update grant_business_domain set state='1',update_time=now() where domain=?", new Object[]{domain});
 			if(null != domain && !"".equals(domain)){
 				//初使化商户
@@ -66,6 +70,7 @@ public class OpenApiServices extends BaseServices{
 					}
 				}
 			}
+			
 		}
 		return rrb;
 	}

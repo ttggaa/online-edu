@@ -37,8 +37,8 @@ public class ExamStuServices extends BaseServices implements IDao<ExamStu>{
 	@Override
 	public List<ExamStu> find(SearchParams searchParams, Page page) {
 		StringBuffer sql = new StringBuffer();
-		sql.append("SELECT es.id,idcard,identitycode,truename,es.exam_id,exam_siteid,exam_sitename,exam_roomid,exam_roomname,loginip,login_time,seatnum,es.create_time,es.create_user,photo ");
-		sql.append(",ec.course_id,rc.course_name,ec.score,DATE_FORMAT(ec.submit_time,'%Y-%m-%d %H:%i:%s') submit_time,ec.submit_flag,ec.right_count,ec.wrong_count, e.exam_name FROM exam_stu es ");
+		sql.append("SELECT es.id,idcard,identitycode,truename,es.exam_id,exam_siteid,exam_sitename,exam_roomid,exam_roomname,loginip,login_time,seatnum,es.create_time,es.create_user,photo,test_flag ");
+		sql.append(",ec.course_id,rc.course_name,ec.score,DATE_FORMAT(ec.submit_time,'%Y-%m-%d %H:%i:%s') submit_time,ec.submit_flag,ec.right_count,ec.wrong_count,ec.end_time, e.exam_name FROM exam_stu es ");
 		sql.append("inner join exam e on e.id=es.exam_id ");
 		sql.append("inner join exam_course ec on ec.stu_id=es.id and ec.exam_id=e.id ");
 		sql.append("inner join res_course rc on rc.id=ec.course_id ");
@@ -87,12 +87,13 @@ public class ExamStuServices extends BaseServices implements IDao<ExamStu>{
 				obj.setPhoto(rs.getString("photo")); 
 				obj.setSeatnum(rs.getString("seatnum")); 
 				obj.setTruename(rs.getString("truename")); 
-				
+				obj.setTestFlag(rs.getString("test_flag"));
 				obj.setExamName(rs.getString("exam_name"));
 				ExamCourse examCourse = new ExamCourse();
 				examCourse.setCourseId(rs.getInt("course_id"));
 				examCourse.setCourseName(rs.getString("course_name"));
 				examCourse.setSubmitFlag(rs.getString("submit_flag"));
+				examCourse.setEndTime(rs.getString("end_time"));
 				if("1".equals(examCourse.getSubmitFlag())){
 					examCourse.setSubmitTime(rs.getString("submit_time"));
 					examCourse.setScore(rs.getString("score"));
@@ -108,7 +109,7 @@ public class ExamStuServices extends BaseServices implements IDao<ExamStu>{
 	
 	public List<ExamStu> find() {
 		StringBuffer sql = new StringBuffer();
-		sql.append("SELECT id,idcard,identitycode,truename,exam_id,exam_siteid,exam_sitename,exam_roomid,exam_roomname,loginip,login_time,seatnum,create_time,create_user,photo FROM exam_stu");
+		sql.append("SELECT id,idcard,identitycode,truename,exam_id,exam_siteid,exam_sitename,exam_roomid,exam_roomname,loginip,login_time,seatnum,create_time,create_user,photo,test_flag FROM exam_stu");
 		
 		List<ExamStu> list = dao.query(sql.toString(),new ExamStuRowmapper());
 		return list;
@@ -117,15 +118,16 @@ public class ExamStuServices extends BaseServices implements IDao<ExamStu>{
 	@Override
 	public int save(ExamStu obj) {
 		 SysUser user = SessionHelper.getInstance().getUser();
+		 if(null == obj.getTestFlag() || "".equals(obj.getTestFlag())) obj.setTestFlag("0");
 		 StringBuffer sql = new StringBuffer(); 
 		 sql.append("insert into exam_stu ( "); 
 		 sql.append("idcard,identitycode,truename,exam_id,exam_siteid "); 
 		 sql.append(",exam_sitename,exam_roomid,exam_roomname,loginip,login_time "); 
-		 sql.append(",seatnum,create_time,create_user,photo,business_id ");  
-		 sql.append(" ) values(?,?,?,?,?,  ?,?,?,?,?,  ?,now(),?,?,?) "); 
+		 sql.append(",seatnum,create_time,create_user,photo,business_id,test_flag ");  
+		 sql.append(" ) values(?,?,?,?,?,  ?,?,?,?,?,  ?,now(),?,?,?,?) "); 
 		 Object[] args = {obj.getIdcard(),obj.getIdentitycode(),obj.getTruename(),obj.getExamId(),obj.getExamSiteid() 
 		 ,obj.getExamSitename(),obj.getExamRoomid(),obj.getExamRoomname(),obj.getLoginip(),obj.getLoginTime()
-		 ,obj.getSeatnum() ,user.getId(),obj.getPhoto(), SessionHelper.getInstance().getUser().getBusinessId() };
+		 ,obj.getSeatnum() ,user.getId(),obj.getPhoto(), SessionHelper.getInstance().getUser().getBusinessId(),obj.getTestFlag() };
 		 
 		dao.update(sql.toString(), args);
 		int stuId = dao.queryForInt("SELECT LAST_INSERT_ID()"); 
@@ -143,7 +145,7 @@ public class ExamStuServices extends BaseServices implements IDao<ExamStu>{
 	@Override
 	public ExamStu findForObject(Integer id) {
 		StringBuffer sql = new StringBuffer();
-		sql.append("SELECT id,idcard,identitycode,truename,exam_id,exam_siteid,exam_sitename,exam_roomid,exam_roomname,loginip,login_time,seatnum,create_time,create_user,photo FROM exam_stu ");
+		sql.append("SELECT id,idcard,identitycode,truename,exam_id,exam_siteid,exam_sitename,exam_roomid,exam_roomname,loginip,login_time,seatnum,create_time,create_user,photo,test_flag FROM exam_stu ");
 		sql.append(" where id=? and business_id=?");
 		
 		Object[] args = {id, SessionHelper.getInstance().getUser().getBusinessId()};
@@ -159,7 +161,7 @@ public class ExamStuServices extends BaseServices implements IDao<ExamStu>{
 		 sql.append(",exam_sitename=?,exam_roomid=?,exam_roomname=?,loginip=?,login_time=? "); 
 		 sql.append(",seatnum=?,photo=? where id=? and business_id=?"); 
 		 Object[] args = {obj.getIdcard(),obj.getIdentitycode(),obj.getTruename(),obj.getExamId(),obj.getExamSiteid(),obj.getExamSitename() 
-		 ,obj.getExamRoomid(),obj.getExamRoomname(),obj.getLoginip(),obj.getLoginTime(),obj.getSeatnum(),obj.getPhoto() 
+		 ,obj.getExamRoomid(),obj.getExamRoomname(),obj.getLoginip(),obj.getLoginTime(),obj.getSeatnum(),obj.getPhoto()
 		 ,obj.getId(),SessionHelper.getInstance().getUser().getBusinessId()};
 		 dao.update(sql.toString(), args);
 	}
@@ -195,7 +197,7 @@ public class ExamStuServices extends BaseServices implements IDao<ExamStu>{
 			obj.setPhoto(rs.getString("photo")); 
 			obj.setSeatnum(rs.getString("seatnum")); 
 			obj.setTruename(rs.getString("truename")); 
-
+			obj.setTestFlag(rs.getString("test_flag"));
 			return obj;
 		}
 	}
@@ -248,8 +250,8 @@ public class ExamStuServices extends BaseServices implements IDao<ExamStu>{
 		 SysUser user = SessionHelper.getInstance().getUser();
 		 StringBuffer sql = new StringBuffer(); 
 		 sql.append("insert into exam_stu ( "); 
-		 sql.append("idcard,identitycode,truename,exam_id,photo,create_time,create_user,business_id ");  
-		 sql.append(" ) values(?,?,?,?,?,now(),?,?) "); 
+		 sql.append("idcard,identitycode,truename,exam_id,photo,create_time,create_user,business_id,test_flag ");  
+		 sql.append(" ) values(?,?,?,?,?,now(),?,?,'0') "); //导入人员均为正式考生
 		 for(ExamStu es : slist){
 			 dao.update(sql.toString(), new Object[]{es.getIdcard(),es.getIdentitycode(),es.getTruename(), examId, es.getPhoto(), user.getId(),exam.getBusinessId()});
 			 //插入考试科目关系表数据

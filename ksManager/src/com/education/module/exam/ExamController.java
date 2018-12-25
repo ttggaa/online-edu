@@ -16,11 +16,10 @@ import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 
 import com.education.beans.ApiResult;
 import com.education.domain.Exam;
-import com.education.domain.ResCourse;
 import com.education.framework.base.BaseController;
 import com.education.framework.domain.SearchParams;
 import com.education.framework.page.Page;
-import com.education.framework.util.PinyinConv;
+import com.education.module.paper.PaperServices;
 import com.education.module.resCourse.ResCourseServices;
 
 @Controller
@@ -31,6 +30,8 @@ public class ExamController extends BaseController{
 	private ExamServices services;
 	@Autowired
 	private ResCourseServices resCourseServices;
+	@Autowired
+	private PaperServices paperServices;
 	
 	@RequestMapping(value = "")
 	public String list(Model model, SearchParams searchParams,Page page,ServletRequest request){
@@ -43,6 +44,10 @@ public class ExamController extends BaseController{
 	
 	@RequestMapping(value = "create", method = RequestMethod.GET)
 	public String createForm(Model model) {
+		Exam exam = new Exam();
+		exam.setPaperBuildCount(5);
+		exam.setPassScore(60);
+		model.addAttribute("exam", exam);
 		model.addAttribute("courseList",resCourseServices.find());
 		model.addAttribute("action","create");
 		return "/exam/examEdit";
@@ -50,7 +55,10 @@ public class ExamController extends BaseController{
 
 	@RequestMapping(value = "create", method = RequestMethod.POST)
 	public String create(Exam exam, Model model,RedirectAttributes redirectAttributes) {
-		services.save(exam);
+		int id = services.save(exam);
+		exam.setId(id);
+		//生成缓存试卷
+		boolean r = paperServices.buildExamCachePaper(exam);
 		redirectAttributes.addFlashAttribute(MESSAGE, MESSAGE_SAVE_SUCCESS);
 		redirectAttributes.addFlashAttribute(MESSAGE_STATE, "alert-success");
 		return "redirect:/exam";
@@ -59,6 +67,7 @@ public class ExamController extends BaseController{
 	@RequestMapping(value = "update/{id}", method = RequestMethod.GET)
 	public String updateForm(@PathVariable("id") Integer id, Model model) {
 		Exam exam = services.findForObject(id);
+		exam.setPracList(services.convertPracConfList(exam.getPracConf()));
 		model.addAttribute("exam", exam);
 		model.addAttribute("courseList",resCourseServices.fillSelCourse(resCourseServices.find(), exam.getSelCourseArr()));
 		model.addAttribute("action", "update");
@@ -68,6 +77,8 @@ public class ExamController extends BaseController{
 	@RequestMapping(value = "update", method = RequestMethod.POST)
 	public String update(Exam exam, RedirectAttributes redirectAttributes) {
 		services.update(exam);
+		//生成缓存试卷
+		boolean r = paperServices.buildExamCachePaper(exam);
 		redirectAttributes.addFlashAttribute(MESSAGE, MESSAGE_UPDATE_SUCCESS);
 		redirectAttributes.addFlashAttribute(MESSAGE_STATE, "alert-success");
 		return "redirect:/exam";

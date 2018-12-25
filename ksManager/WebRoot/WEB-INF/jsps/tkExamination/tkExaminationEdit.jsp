@@ -77,6 +77,7 @@
 									   		</select>
 									   </div> 
 									</div>
+									<!-- 
 									<div class="control-group"> 
 									   <label class="control-label"> 
 									       知识点
@@ -84,10 +85,10 @@
 									   <div class="controls"> 
 									       <input id="knowledgePoint" name="knowledgePoint" class="span2 m-wrap" type="text" value="${tkExamination.knowledgePoint}" /> 
 									   </div> 
-									</div>
+									</div> -->
 									<div class="control-group"> 
 									   <label class="control-label"> 
-									       试题类型<span class="required">*</span> 
+									       题型<span class="required">*</span> 
 									   </label> 
 									   <div class="controls"> 
 									       <select id="typeCode" name="typeCode" class="span6 m-wrap required">
@@ -98,6 +99,7 @@
 									   		</select>
 									   </div> 
 									</div> 
+									<!-- 
 									<div class="control-group" id="accountDiv" style="display: none;"> 
 									   <label class="control-label"> 
 									      	实操账套<span class="required">*</span> 
@@ -107,7 +109,7 @@
 										   		<dict:selectOption field="account" selCode="${tkExamination.accountCode}" empty="true"/>
 									   		</select>
 									   </div> 
-									</div>  
+									</div>   -->
 									<div class="control-group"> 
 									   <label class="control-label"> 
 									       试题内容<span class="required">*</span>
@@ -213,14 +215,9 @@
 									       <div class="btn-group">
 									       		<a href="javascript:void();" onclick="setAnswer('错误','pand');" class="btn mini">错误</a>
 									       </div>
-									       <div class="btn-group">
-									       		<a href="javascript:void();" onclick="buildAlAnswer();" class="btn mini">案例</a>
-									       </div>
-									       <div class="btn-group">
-									       		<a href="javascript:void();" onclick="buildJfAnswer();" class="btn mini">计算分析</a>
-									       </div>
 									   </div>  
 									</div> 
+									<!-- 
 									<div class="control-group" style="display: none;"> 
 									   <label class="control-label social-icons "> 
 									       试题解析描述
@@ -242,7 +239,7 @@
 												</div>
 											</div>
 									   </div> 
-									</div> 
+									</div>  
 									<div class="control-group"> 
 									   <label class="control-label"> 
 									       分数<span class="required">*</span> 
@@ -276,7 +273,7 @@
 										   		</c:forEach>
 									   		</select> 
 									   </div> 
-									</div> 
+									</div>  -->
 									<!--  
 									<div class="control-group"> 
 									   <label class="control-label"> 
@@ -286,7 +283,7 @@
 									       <script id="editor" name="examinationContentHtml" type="text/plain" style="width:100%;height:200px;">${tkExamination.examinationContentHtml}</script>
 									   </div> 
 									</div>
-									-->
+									
 									<div class="control-group"> 
 									   <label class="control-label"> 
 									       审核状态
@@ -296,7 +293,7 @@
 									       		<dict:selectOption field="auditState" selCode="${tkExamination.auditState}" empty="false"/>
 									   		</select> 
 									   </div> 
-									</div> 
+									</div> -->
 									<div class="form-actions clearfix">
 										
 										<a class="btn blue" onclick="submit();" href="javascript:void();"><i class="icon-ok"></i>完成</a>

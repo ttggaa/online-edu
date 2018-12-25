@@ -7,15 +7,19 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
+import javax.annotation.Resource;
+
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.jdbc.core.RowMapper;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
+import com.education.domain.Exam;
 import com.education.domain.Paper;
 import com.education.domain.PaperExamination;
 import com.education.domain.PracmainSub;
 import com.education.domain.ResCourse;
+import com.education.domain.extend.ExamPracBean;
 import com.education.framework.application.ApplicationHelper;
 import com.education.framework.base.BaseServices;
 import com.education.framework.baseModule.domain.SysUser;
@@ -31,12 +35,13 @@ import com.education.module.paper.bean.TPaper;
 import com.education.module.paper.bean.TQuestion;
 import com.education.module.paper.bean.TQuestionBoard;
 import com.education.module.paperExamination.PaperExaminationServices;
+import com.edufe.module.entity.PaperExaminationCacheBean;
 
 @Service
 @Transactional
 public class PaperServices extends BaseServices implements IDao<Paper>{
 
-	//@Resource(name="cacheManager")
+	@Resource(name="cacheManager")
 	private CacheManager cache;
 	@Autowired
 	private PaperExaminationServices paperExaminationServices;
@@ -942,5 +947,57 @@ public class PaperServices extends BaseServices implements IDao<Paper>{
 		
 		tPaper.setQmap(qmap);
 		return tPaper;
+	}
+
+	/**
+	 * 生成考试试卷，并放入缓存
+	 * @param exam
+	 * @return
+	 */
+	public boolean buildExamCachePaper(Exam exam) {
+		if(null == exam) return false;
+		if(null == exam.getPracList()) return false;
+		if(null == exam.getSelCourseArr()) return false;
+		
+		for(String cid : exam.getSelCourseArr()){
+			buildExamCoursePaper(cid, exam.getPracList(), exam.getPaperBuildCount());
+		}
+		return true;
+	}
+
+	private boolean buildExamCoursePaper(String cid, List<ExamPracBean> pracList, Integer paperBuildCount) {
+		StringBuffer sql = new StringBuffer(); 
+		sql.append("SELECT id,type_code,examination_content,option_a,option_b,option_c,option_d,option_e,option_f,answer ");
+		sql.append("FROM tk_examination where course_id=? and type_code=? ORDER BY RAND() limit 0,?");	
+		for(int i=0;i<paperBuildCount;i++){
+			List<PaperExaminationCacheBean> listAll = new ArrayList<PaperExaminationCacheBean>();
+			for(ExamPracBean prac : pracList){
+				if(null != prac.getCount() && !"".equals(prac.getCount())){
+					Object[] args = {cid, prac.getTypeCode(), Integer.parseInt(prac.getCount())};
+				
+					List<PaperExaminationCacheBean> list = dao.query(sql.toString(), args, new RowMapper<PaperExaminationCacheBean>() {
+						@Override
+						public PaperExaminationCacheBean mapRow(ResultSet rs, int arg1) throws SQLException {
+							PaperExaminationCacheBean bean = new PaperExaminationCacheBean();
+							bean.setId(rs.getInt("id"));
+							bean.setTypeCode(rs.getString("type_code"));
+							bean.setExaminationContent(rs.getString("examination_content"));
+							bean.setOptionA(rs.getString("option_a"));
+							bean.setOptionB(rs.getString("option_b"));
+							bean.setOptionC(rs.getString("option_c"));
+							bean.setOptionD(rs.getString("option_d"));
+							bean.setOptionE(rs.getString("option_e"));
+							bean.setOptionF(rs.getString("option_f"));
+							bean.setAnswer(rs.getString("answer"));
+							return bean;
+						}
+					});
+					listAll.addAll(list);
+				}
+			}
+			
+			cache.setPaperExaminationList(cid,i, listAll);
+		}
+		return true;
 	}
 }

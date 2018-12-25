@@ -69,7 +69,6 @@
 											<tr>
 												<th style="width:40px;">序号</th>
 												<th>考试科目名称</th> 
-												<th>代码</th> 
 												<th>单场考试时长(分钟)</th> 
 												<th style="width:130px;">操作</th>
 											</tr>
@@ -79,7 +78,6 @@
 												<tr class="odd gradeX">
 													<td>${status.index+1 }</td>
 													<td>${list.courseName }</td> 
-													<td>${list.courseCode }</td> 
 													<td>${list.examSumTime }</td>
 													<td>
 														<a href="${basePath}resCourse/update/${list.id}" class="btn mini purple"><i class="icon-edit"></i> 修改</a>

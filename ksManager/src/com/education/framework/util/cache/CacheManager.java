@@ -11,6 +11,7 @@ import com.education.framework.baseModule.domain.SysDictionary;
 import com.education.framework.util.cache.redis.JedisClient;
 import com.edufe.module.entity.CacheBusiness;
 import com.edufe.module.entity.ExamCourse;
+import com.edufe.module.entity.PaperExaminationCacheBean;
 
 @Component
 public class CacheManager implements Serializable {
@@ -89,5 +90,15 @@ public class CacheManager implements Serializable {
 		String cacheKey = "busin_" + url;
 		jedis.delObject(cacheKey);
 		return true;
+	}
+
+	public void removePaperExaminationList(String cid, int index) {
+		String cacheKey = "paper_ques_" + cid + "_" + index;
+		jedis.delObject(cacheKey);
+	}
+
+	public void setPaperExaminationList(String cid, int index, List<PaperExaminationCacheBean> list) {
+		String cacheKey = "paper_ques_" + cid + "_" + index;
+		jedis.setObject(cacheKey, list, 0);
 	}
 }

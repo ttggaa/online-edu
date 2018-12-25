@@ -70,6 +70,19 @@
 									       <input name="truename" class="span6 m-wrap required" type="text" value="${examStu.truename}"> 
 									   </div> 
 									</div> 
+									<c:if test="${action == 'create'}">
+										<div class="control-group"> 
+										   <label class="control-label"> 
+										      类型 
+										   </label> 
+										   <div class="controls"> 
+										       <label class="checkbox">
+												  <input type="checkbox" value="1" name="testFlag"/> 是否为测试考生（测试考生不占用“可用考生人数”）
+											   </label>  
+										   </div> 
+										</div> 
+									</c:if>
+									<!-- 
 									<div class="control-group"> 
 									   <label class="control-label"> 
 									       身份证号
@@ -78,6 +91,7 @@
 									       <input name="identitycode" class="span6 m-wrap" type="text" value="${examStu.identitycode}"> 
 									   </div> 
 									</div>
+									
 									<div class="control-group"> 
 									   <label class="control-label"> 
 									       考生照片
@@ -86,7 +100,7 @@
 									       <input name="photo" class="span6 m-wrap" type="text" value="${examStu.photo}"> 
 									   </div> 
 									</div> 
-									<!-- 
+									
 									<div class="control-group"> 
 									   <label class="control-label"> 
 									       exam_siteid<span class="required">*</span> 

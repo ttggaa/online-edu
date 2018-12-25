@@ -10,6 +10,7 @@ import org.springframework.jdbc.core.RowMapper;
 import org.springframework.stereotype.Service;
 
 import com.education.domain.Exam;
+import com.education.domain.extend.ExamPracBean;
 import com.education.framework.application.ApplicationHelper;
 import com.education.framework.base.BaseServices;
 import com.education.framework.baseModule.domain.SysUser;
@@ -20,9 +21,12 @@ import com.education.framework.session.SessionHelper;
 import com.education.framework.util.GUID;
 import com.education.framework.util.cache.CacheManager;
 import com.education.framework.util.calendar.CalendarUtil;
-import com.edufe.module.entity.PaperExamination;
+import com.edufe.module.entity.PaperExaminationOld;
 import com.edufe.module.entity.Type;
 import com.edufe.module.entity.bean.ExaminationType;
+
+import net.sf.json.JSONArray;
+import net.sf.json.JSONObject;
 
 @Service
 public class ExamServices extends BaseServices implements IDao<Exam>{
@@ -33,7 +37,7 @@ public class ExamServices extends BaseServices implements IDao<Exam>{
 	@Override
 	public List<Exam> find(SearchParams searchParams, Page page) {
 		StringBuffer sql = new StringBuffer();
-		sql.append("SELECT id,exam_name,exam_begintime,exam_endtime,create_time,create_user,getExamUserCount(id) examUserCount,introduce,course_conf,business_id FROM exam");
+		sql.append("SELECT id,exam_name,exam_begintime,exam_endtime,create_time,create_user,getExamUserCount(id) examUserCount,introduce,course_conf,business_id,prac_conf, paper_build_count,pass_score FROM exam");
 		String lp = " where ";
 		List<Object> argsList = new ArrayList<Object>();
 		if(null != searchParams){
@@ -55,7 +59,7 @@ public class ExamServices extends BaseServices implements IDao<Exam>{
 	
 	public List<Exam> find() {
 		StringBuffer sql = new StringBuffer();
-		sql.append("SELECT id,exam_name,exam_begintime,exam_endtime,create_time,create_user,getExamUserCount(id) examUserCount,introduce,course_conf,business_id FROM exam ");
+		sql.append("SELECT id,exam_name,exam_begintime,exam_endtime,create_time,create_user,getExamUserCount(id) examUserCount,introduce,course_conf,business_id,prac_conf, paper_build_count,pass_score FROM exam ");
 		sql.append("where business_id=?");
 		List<Exam> list = dao.query(sql.toString(),new Object[]{SessionHelper.getInstance().getUser().getBusinessId()},new ExamRowmapper());
 		return list;
@@ -63,7 +67,7 @@ public class ExamServices extends BaseServices implements IDao<Exam>{
 	
 	public List<Exam> findAll() {
 		StringBuffer sql = new StringBuffer();
-		sql.append("SELECT id,exam_name,exam_begintime,exam_endtime,create_time,create_user,getExamUserCount(id) examUserCount,introduce,course_conf,business_id FROM exam");
+		sql.append("SELECT id,exam_name,exam_begintime,exam_endtime,create_time,create_user,getExamUserCount(id) examUserCount,introduce,course_conf,business_id,prac_conf, paper_build_count,pass_score FROM exam");
 		
 		List<Exam> list = dao.query(sql.toString(),new ExamRowmapper());
 		return list;
@@ -79,17 +83,19 @@ public class ExamServices extends BaseServices implements IDao<Exam>{
 				 lp = ",";
 			 }
 		 }
-
+		 String pracConf = convertPracConf(obj.getPracList());
 		 SysUser sessionUser = SessionHelper.getInstance().getUser();
 		 StringBuffer sql = new StringBuffer(); 
 		 sql.append("insert into exam ( "); 
-		 sql.append("exam_name,exam_begintime,exam_endtime,create_time,create_user,introduce,business_id,course_conf ");  
-		 sql.append(" ) values(?,?,?,now(),?,?,?,?) "); 
+		 sql.append("exam_name,exam_begintime,exam_endtime,create_time,create_user,introduce,business_id,course_conf,prac_conf, paper_build_count,pass_score ");  
+		 sql.append(" ) values(?,?,?,now(),?,?,?,?,?,?,?) "); 
 		 String beginTime = obj.getExamBegintime();
 		 String endTime = obj.getExamEndtime();
 		 if(obj.getExamBegintime().length() == 16) beginTime = obj.getExamBegintime() + ":00";
 		 if(obj.getExamEndtime().length() == 16) endTime = obj.getExamEndtime() + ":00";
-		 Object[] args = {obj.getExamName(),beginTime,endTime,sessionUser.getId(),obj.getIntroduce(),SessionHelper.getInstance().getUser().getBusinessId(), courseConf};
+		 Object[] args = {obj.getExamName(),beginTime,endTime,sessionUser.getId()
+				 ,obj.getIntroduce(),SessionHelper.getInstance().getUser().getBusinessId(), 
+				 courseConf,pracConf, obj.getPaperBuildCount(), obj.getPassScore()};
 		 
 		 dao.update(sql.toString(), args);
 		 return dao.queryForInt("SELECT LAST_INSERT_ID()"); 
@@ -98,7 +104,7 @@ public class ExamServices extends BaseServices implements IDao<Exam>{
 	@Override
 	public Exam findForObject(Integer id) {
 		StringBuffer sql = new StringBuffer();
-		sql.append("SELECT id,exam_name,exam_begintime,exam_endtime,create_time,create_user,getExamUserCount(id) examUserCount,introduce,course_conf,business_id FROM exam ");
+		sql.append("SELECT id,exam_name,exam_begintime,exam_endtime,create_time,create_user,getExamUserCount(id) examUserCount,introduce,course_conf,business_id,prac_conf, paper_build_count,pass_score FROM exam ");
 		sql.append(" where id=? ");
 		Object[] args = {id};
 		return dao.queryForObject(sql.toString(),args,new ExamRowmapper());
@@ -114,6 +120,8 @@ public class ExamServices extends BaseServices implements IDao<Exam>{
 				 lp = ",";
 			 }
 		 }
+		 
+		 String pracConf = convertPracConf(obj.getPracList());
 		 String beginTime = obj.getExamBegintime();
 		 String endTime = obj.getExamEndtime();
 		 if(obj.getExamBegintime().length() == 16) beginTime = obj.getExamBegintime() + ":00";
@@ -122,9 +130,27 @@ public class ExamServices extends BaseServices implements IDao<Exam>{
 		 StringBuffer sql = new StringBuffer(); 
 		 sql.append("update exam "); 
 		 sql.append("set  "); 
-		 sql.append("exam_name=?,exam_begintime=?,exam_endtime=?,introduce=?,course_conf=? where id=?"); 
-		 Object[] args = {obj.getExamName(),beginTime,endTime,obj.getIntroduce(),courseConf,obj.getId() };
+		 sql.append("exam_name=?,exam_begintime=?,exam_endtime=?,introduce=?,course_conf=? ,prac_conf=?, paper_build_count=?,pass_score=? where id=?"); 
+		 Object[] args = {obj.getExamName(),beginTime,endTime,obj.getIntroduce(),courseConf, pracConf, obj.getPaperBuildCount(),obj.getPassScore(),obj.getId() };
 		 dao.update(sql.toString(), args);
+	}
+	
+	public String convertPracConf(List<ExamPracBean> pracList){
+		String pracConf = JSONArray.fromObject(pracList).toString();
+		return pracConf;
+	}
+	
+	public List<ExamPracBean> convertPracConfList(String pracConf){
+		List<ExamPracBean> list = new ArrayList<ExamPracBean>();
+		if(null == pracConf || "".equals(pracConf)) return list;
+		
+		JSONArray array = JSONArray.fromObject(pracConf);
+		for(int i=0;i<array.size();i++){
+			JSONObject json = array.getJSONObject(i);
+			ExamPracBean b = (ExamPracBean)JSONObject.toBean(json,ExamPracBean.class);
+			list.add(b);
+		}
+		return list;
 	}
 
 	@Override
@@ -158,6 +184,9 @@ public class ExamServices extends BaseServices implements IDao<Exam>{
 			if(null != courseConfArr){
 				obj.setSelCourseArr(courseConfArr);
 			}
+			obj.setPaperBuildCount(rs.getInt("paper_build_count"));
+			obj.setPracConf(rs.getString("prac_conf"));
+			obj.setPassScore(rs.getFloat("pass_score"));
 			return obj;
 		}
 	}
@@ -204,14 +233,14 @@ public class ExamServices extends BaseServices implements IDao<Exam>{
 			if(paperId > 0){
 				List<ExaminationType> examinationTypeList = new ArrayList<ExaminationType>();
 				
-				List<PaperExamination> paperExaminationList = findPaperExaminationList(paperId);
+				List<PaperExaminationOld> paperExaminationList = findPaperExaminationList(paperId);
 				List<Type> typeList = ApplicationHelper.getInstance().getQuesTypeList();
 				//按题型分类存放试题
 				for(Type type : typeList){
 					ExaminationType et = new ExaminationType();
 					et.setType(type);
-					List<PaperExamination> peTempList = new ArrayList<PaperExamination>();
-					for(PaperExamination e : paperExaminationList){
+					List<PaperExaminationOld> peTempList = new ArrayList<PaperExaminationOld>();
+					for(PaperExaminationOld e : paperExaminationList){
 						if(type.getTypeCode().equals(e.getTypeCode())){
 							peTempList.add(e);
 						}
@@ -300,15 +329,15 @@ public class ExamServices extends BaseServices implements IDao<Exam>{
 		return dao.queryForObject("select p.id from paper p where p.course_id=? ORDER BY RAND() LIMIT 1", new Object[]{cid}, Integer.class);
 	}
 	
-	public List<PaperExamination> findPaperExaminationList(int paperId) {
+	public List<PaperExaminationOld> findPaperExaminationList(int paperId) {
 		StringBuffer sql = new StringBuffer();
 		sql.append("SELECT pe.id,type_code,examination_content,examination_content_html,answer,default_point,difficulty,paper_id,option_a,option_b,option_c,option_d,option_e,option_f ");
 		sql.append("FROM paper_examination pe ");
 		sql.append("where paper_id=? ");
-		List<PaperExamination> list = dao.query(sql.toString(),new Object[]{paperId} ,new RowMapper<PaperExamination>(){
+		List<PaperExaminationOld> list = dao.query(sql.toString(),new Object[]{paperId} ,new RowMapper<PaperExaminationOld>(){
 			@Override
-			public PaperExamination mapRow(ResultSet rs, int rowNum) throws SQLException {
-				PaperExamination obj = new PaperExamination();
+			public PaperExaminationOld mapRow(ResultSet rs, int rowNum) throws SQLException {
+				PaperExaminationOld obj = new PaperExaminationOld();
 				obj.setAnswer(rs.getString("answer")); 
 				obj.setDifficulty(rs.getString("difficulty")); 
 				obj.setPaperId(rs.getInt("paper_id")); 

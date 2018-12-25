@@ -7,7 +7,7 @@ import java.io.Serializable;
  * Sat Mar 28 06:19:11 CST 2015 
  */
 
-public class PaperExamination implements Serializable {
+public class PaperExaminationOld implements Serializable {
 
 	private static final long serialVersionUID = 2L;
 	private Integer id;

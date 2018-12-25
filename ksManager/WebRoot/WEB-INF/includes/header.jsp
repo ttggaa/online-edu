@@ -18,7 +18,7 @@
 			<!-- BEGIN TOP NAVIGATION MENU -->              
 			<ul class="nav "  style="float:right;">
 				<!-- BEGIN INBOX DROPDOWN -->
-				<li class="dropdown" id="header_inbox_bar" style="display: none;left:-15px;">
+				<li class="dropdown" id="header_inbox_bar" style="dleft:-15px;">
 					<a href="#" class="dropdown-toggle" data-toggle="dropdown">
 						<i class="icon-envelope"></i>
 						<span class="badge" id="msgBadgeSpan"></span>
@@ -60,7 +60,7 @@
 <script type="text/javascript">
 	jQuery(document).ready(function() { 
 		findMsg();
-		setInterval(findMsg,10000);
+		setInterval(findMsg,30000);
 	});
 	
 	function findMsg(){

@@ -41,24 +41,13 @@
 								<div class="portlet-title">
 									试题内容：
 									<input class="m-wrap placeholder-no-fix" type="text" id="examinationContent" name="map['examinationContent']" value="${searchParams.map['examinationContent'] }"/>
-									所属课程：
+									考试科目：
 									<select id="courseId" name="map['courseId']" class="span2 m-wrap">
 							       		<option value="" ></option>
 								   		<c:forEach items="${courseList }" var="courseList">
 								   			<option value="${courseList.id }" ${courseList.id==searchParams.map['courseId']?'selected=selected':'' }>${courseList.courseName }</option>
 								   		</c:forEach>
 							   		</select>
-							   		批次：
-							   		<select id="batchInfo" name="map['batchInfo']" class="span2 m-wrap">
-							       		<option value="" ></option>
-								   		<c:forEach items="${batchList }" var="batchObj">
-								   			<option value="${batchObj }" ${batchObj==searchParams.map['batchInfo']?'selected=selected':'' }>${batchObj}</option>
-								   		</c:forEach>
-							   		</select>
-							   		审核状态：
-							   		<select id="auditState" name="map['auditState']" class="span2 m-wrap">
-							       		<dict:selectOption field="auditState" selCode="${searchParams.map['auditState']}" empty="true"/>
-							   		</select> 
 									<button type="button" onclick="search();" class="btn green" >查询</button>
 								</div>
 								<div class="control-group">
@@ -72,21 +61,6 @@
 											<a href="javascript:;" class="btn mini ${typeList.typeCode==searchParams.map['typeCode']?'blue':'' }" 
 												style="margin-right: 5px;" onclick="queryByTypeCode('${typeList.typeCode}');">
 												${typeList.typename }
-											</a>
-										</c:forEach>
-									</div>
-								</div>
-								<div class="control-group">
-									题库集->
-									<div class="btn-group hidden-phone">
-										<a href="javascript:;" class="btn mini ${searchParams.map['sourceId']==''?'blue':'' }" 
-											style="margin-right: 5px;" onclick="queryBySourceId('');">
-											全部
-										</a>
-										<c:forEach items="${quesSourceList }" var="quesSourceList">
-											<a href="javascript:;" class="btn mini ${quesSourceList.id==searchParams.map['sourceId']?'blue':'' }" 
-												style="margin-right: 5px;" onclick="queryBySourceId('${quesSourceList.id}');">
-												${quesSourceList.sourceName }
 											</a>
 										</c:forEach>
 									</div>
@@ -139,10 +113,7 @@
 												<img src="${resPath}media/image/sort_both.png" onclick="theSort('EXAMINATION_CONTENT');"/>试题内容
 											</th> 
 											<th style="width:100px;">答案</th> 
-											<th>难易度</th> 
-											<th>课程</th> 
-											<th>知识点</th> 
-											<th>更新时间</th> 
+											<th>考试科目</th> 
 											<th>操作</th>
 										</tr>
 									</thead>
@@ -158,13 +129,7 @@
 												<td title="${list.answer }">
 													<d:titleLimit maxCount="10" str="${list.answer }"/>
 												</td> 
-												<td><dict:label code="${list.difficulty }" field="difficulty"/></td> 
 												<td>${list.courseName }</td> 
-												<td>${list.knowledgePoint }</td>  
-												<td>
-													<fmt:parseDate value="${list.updateTime }" var="date" pattern="yyyy-MM-dd HH:mm:ss" />
-													<fmt:formatDate value="${date }" pattern="yyyy-MM-dd HH:mm:ss"/>
-												</td> 
 												<td >
 													<a class="edit" href="${basePath}tkExamination/update/${list.id}">修改</a>&nbsp;
 													<a class="edit" href="${basePath}tkExamination/delete/${list.id}">删除</a>

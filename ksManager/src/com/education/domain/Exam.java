@@ -1,6 +1,9 @@
 package com.education.domain ; 
 
 import java.io.Serializable;
+import java.util.List;
+
+import com.education.domain.extend.ExamPracBean;
 
 /* 
  *  
@@ -30,13 +33,42 @@ public class Exam implements Serializable {
     private Integer id; 
 
     private Integer examUserCount;//考试人数
-    private float passScore;
+    
     private String introduce;
     private Integer businessId;
     
     private String[] selCourseArr;
+    private String pracConf;
+    private List<ExamPracBean> pracList ; //策略
+    private Integer paperBuildCount; //试卷生成套数
     
-    public String[] getSelCourseArr() {
+    private float passScore;
+
+	public String getPracConf() {
+		return pracConf;
+	}
+
+	public void setPracConf(String pracConf) {
+		this.pracConf = pracConf;
+	}
+
+	public Integer getPaperBuildCount() {
+		return paperBuildCount;
+	}
+
+	public void setPaperBuildCount(Integer paperBuildCount) {
+		this.paperBuildCount = paperBuildCount;
+	}
+
+	public List<ExamPracBean> getPracList() {
+		return pracList;
+	}
+
+	public void setPracList(List<ExamPracBean> pracList) {
+		this.pracList = pracList;
+	}
+
+	public String[] getSelCourseArr() {
 		return selCourseArr;
 	}
 

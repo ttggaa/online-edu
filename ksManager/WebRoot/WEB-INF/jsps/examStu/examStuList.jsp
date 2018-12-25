@@ -117,27 +117,31 @@
 												<th>姓名</th>
 												<th style="width:25%">考试科目</th> 
 												<th>成绩</th>
-												<th>交卷时间</th>
-												<th style="width:25%">考试活动名称</th> 
+												<th>本场提交截止时间</th>
 												<th style="width:130px;">操作</th>
 											</tr>
 										</thead>
 										<tbody>
 											<c:forEach items="${list}" var="list" varStatus="status">
 												<tr class="odd gradeX">
-													<td>${list.idcard }</td> 
-													<td>${list.truename }</td> 
+													<td>${list.idcard }
+														<div>
+															<a href="${basePath}examStu/update/${list.id}" class="btn mini purple"><i class="icon-edit"></i> 修改</a>
+															<a href="javascript:void();" onclick="delData('${basePath}examStu/delete/${list.id}');" class="btn mini black"><i class="icon-trash"></i> 删除</a>
+														</div>
+													</td> 
+													<td>${list.truename }
+														<c:if test="${list.testFlag == '1'}"><span class="badge badge-warning">测试</span></c:if>
+													</td> 
 													<td>${list.examCourse.courseName }</td>
 													<td>
 														<c:if test="${list.examCourse.submitFlag =='1'}">
 															${list.examCourse.score }
 														</c:if>
 													</td> 
-													<td>${list.examCourse.submitTime }</td> 
-													<td>${list.examName }</td> 
+													<td>${list.examCourse.endTime }</td> 
 													<td>
-														<a href="${basePath}examStu/update/${list.id}" class="btn mini purple"><i class="icon-edit"></i> 修改</a>
-														<a href="javascript:void();" onclick="delData('${basePath}examStu/delete/${list.id}');" class="btn mini black"><i class="icon-trash"></i> 删除</a>
+														
 													</td>
 												</tr>
 											</c:forEach>
