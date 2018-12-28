@@ -1,5 +1,5 @@
 /**
-The MIT License (MIT) * Copyright (c) 2016 铭飞科技(mingsoft.net)
+The MIT License (MIT) * Copyright (c) 2016 领航科技(mingsoft.net)
 
  * Permission is hereby granted, free of charge, to any person obtaining a copy of
  * this software and associated documentation files (the "Software"), to deal in
@@ -27,7 +27,7 @@ import com.mingsoft.parser.IParser;
  * 
  * @ClassName:  ArticleKeywordParser   
  * @Description:TODO(解析文章关键字标签{ms:field.keyword/})   
- * @author: 铭飞开发团队
+ * @author: 领航开发团队
  * @date:   2018年1月31日 下午2:57:51   
  *     
  * @Copyright: 2018 www.mingsoft.net Inc. All rights reserved.

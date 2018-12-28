@@ -1,5 +1,5 @@
 /**
-The MIT License (MIT) * Copyright (c) 2016 铭飞科技(mingsoft.net)
+The MIT License (MIT) * Copyright (c) 2016 领航科技(mingsoft.net)
 
  * Permission is hereby granted, free of charge, to any person obtaining a copy of
  * this software and associated documentation files (the "Software"), to deal in
@@ -32,7 +32,7 @@ import com.mingsoft.parser.IParser;
  * @ClassName:  ArticleHistoryParser   
  * @Description:TODO
  * 当前文章的上一篇文章，下一篇文章的链接标题解析（单标签） 上一篇文章链接：{ms:field.prelink/} 上一篇文章标题：{ms:field.pretitle/} 下一篇文章链接：{ms:field.nextlink/} 下一篇文章标题：{ms:field.nexttitle/} 文章内容标签
- * @author: 铭飞开发团队
+ * @author: 领航开发团队
  * @date:   2018年1月31日 下午2:57:17   
  *     
  * @Copyright: 2018 www.mingsoft.net Inc. All rights reserved.

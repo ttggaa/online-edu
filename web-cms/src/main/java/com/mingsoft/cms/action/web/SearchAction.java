@@ -1,5 +1,5 @@
 /**
-The MIT License (MIT) * Copyright (c) 2016 铭飞科技(mingsoft.net)
+The MIT License (MIT) * Copyright (c) 2016 领航科技(mingsoft.net)
 
  * Permission is hereby granted, free of charge, to any person obtaining a copy of
  * this software and associated documentation files (the "Software"), to deal in
@@ -69,7 +69,7 @@ import net.mingsoft.basic.util.BasicUtil;
  * 
  * 
  * <p>
- * <b>铭飞科技</b>
+ * <b>领航科技</b>
  * </p>
  * 
  * <p>

@@ -1,5 +1,5 @@
 /**
-The MIT License (MIT) * Copyright (c) 2016 铭飞科技(mingsoft.net)
+The MIT License (MIT) * Copyright (c) 2016 领航科技(mingsoft.net)
 
  * Permission is hereby granted, free of charge, to any person obtaining a copy of
  * this software and associated documentation files (the "Software"), to deal in
@@ -72,7 +72,7 @@ import net.mingsoft.mdiy.util.DictUtil;
 /**
  * @ClassName:  ArticleAction   
  * @Description:TODO 文章管理   
- * @author: 铭飞开发团队
+ * @author: 领航开发团队
  * @date:   2018年1月31日 下午2:51:39   
  *     
  * @Copyright: 2018 www.mingsoft.net Inc. All rights reserved.

@@ -41,8 +41,8 @@ import net.mingsoft.basic.util.FileUtil;
 
 
 /**
- * 铭飞MS平台，通用栏目分类,为了区分文章栏目与其他栏目的权限，该类是从basic模块复制过来
- * @author 铭飞开发团队
+ * 领航MS平台，通用栏目分类,为了区分文章栏目与其他栏目的权限，该类是从basic模块复制过来
+ * @author 领航开发团队
  * @version 
  * 版本号：100-000-000<br/>
  * 创建日期：2017年8月9日<br/>

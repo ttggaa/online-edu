@@ -1,5 +1,5 @@
 /**
-The MIT License (MIT) * Copyright (c) 2016 铭飞科技(mingsoft.net)
+The MIT License (MIT) * Copyright (c) 2016 领航科技(mingsoft.net)
 
  * Permission is hereby granted, free of charge, to any person obtaining a copy of
  * this software and associated documentation files (the "Software"), to deal in
@@ -27,7 +27,7 @@ import com.mingsoft.base.constant.e.BaseEnum;
  * 
  * @ClassName:  ColumnTypeEnum   
  * @Description:TODO(文章栏目分类类型)   
- * @author: 铭飞开发团队
+ * @author: 领航开发团队
  * @date:   2018年1月31日 下午2:55:18   
  *     
  * @Copyright: 2018 www.mingsoft.net Inc. All rights reserved.

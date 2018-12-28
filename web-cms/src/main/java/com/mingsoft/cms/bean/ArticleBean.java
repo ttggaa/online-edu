@@ -1,5 +1,5 @@
 /**
-The MIT License (MIT) * Copyright (c) 2016 铭飞科技(mingsoft.net)
+The MIT License (MIT) * Copyright (c) 2016 领航科技(mingsoft.net)
 
  * Permission is hereby granted, free of charge, to any person obtaining a copy of
  * this software and associated documentation files (the "Software"), to deal in
@@ -35,7 +35,7 @@ import com.mingsoft.util.StringUtil;
  * 
  * 
  * <p>
- * <b>铭飞MS平台</b>
+ * <b>领航MS平台</b>
  * </p>
  * 
  * <p>
@@ -43,7 +43,7 @@ import com.mingsoft.util.StringUtil;
  * </p>
  * 
  * <p>
- * Company:景德镇铭飞科技有限公司
+ * Company:景德镇领航科技有限公司
  * </p>
  * 
  * @author 姓名 史爱华
@@ -51,7 +51,7 @@ import com.mingsoft.util.StringUtil;
  * @version 
  * 
  * <p>
- * 版权所有 铭飞科技
+ * 版权所有 领航科技
  * </p>
  *  
  * <p>

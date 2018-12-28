@@ -1,5 +1,5 @@
 /**
-The MIT License (MIT) * Copyright (c) 2018 铭飞科技(mingsoft.net)
+The MIT License (MIT) * Copyright (c) 2018 领航科技(mingsoft.net)
 
  * Permission is hereby granted, free of charge, to any person obtaining a copy of
  * this software and associated documentation files (the "Software"), to deal in
@@ -30,7 +30,7 @@ import cn.hutool.core.util.ArrayUtil;
  * 
  * @ClassName:  ArrysUtil   
  * @Description:TODO(数组工具类)   
- * @author: 铭飞开发团队
+ * @author: 领航开发团队
  * @date:   2018年4月20日 下午17:02:00   
  *     
  * @Copyright: 2018 www.mingsoft.net Inc. All rights reserved.
