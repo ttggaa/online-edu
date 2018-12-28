@@ -19,8 +19,10 @@ import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 import com.education.domain.Exam;
 import com.education.domain.ExamStu;
 import com.education.framework.base.BaseController;
+import com.education.framework.baseModule.module.business.BusinessServices;
 import com.education.framework.domain.SearchParams;
 import com.education.framework.page.Page;
+import com.education.framework.session.SessionHelper;
 import com.education.framework.util.exportExcel.ExcelHeader;
 import com.education.framework.util.exportExcel.ExcelTools;
 import com.education.module.exam.ExamServices;
@@ -33,12 +35,15 @@ public class ExamStuController extends BaseController{
 	private ExamStuServices services;
 	@Autowired
 	private ExamServices examServices;
+	@Autowired
+	private BusinessServices businessServices;
 	
 	@RequestMapping(value = "")
 	public String list(Model model, SearchParams searchParams,Page page,ServletRequest request){
 		List<ExamStu> list = services.find(searchParams,page);
 		model.addAttribute("list", list);
 		model.addAttribute("page", page);
+		model.addAttribute("business", businessServices.findObject(SessionHelper.getInstance().getUser().getBusinessId()));
 		model.addAttribute("searchParams", searchParams);
 		return "/examStu/examStuList";
 	}

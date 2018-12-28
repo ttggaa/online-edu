@@ -29,6 +29,7 @@ import com.education.framework.util.DictionaryUtil;
 import com.education.framework.util.calendar.CalendarUtil;
 import com.education.framework.util.exportExcel.ExcelHeader;
 import com.education.framework.util.exportExcel.ExcelTools;
+import com.education.module.paper.PaperServices;
 import com.education.module.quesSource.QuesSourceServices;
 import com.education.module.resCourse.ResCourseServices;
 import com.education.module.type.TypeServices;
@@ -45,6 +46,8 @@ public class TkExaminationController extends BaseController{
 	private ResCourseServices resCourseServices;
 	@Autowired
 	private QuesSourceServices quesSourceServices;
+	@Autowired
+	private PaperServices paperServices;
 	
 	@RequestMapping(value = "")
 	public String list(Model model, SearchParams searchParams,Page page,ServletRequest request){
@@ -81,6 +84,8 @@ public class TkExaminationController extends BaseController{
 		}
 		services.save(tkExamination);
 		services.updateQuesSumCountByCid(tkExamination.getCourseId());
+		//更新缓存试卷
+		paperServices.buildExamCachePaperByCourseId(tkExamination.getCourseId());
 		redirectAttributes.addFlashAttribute("MESSAGE", "SUCCESS");
 		return "redirect:/tkExamination/create?courseId=" + tkExamination.getCourseId() + "&typeCode=" 
 			+ tkExamination.getTypeCode();
@@ -106,6 +111,9 @@ public class TkExaminationController extends BaseController{
 		}
 		services.update(tkExamination);
 		services.updateQuesSumCountByCid(tkExamination.getCourseId());
+		
+		//更新缓存试卷
+		paperServices.buildExamCachePaperByCourseId(tkExamination.getCourseId());
 		redirectAttributes.addFlashAttribute("MESSAGE", "SUCCESS");
 		return "redirect:/tkExamination?map['courseId']=" + tkExamination.getCourseId() + "&map['typeCode']=" 
 			+ tkExamination.getTypeCode() + "&map['sourceId']=" + tkExamination.getSourceId();
@@ -115,6 +123,8 @@ public class TkExaminationController extends BaseController{
 	public String delete(@PathVariable("id") Integer id,RedirectAttributes redirectAttributes) {
 		TkExamination tkExamination = services.findForObject(id);
 		services.delete(id);
+		//更新缓存试卷
+		paperServices.buildExamCachePaperByCourseId(tkExamination.getCourseId());
 		redirectAttributes.addFlashAttribute("MESSAGE", "SUCCESS");
 		return "redirect:/tkExamination?map['courseId']=" + tkExamination.getCourseId() + "&map['typeCode']=" 
 		+ tkExamination.getTypeCode() + "&map['sourceId']=" + tkExamination.getSourceId();
@@ -173,6 +183,8 @@ public class TkExaminationController extends BaseController{
 			r = services.impExcel(tkExamination,file);
 			if(r==null){
 				model.addAttribute("MESSAGE","导入成功。");
+				//更新缓存试卷
+				paperServices.buildExamCachePaperByCourseId(tkExamination.getCourseId());
 				return "redirect:/tkExamination";
 			}else{
 				model.addAttribute("MESSAGE","导入失败。");

@@ -36,7 +36,6 @@ public class Exam implements Serializable {
     
     private String introduce;
     private Integer businessId;
-    
     private String[] selCourseArr;
     private String pracConf;
     private List<ExamPracBean> pracList ; //策略

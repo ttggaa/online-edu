@@ -64,11 +64,11 @@ public class TkExaminationServices extends BaseServices implements IDao<TkExamin
 				argsList.add(searchParams.get("batchInfo"));
 				lp = " and ";
 			}
-			if(null != searchParams.get("sourceId") && !"".equals((String)searchParams.get("sourceId"))){
-				sql.append(lp).append(" a.source_id = ? ");
-				argsList.add(searchParams.get("sourceId"));
-				lp = " and ";
-			}
+//			if(null != searchParams.get("sourceId") && !"".equals((String)searchParams.get("sourceId"))){
+//				sql.append(lp).append(" a.source_id = ? ");
+//				argsList.add(searchParams.get("sourceId"));
+//				lp = " and ";
+//			}
 			if(null != searchParams.get("auditState") && !"".equals((String)searchParams.get("auditState"))){
 				sql.append(lp).append(" a.audit_state = ? ");
 				argsList.add(searchParams.get("auditState"));

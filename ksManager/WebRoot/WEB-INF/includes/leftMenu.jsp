@@ -12,7 +12,17 @@
 			<div class="sidebar-toggler hidden-phone"></div>
 			<!-- BEGIN SIDEBAR TOGGLER BUTTON -->
 		</li>
-		
+		<li class="start ">
+
+			<a href="${basePath }console">
+
+			<i class="icon-home"></i> 
+
+			<span class="title">控制台</span>
+
+			</a>
+
+		</li>
 		<c:forEach items="${sessionScope.LOGIN_USER.menuList}" var="menuList" varStatus="status">
 			<li class="${sessionScope.menuRootId==menuList.id?'open active':'' }">
 				<a href="javascript:;">

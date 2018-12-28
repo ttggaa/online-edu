@@ -10,6 +10,7 @@ import java.util.Map;
 import javax.annotation.Resource;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.beans.factory.annotation.Value;
 import org.springframework.jdbc.core.RowMapper;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
@@ -19,6 +20,7 @@ import com.education.domain.Paper;
 import com.education.domain.PaperExamination;
 import com.education.domain.PracmainSub;
 import com.education.domain.ResCourse;
+import com.education.domain.TkExamination;
 import com.education.domain.extend.ExamPracBean;
 import com.education.framework.application.ApplicationHelper;
 import com.education.framework.base.BaseServices;
@@ -30,6 +32,7 @@ import com.education.framework.session.SessionHelper;
 import com.education.framework.util.CommonTools;
 import com.education.framework.util.cache.CacheManager;
 import com.education.framework.util.calendar.CalendarUtil;
+import com.education.module.exam.ExamServices;
 import com.education.module.paper.bean.QuesTypeAnalyse;
 import com.education.module.paper.bean.TPaper;
 import com.education.module.paper.bean.TQuestion;
@@ -45,6 +48,10 @@ public class PaperServices extends BaseServices implements IDao<Paper>{
 	private CacheManager cache;
 	@Autowired
 	private PaperExaminationServices paperExaminationServices;
+	@Value("${paper.cache.num}")
+    private Integer paperCacheNum;
+	@Autowired
+	private ExamServices examServices;
 	
 	@Override
 	public List<Paper> find(SearchParams searchParams, Page page) {
@@ -948,7 +955,49 @@ public class PaperServices extends BaseServices implements IDao<Paper>{
 		tPaper.setQmap(qmap);
 		return tPaper;
 	}
+	
+	
+	public boolean buildExamCachePaperByCourseId(int courseId) {
+		if(courseId == 0) return false;
+		String sql = "select id,course_conf,prac_conf from exam where business_id=? and STR_TO_DATE(exam_endtime,'%Y-%m-%d %H:%i') > now() and course_conf like ?";
+		
+		Object[] args = {SessionHelper.getInstance().getUser().getBusinessId(), "%" + courseId + "%"};
+		List<Exam> list = dao.query(sql.toString(),args,new RowMapper<Exam>(){
+			@Override
+			public Exam mapRow(ResultSet rs, int arg1) throws SQLException {
+				Exam exam = new Exam();
+				exam.setId(rs.getInt("id"));
+				String courseConf = rs.getString("course_conf");
+				String[] courseConfArr = courseConf.split(",");
+				if(null != courseConfArr){
+					exam.setSelCourseArr(courseConfArr);
+				}
+				exam.setPracConf(rs.getString("prac_conf"));
+				return exam;
+			}
+		});
 
+		for(Exam e: list){
+			if(isExistCid(e, String.valueOf(courseId))){
+				e.setPracList(examServices.convertPracConfList(e.getPracConf()));
+				buildExamCachePaper(e);
+			}
+		}
+		return true;
+	}
+
+	private boolean isExistCid(Exam e, String courseId){
+		if(null == e.getSelCourseArr()) return false;
+		if(null == courseId || "".equals(courseId)) return false;
+		boolean ret = false;
+		for(String cid : e.getSelCourseArr()){
+			if(courseId.equals(cid)){
+				ret = true;
+				break;
+			}
+		}
+		return ret;
+	}
 	/**
 	 * 生成考试试卷，并放入缓存
 	 * @param exam
@@ -960,16 +1009,23 @@ public class PaperServices extends BaseServices implements IDao<Paper>{
 		if(null == exam.getSelCourseArr()) return false;
 		
 		for(String cid : exam.getSelCourseArr()){
-			buildExamCoursePaper(cid, exam.getPracList(), exam.getPaperBuildCount());
+			if( ! buildPaperCheck(cid,exam.getPracList())) {
+				dao.update("update exam set paper_build_count=0 where id=?", new Object[]{exam.getId()});
+				return false;
+			}else{
+				dao.update("update exam set paper_build_count=? where id=?", new Object[]{paperCacheNum,exam.getId()});
+			}
+			
+			buildExamCoursePaper(cid, exam.getId(),exam.getPracList());
 		}
 		return true;
 	}
 
-	private boolean buildExamCoursePaper(String cid, List<ExamPracBean> pracList, Integer paperBuildCount) {
+	private boolean buildExamCoursePaper(String cid,Integer examId, List<ExamPracBean> pracList) {
 		StringBuffer sql = new StringBuffer(); 
 		sql.append("SELECT id,type_code,examination_content,option_a,option_b,option_c,option_d,option_e,option_f,answer ");
 		sql.append("FROM tk_examination where course_id=? and type_code=? ORDER BY RAND() limit 0,?");	
-		for(int i=0;i<paperBuildCount;i++){
+		for(int i=0;i<paperCacheNum;i++){
 			List<PaperExaminationCacheBean> listAll = new ArrayList<PaperExaminationCacheBean>();
 			for(ExamPracBean prac : pracList){
 				if(null != prac.getCount() && !"".equals(prac.getCount())){
@@ -996,8 +1052,28 @@ public class PaperServices extends BaseServices implements IDao<Paper>{
 				}
 			}
 			
-			cache.setPaperExaminationList(cid,i, listAll);
+			cache.setPaperExaminationList(examId,cid,i, listAll);
 		}
 		return true;
 	}
+
+	private boolean buildPaperCheck(String cid, List<ExamPracBean> pracList) {
+		boolean ret = true;
+		StringBuffer sql = new StringBuffer(); 
+		sql.append("SELECT count(1) ");
+		sql.append("FROM tk_examination where course_id=? and type_code=? ORDER BY RAND() limit 0,?");	
+		
+		for(ExamPracBean prac : pracList){
+			if(null != prac.getCount() && !"".equals(prac.getCount())){
+				Object[] args = {cid, prac.getTypeCode(), Integer.parseInt(prac.getCount())};
+				int n = dao.queryForInt(sql.toString(), args);
+				if(n < Integer.parseInt(prac.getCount())){
+					ret = false;
+					break;
+				}
+			}
+		}
+		return ret;
+	}
+
 }

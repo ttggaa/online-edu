@@ -119,6 +119,12 @@ public class ResCourseServices extends BaseServices implements IDao<ResCourse>{
 		return false;
 	}
 	
+	public boolean findIsExistById(Integer id) {
+		String findSql = "select count(1) from res_course where id = ?";
+		int n = dao.queryForInt(findSql,new Object[]{id});
+		return n > 0;
+	}
+	
 	private class ResCourseRowmapper implements RowMapper<ResCourse> {
 		@Override
 		public ResCourse mapRow(ResultSet rs, int arg1) throws SQLException {
@@ -133,6 +139,17 @@ public class ResCourseServices extends BaseServices implements IDao<ResCourse>{
 			obj.setIndexno(rs.getInt("indexno")); 
 			return obj;
 		}
+	}
+
+	/**
+	 * 验证是否允许删除 科目
+	 * @param id
+	 * @return
+	 */
+	public boolean delCheck(Integer id) {
+		String findSql = "select count(1) from exam_course where course_id = ?";
+		int n = dao.queryForInt(findSql,new Object[]{id});
+		return n <= 0;
 	}
 
 }

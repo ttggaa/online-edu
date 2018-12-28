@@ -109,6 +109,19 @@ public class ExamServices extends BaseServices implements IDao<Exam>{
 		Object[] args = {id};
 		return dao.queryForObject(sql.toString(),args,new ExamRowmapper());
 	}
+	
+	public String findPracConf(Integer id) {
+		StringBuffer sql = new StringBuffer();
+		sql.append("SELECT prac_conf FROM exam ");
+		sql.append(" where id=? ");
+		Object[] args = {id};
+		String ret = "";
+		try{
+			ret = dao.queryForObject(sql.toString(),args,String.class);
+		}catch(Exception ex){
+		}
+		return null == ret ? "":ret;
+	}
 
 	@Override
 	public void update(Exam obj) {
@@ -122,6 +135,7 @@ public class ExamServices extends BaseServices implements IDao<Exam>{
 		 }
 		 
 		 String pracConf = convertPracConf(obj.getPracList());
+		 obj.setPracConf(pracConf);
 		 String beginTime = obj.getExamBegintime();
 		 String endTime = obj.getExamEndtime();
 		 if(obj.getExamBegintime().length() == 16) beginTime = obj.getExamBegintime() + ":00";

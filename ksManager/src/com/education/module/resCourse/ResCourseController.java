@@ -80,9 +80,14 @@ public class ResCourseController extends BaseController{
 	
 	@RequestMapping(value = "delete/{id}")
 	public String delete(@PathVariable("id") Integer id,RedirectAttributes redirectAttributes) {
-		services.delete(id);
-		redirectAttributes.addFlashAttribute(MESSAGE, MESSAGE_DELETE_SUCCESS);
-		redirectAttributes.addFlashAttribute(MESSAGE_STATE, "alert-success");
+		if(services.delCheck(id)){
+			services.delete(id);
+			redirectAttributes.addFlashAttribute(MESSAGE, MESSAGE_DELETE_SUCCESS);
+			redirectAttributes.addFlashAttribute(MESSAGE_STATE, "alert-success");
+		}else{
+			redirectAttributes.addFlashAttribute(MESSAGE, "考试科目已被考生使用，不能删除！");
+			redirectAttributes.addFlashAttribute(MESSAGE_STATE, "alert-fail");
+		}
 		return "redirect:/resCourse";
 	}
 	

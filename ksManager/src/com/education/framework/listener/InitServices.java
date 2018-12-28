@@ -56,7 +56,7 @@ public class InitServices extends BaseServices{
 	 */
 	public void initBusinessCache() {
 		StringBuffer sql = new StringBuffer();
-		sql.append("select id,business_name,kind,logo,advert_logo,domain,auth_flag from business ");
+		sql.append("select id,business_name,kind,logo,advert_logo,domain,auth_flag,pro_name,summary,background from business ");
 		sql.append("where audit_flag='1'");
 		List<CacheBusiness> list = dao.query(sql.toString(), new RowMapper<CacheBusiness>(){
 			@Override
@@ -69,6 +69,9 @@ public class InitServices extends BaseServices{
 				obj.setAdvertLogo(rs.getString("advert_logo"));
 				obj.setDomain(rs.getString("domain"));
 				obj.setAuthFlag(rs.getString("auth_flag"));
+				obj.setProName(rs.getString("pro_name"));
+				obj.setSummary(rs.getString("summary"));
+				obj.setBackground(rs.getString("background"));
 				return obj;
 			}
 		});

@@ -28,11 +28,14 @@ import com.education.framework.session.SessionHelper;
 import com.education.framework.util.CommonTools;
 import com.education.framework.util.excelImp.ExcelImportTools;
 import com.education.module.exam.ExamServices;
+import com.education.module.resCourse.ResCourseServices;
 
 @Service
 public class ExamStuServices extends BaseServices implements IDao<ExamStu>{
 	@Autowired
 	private ExamServices examServices;
+	@Autowired
+	private ResCourseServices resServices;
 	
 	@Override
 	public List<ExamStu> find(SearchParams searchParams, Page page) {
@@ -135,8 +138,10 @@ public class ExamStuServices extends BaseServices implements IDao<ExamStu>{
 		if(null != exam.getSelCourseArr()){
 			for(String c : exam.getSelCourseArr()){
 				//新增考生课程关系数据
-				String insSql = "insert into exam_course(stu_id,course_id,score,submit_flag,exam_id,create_time) values(?,?,?,?,?,now())";
-				dao.update(insSql, new Object[]{stuId, c,0,"0", obj.getExamId()});
+				if(resServices.findIsExistById(Integer.parseInt(c))){
+					String insSql = "insert into exam_course(stu_id,course_id,score,submit_flag,exam_id,create_time) values(?,?,?,?,?,now())";
+					dao.update(insSql, new Object[]{stuId, c,0,"0", obj.getExamId()});
+				}
 			}
 		}
 		return stuId;

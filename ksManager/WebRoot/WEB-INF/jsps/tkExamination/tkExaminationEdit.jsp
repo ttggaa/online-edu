@@ -114,13 +114,7 @@
 									   <label class="control-label"> 
 									       试题内容<span class="required">*</span>
 									   </label> 
-									   <div class="controls"> 
-									   		<div class="tabbable tabbable-custom boxless">
-												<ul class="nav nav-tabs">
-													<li id="tab_1_li" class="${tkExamination.examinationContentHtml ==null?'active':''}"><a href="#tab_1" data-toggle="tab">纯文本</a></li>
-													<li id="tab_2_li" class="${tkExamination.examinationContentHtml ==null?'':'active'}"><a href="#tab_2" data-toggle="tab">富文本</a></li>
-												</ul>
-											</div>
+									   <div class="controls">
 											<div class="tab-content">
 												<div class="tab-pane ${tkExamination.examinationContentHtml ==null?'active':''}" id="tab_1">
 											        <textarea id="examinationContent" name="examinationContent" class="span10 m-wrap" rows="7" >${tkExamination.examinationContent}</textarea>
@@ -324,13 +318,13 @@
 		UE.getEditor('editor2',option);
 		
 		jQuery(document).ready(function() { 
-			var v = $("#examinationDescription").val().replace(/[\r\n]/g,"");
-			if(v.indexOf("<p>") >= 0){
-				$("#tabDesc_1_li").removeClass("active");
-				$("#tabDesc_2_li").addClass("active");
-				$("#tabDesc_1").removeClass("active");
-				$("#tabDesc_2").addClass("active");
-			}
+			//var v = $("#examinationDescription").val().replace(/[\r\n]/g,"");
+			//if(v.indexOf("<p>") >= 0){
+			//	$("#tabDesc_1_li").removeClass("active");
+			//	$("#tabDesc_2_li").addClass("active");
+			//	$("#tabDesc_1").removeClass("active");
+			//	$("#tabDesc_2").addClass("active");
+			//}
 		   $("#inputForm").validate();
 		   App.init();
 		});
@@ -347,18 +341,6 @@
 				  typeCodeChange();
 			  }	   
 		   );
-		   
-		   function checkChar(s){
-			   var m = s.toUpperCase().replace("．",".").trim();
-			   m = m.replace("　"," ");
-			   if(m.length > 2) return false;
-			   var temp = m.substr(0, 2);
-			   if(temp == "A." || temp == "B." || temp == "C." || temp == "D."){
-				  return true;
-			   }else{
-				  return false;
-			   }
-		   }
 		   
 		   $("#examinationContent").blur(
 			  function(){ 
@@ -465,6 +447,18 @@
 		   App.init();
 		});
 		
+		function checkChar(s){
+		   var m = s.toUpperCase().replace("．",".").trim();
+		   m = m.replace("　"," ");
+		   if(m.length > 2) return false;
+		   var temp = m.substr(0, 2);
+		   if(temp == "A." || temp == "B." || temp == "C." || temp == "D."){
+			  return true;
+		   }else{
+			  return false;
+		   }
+	    }
+		
 		function typeCodeChange(){	
 		
 			if($("#typeCode").val() == 'danx' || $("#typeCode").val() == 'duox'){
@@ -473,21 +467,6 @@
 				$("#optionDiv").hide();
 			}
 			
-			if($("#typeCode").val() == 'sc'){
-			  $("#defaultPoint").val('4');
-			  $("#accountDiv").show();
-		    }else if($("#typeCode").val() == 'pand' || $("#typeCode").val() == 'danx'){
-		       $("#defaultPoint").val('1');
-		    }else if($("#typeCode").val() == 'jf' || $("#typeCode").val() == 'al'){
-		      $("#defaultPoint").val('10');
-		    }else if($("#typeCode").val() == 'jd'){
-		      $("#defaultPoint").val('6');
-		    }else if($("#typeCode").val() == 'zh'){
-		      $("#defaultPoint").val('12');
-		    }else{
-		    	$("#defaultPoint").val('2');
-		    	$("#accountDiv").hide();
-		    }
 		}
 		
 		function setAnswer(s,qtype){
@@ -538,26 +517,6 @@
 			    ok: function () {
 			    	var r = dg.content.ok();
 			    	setAnswer(r,"al");
-			        return true;
-			    },
-			    cancel: true
-			});
-		}
-		function buildJfAnswer(){
-			var dg;
-			dg = $.dialog({
-			    lock: true,
-			    title:' 计算分析题答案生成器工具',
-			    content: 'url:${basePath}/paperExamination/buildJfAnswer',
-			    icon: 'error.gif',
-			    width: '700px',
-			    height: 500,
-			    init:function(){
-			    	dg.content.init($("#examinationContent").val(),$("#answer").val(), $("#examinationDescription").val());
-			    },
-			    ok: function () {
-			    	var r = dg.content.ok();
-			    	setAnswer(r,"jf");
 			        return true;
 			    },
 			    cancel: true

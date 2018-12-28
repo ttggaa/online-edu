@@ -17,7 +17,42 @@ public class CacheBusiness implements Serializable {
 	private String advertLogo;
 	private String domain;
 	private String authFlag;
+	private String proName;
+	private String summary;
+	private String background;
+	private int integrate;
+	private String member;
 	
+	public int getIntegrate() {
+		return integrate;
+	}
+	public void setIntegrate(int integrate) {
+		this.integrate = integrate;
+	}
+	public String getMember() {
+		return member;
+	}
+	public void setMember(String member) {
+		this.member = member;
+	}
+	public String getProName() {
+		return proName;
+	}
+	public void setProName(String proName) {
+		this.proName = proName;
+	}
+	public String getSummary() {
+		return summary;
+	}
+	public void setSummary(String summary) {
+		this.summary = summary;
+	}
+	public String getBackground() {
+		return background;
+	}
+	public void setBackground(String background) {
+		this.background = background;
+	}
 	public String getAuthFlag() {
 		return authFlag;
 	}

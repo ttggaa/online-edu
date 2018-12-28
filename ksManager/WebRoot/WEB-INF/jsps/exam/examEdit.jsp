@@ -22,7 +22,7 @@
 				<div class="row-fluid">
 					<div class="span12">
 						<h3 class="page-title">
-							考试活动
+							我的考试
 							<small>${action=='create'?'新增信息':'修改信息'}</small>
 						</h3>
 					</div>
@@ -124,14 +124,17 @@
 										  <div class="controls" style="margin-top: 10px;"> 
 										        <input name="passScore" class="span2 m-wrap required number" type="text" value="${exam.passScore}"> 
 										  </div> 
+										  <!-- 
 										  <label class="control-label" title="系统随机生成指定数量的试卷，考生同样以随机方式获取试卷">试卷生成套数</label>
 										  <div class="controls" style="margin-top: 10px;"> 
 										        <input name="paperBuildCount" class="span2 m-wrap required number" type="text" value="${exam.paperBuildCount}"> 
 										  </div> 
+										  
 										  <label class="control-label">试卷构成</label>
 										  <div class="controls" style="margin-top: 10px;"> 
 										        总题数：* 题 ， 总分：*分
 										  </div> 
+										   -->
 									   </div> 
 									</div> 
 									<div class="form-actions clearfix">

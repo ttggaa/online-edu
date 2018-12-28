@@ -85,18 +85,24 @@
 									<div class="portlet box light-grey">
 										<div class="clearfix">
 											<div class="btn-group">
-												<a id="sample_editable_1_new" class="btn green" href="${basePath }examStu/create">
-													新增 <i class="icon-plus"></i>
-												</a>
+												<c:if test="${business.account < '0'}">
+													<a href="#" class="btn icn-only green">欠费状态, 立即充值 <i class="m-icon-swapright m-icon-white"></i></a>
+												</c:if>
+												<c:if test="${business.account >= '0'}">
+													<a id="sample_editable_1_new" class="btn green" href="${basePath }examStu/create">
+														新增 <i class="icon-plus"></i>
+													</a>
+												</c:if>
 											</div>
 											<div class="btn-group pull-right">
-												
-												<button class="btn dropdown-toggle" data-toggle="dropdown">更多 <i class="icon-angle-down"></i>
-												</button>
-												<ul class="dropdown-menu pull-right">
-													<li><a href="${basePath }examStu/imp">导入考生信息</a></li>
-													<li><a onclick="submitForm('${basePath }examStu/export','searchForm');" href="javascript:void();">导出至Excel</a></li>
-												</ul>
+												<c:if test="${business.account >= '0'}">
+													<button class="btn dropdown-toggle" data-toggle="dropdown">更多 <i class="icon-angle-down"></i>
+													</button>
+													<ul class="dropdown-menu pull-right">
+														<li><a href="${basePath }examStu/imp">导入考生信息</a></li>
+														<li><a onclick="submitForm('${basePath }examStu/export','searchForm');" href="javascript:void();">导出至Excel</a></li>
+													</ul>
+												</c:if>
 											</div>
 											<div class="btn-group pull-right">
 												<select id="pageItem" name="map['pageItem']" class="span16 m-wrap">
@@ -141,7 +147,8 @@
 													</td> 
 													<td>${list.examCourse.endTime }</td> 
 													<td>
-														
+														<a href="javascript:void();" onclick="timeDelay('${list.id}');" class="btn mini black">延时</a>
+														<a href="javascript:void();" onclick="reexamine('${list.id}');" class="btn mini black">重考</a>
 													</td>
 												</tr>
 											</c:forEach>
@@ -157,4 +164,39 @@
 		</div>
 	</div>
 </body>
+
+<div id="responsiveTimeDelay" class="modal hide fade" tabindex="-1" data-width="760">
+	<div class="modal-header">
+		<button type="button" class="close" data-dismiss="modal" aria-hidden="true"></button>
+		<h3>延时</h3>
+	</div>
+	<div class="modal-body">
+		<div class="row-fluid">
+			<div class="controls">
+				
+			</div>
+		</div>
+	</div>
+	<div class="modal-footer">
+		<button type="button" data-dismiss="modal" class="btn">关闭</button>
+	</div>
+</div>
+
+<div id="responsiveReexamine" class="modal hide fade" tabindex="-1" data-width="760">
+	<div class="modal-header">
+		<button type="button" class="close" data-dismiss="modal" aria-hidden="true"></button>
+		<h3>重考</h3>
+	</div>
+	<div class="modal-body">
+		<div class="row-fluid">
+			<div class="controls">
+				您确定要对该考生做重考操作吗？
+			</div>
+		</div>
+	</div>
+	<div class="modal-footer">
+		<button type="button" class="btn blue">确定</button>
+		<button type="button" data-dismiss="modal" class="btn">关闭</button>
+	</div>
+</div>
 </html>

@@ -25,7 +25,7 @@
 				<div class="row-fluid">
 					<div class="span12">
 						<h3 class="page-title">
-							考试活动
+							我的考试
 						</h3>
 					</div>
 				</div>

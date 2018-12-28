@@ -26,7 +26,7 @@ public class JedisClient {
     private static Logger logger = LoggerFactory.getLogger(JedisClient.class);
     @Autowired
     private JedisPool jedisPool ;
-    private String REDIS_PREFIX = "pxgl_";
+    private String REDIS_PREFIX = "ONLINE_EDU_";
 //    @Autowired
 //    private JedisCluster jedisCluster;
 

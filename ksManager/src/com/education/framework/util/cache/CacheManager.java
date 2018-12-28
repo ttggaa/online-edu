@@ -92,13 +92,13 @@ public class CacheManager implements Serializable {
 		return true;
 	}
 
-	public void removePaperExaminationList(String cid, int index) {
-		String cacheKey = "paper_ques_" + cid + "_" + index;
+	public void removePaperExaminationList(Integer examId, String cid, int index) {
+		String cacheKey = "paper_ques_" + examId + "_" + cid + "_" + index;
 		jedis.delObject(cacheKey);
 	}
 
-	public void setPaperExaminationList(String cid, int index, List<PaperExaminationCacheBean> list) {
-		String cacheKey = "paper_ques_" + cid + "_" + index;
+	public void setPaperExaminationList(Integer examId,String cid, int index, List<PaperExaminationCacheBean> list) {
+		String cacheKey = "paper_ques_" + examId + "_" + cid + "_" + index;
 		jedis.setObject(cacheKey, list, 0);
 	}
 }
