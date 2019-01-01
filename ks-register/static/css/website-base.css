@@ -1,0 +1,820 @@
+html,body,div,ul,ol,dl,dt,dd,li,p,img,input,button,h1,h2,h3,h4,h5,h6{
+    padding: 0;
+    margin: 0;
+}
+div{
+    -webkit-box-sizing: border-box;
+    -moz-box-sizing: border-box;
+    box-sizing: border-box;
+}
+body{
+    font-family: Helvetia,Arial,"微软雅黑";
+    color: #383838;
+    overflow: auto;
+    text-rendering: optimizeLegibility;
+    -webkit-font-smoothing: antialiased;
+    -moz-osx-font-smoothing: grayscale;
+    -moz-font-feature-settings: "liga","kern";
+    min-width: 1200px;
+    position: relative;
+}
+ol, ul {
+    list-style: none;
+}
+i[class^=icons8-]{
+    font-style: normal;
+    margin: 0 5px;
+}
+a{
+    text-decoration: none;
+}
+input{
+    border: 0;
+    outline: 0;
+}
+button{
+    border: 0;
+    outline: 0;
+    cursor: pointer;
+}
+.hidden-xs{
+    display: block;
+}
+.visible-xs{
+    display: none;
+}
+/*清除浮动*/
+.clearfix:after{
+    clear: both;
+    display:table;
+    content:" ";
+    height: 0;
+    overflow: hidden;
+    visibility: hidden;
+}
+.clearfix:before{
+    clear: both;
+    display:table;
+    content:" ";
+    height: 0;
+    overflow: hidden;
+    visibility: hidden;
+}
+
+/*site-header*/
+.site-header {
+    position: fixed;
+    top: 0;
+    z-index: 9999;
+    width: 100%;
+    min-width: 1200px;
+    height: 70px;
+    font-size: 0;
+}
+.site-header .navbar-header{
+    padding: 15px 0;
+    height: 70px;
+    margin-left: 60px;
+}
+.site-header .navbar-brand .logo-wrap{
+    height: 40px;
+    width: 138px;
+    background-image: url(https://cdn.oss.kaoshixing.com/ksxing_static/website-4.0/images/home/logo-white.png);
+    background-repeat: no-repeat;
+    background-size: contain;
+}
+.site-header .navbar-list{
+    float: left;
+}
+.site-header .navbar-header{
+    float: left;
+}
+.site-header .navbar-list li{
+    float: left;
+    font-size: 16px;
+    color: #FFF;
+}
+.site-header .navbar-list a{
+    float: left;
+    font-size: 16px;
+    color: #FFF;
+}
+.site-header .navbar-list li{
+    margin-top: 24px;
+    margin-left: 65px;
+}
+.site-header .navbar-list .active{
+    padding-bottom: 4px;
+    border-bottom: 2px solid #FFF;
+}
+.site-header .navbar-button{
+    float: right;
+    margin-right: 60px;
+    margin-top: 17px;
+}
+.site-header .navbar-button li{
+    display: inline-block;
+}
+.site-header .navbar-button .btn{
+    width: auto;
+    padding: 0 20px;
+    display: inline-block;
+    height: 34px;
+    min-width: 40px;
+    border: 1px solid #FFF;
+    font-size: 16px;
+    color: #FFF;
+    line-height: 34px;
+    text-align: center;
+    border-radius: 2px;
+  	vertical-align: middle;
+}
+.site-header .navbar-button .register{
+    margin-right: 15px;
+}
+/*白色背景header*/
+.site-header-white{background: #FFF;}
+.site-header-white .navbar-list li,.site-header-white .navbar-list a{
+    color: #3A3E51;
+}
+.site-header-white .navbar-list .active{
+    border-bottom: 2px solid #3A3E51;
+}
+.site-header-white .navbar-button .btn{
+    border: 1px solid #1A8CFE;
+    color: #1A8CFE;
+}
+.site-header-white .navbar-button .register{
+    background: #1A8CFE;
+    color: #FFF;
+}
+.site-header-white .navbar-brand .logo-wrap{
+    background-image: url(https://cdn.oss.kaoshixing.com/ksxing_static/website-3.1/base/logo-transparent-header.png);
+    background-image: url(https://cdn.oss.kaoshixing.com/ksxing_static/website-3.1/base/logo-transparent-header.svg), none;
+}
+/*滚动时的header*/
+.site-header-scroll{background: #FFF;}
+.site-header-scroll .navbar-list li,.site-header-scroll .navbar-list a{
+    color: #3A3E51;
+}
+.site-header-scroll .navbar-list .active{
+    border-bottom: 2px solid #3A3E51;
+}
+.site-header-scroll .navbar-button .btn{
+    border: 1px solid #1A8CFE;
+    color: #1A8CFE;
+}
+.site-header-scroll .navbar-button .register{
+    background: #1A8CFE;
+    color: #FFF;
+}
+.site-header-scroll .navbar-brand .logo-wrap{
+    background-image: url(https://cdn.oss.kaoshixing.com/ksxing_static/website-3.1/base/logo-transparent-header.png);
+    background-image: url(https://cdn.oss.kaoshixing.com/ksxing_static/website-3.1/base/logo-transparent-header.svg), none;
+}
+/*site-main*/
+.site-main{
+    overflow: hidden;
+}
+
+/*site-additional*/
+.site-additional{
+    margin-top: 42px;
+    width: 100%;
+    background-image: url(https://cdn.oss.kaoshixing.com/ksxing_static/website-4.0/images/home/home-bg-2.png);
+    background-position: left bottom;
+    background-repeat: no-repeat;
+    background-size: 100% auto;
+    padding-bottom: 200px;
+}
+.site-additional .enterprise{
+    width: 1200px;
+    margin: 0 auto;
+    padding-right: 45px;
+    margin-top: 60px;
+}
+.site-additional .enterprise .enterprise-list .item{
+    width: 120px;
+    height: 54px;
+    float: left;
+    line-height: 54px;
+    cursor: pointer;
+    text-align: center;
+    margin-left: 45px;
+    margin-top: 20px;
+}
+.site-additional .enterprise .enterprise-list .item .logo{
+    max-width: 100%;
+    max-height: 100%;
+    vertical-align: middle;
+}
+.site-additional .register-bottom-box{
+    width: 1200px;
+    margin: 0 auto;
+    position: relative;
+    margin-top: 120px;
+    z-index: 99;
+}
+/*tryout  底部注册部分*/
+.site-additional .join-us{
+    display: none;
+}
+.site-additional .register-bottom-box .tryout{
+    position: absolute;
+    left: 50%;
+    top: 0;
+    margin-left: 44px;
+}
+.site-additional .register-bottom-box .tryout .title{
+    font-size: 26px;
+    color: #3A3E51;
+    padding-top: 61px;
+    margin-bottom: 14px;
+    margin-left: 10px;
+}
+.site-additional .register-bottom-box .tryout span{
+    font-size: 14px;
+    margin-left: 10px;
+    color: #787D95;
+}
+.site-additional .register-bottom-box .tryout a{
+    color: #1A8CFE;
+}
+/*about页面底部加入我们*/
+.site-additional-about .tryout{
+    display: none;
+}
+.site-additional-about .join-us{
+    display: block;
+}
+.site-additional-about .join-us{
+    position: absolute;
+    left: 50%;
+    top: 0;
+    margin-left: 44px;
+}
+.site-additional-about .join-us .title{
+    font-size: 26px;
+    color: #3A3E51;
+    padding-top: 61px;
+    margin-bottom: 14px;
+}
+.site-additional-about .join-us dl{
+    font-size: 14px;
+    color: #787D95;
+}
+.site-additional-about .join-us dl dt{
+    margin-top: 10px;
+    margin-bottom: 16px;
+}
+.site-additional-about .join-us .btn-join{
+    height: 52px;
+    width: 140px;
+    margin-top: 30px;
+    background: #777DF6;
+    -webkit-box-shadow: 0 12px 24px 0 rgba(119,125,246,0.20);
+    -moz-box-shadow: 0 12px 24px 0 rgba(119,125,246,0.20);
+    box-shadow: 0 12px 24px 0 rgba(119,125,246,0.20);
+    font-size: 16px;
+    color: #FFFFFF;
+    line-height: 52px;
+    -webkit-border-radius: 4px;
+    -moz-border-radius: 4px;
+    border-radius: 4px;
+}
+
+.site-additional .register-bottom-box img{
+    height: 324px;
+    width: 596px;
+    left: 0;
+    top: 0;
+}
+.site-additional .register-bottom-box .register{
+    height: 52px;
+    width: 550px;
+    margin-top: 40px;
+    margin-bottom: 19px;
+    -webkit-box-shadow: 0 22px 30px 6px rgba(55,63,101,0.1);
+    -moz-box-shadow: 0 22px 30px 6px rgba(55,63,101,0.1);
+    box-shadow: 0 22px 30px 6px rgba(55,63,101,0.1);
+}
+.site-additional .register-bottom-box .register input{
+    width: 390px;
+    height: 52px;
+    border-bottom-left-radius: 4px;
+    border-top-left-radius: 4px;
+    float: left;
+    font-size: 16px;
+    color: #B4B6BD;
+    padding-left: 20px;
+}
+.site-additional .register-bottom-box .register button{
+    width: 140px;
+    height: 52px;
+    background: #1A8CFE;
+    float: left;
+    color: #FFF;
+    font-size: 16px;
+    border-bottom-right-radius: 4px;
+    border-top-right-radius: 4px;
+}
+.site-additional-news .register-bottom-box .tryout a{
+    color: #777DF6;
+}
+.site-additional-news .register-bottom-box .register button{
+    background: #777DF6;
+}
+
+/*swiper轮播*/
+.site-additional .team-img{
+    width:1200px;
+    height: 480px;
+    padding: 0 185px;
+    margin-top: 60px;
+    display: none;
+}
+@media (min-width:769px) {
+    .site-additional .team-img .swiper-wrapper{
+        width: 830px!important;
+    }
+}
+.site-additional .team-img .swiper-wrapper .swiper-slide img{
+    width: 100%;
+    height: 100%;
+}
+.site-additional .team-img .btn-prev,.team-img .btn-next{
+    width: 50px;
+    height: 50px;
+    position: absolute;
+    top: 50%;
+    margin-top: -25px;
+    font-size: 50px;
+    line-height: 50px;
+    color: #777DF6;
+}
+.site-additional .swiper-button-prev,.swiper-button-next{
+    background: none!important;
+}
+.site-additional .team-img .btn-prev{
+    left: 0;
+}
+.site-additional .team-img .btn-next{
+    right: 0;
+}
+
+/*site-footer*/
+.site-footer{
+    z-index: 99;
+    position: relative;
+}
+.site-footer a{
+    color: #B4B6BD;
+}
+.site-footer{
+    width: 100%;
+    color: #B4B6BD;
+    padding-top: 20px;
+    padding-bottom: 89px;
+}
+.site-footer .container{
+    width: 960px;
+    margin: 0 auto;
+    font-size: 14px;
+}
+.site-footer .footer-nav{
+    border-bottom: 1px solid #42475E;
+}
+.site-footer .nav-group{
+    margin-bottom: 14px;
+}
+.site-footer .nav-group:nth-child(2){
+    margin-bottom: 30px;
+}
+.site-footer .group-title{
+    display: inline-block;
+    width: 52px;
+    border-right: 1px solid #42475E;
+    line-height: 14px;
+    margin-right: 15px;
+}
+.site-footer .nav-group i{
+    font-style: normal;
+    display: inline-block;
+    padding: 0 10px;
+}
+.site-footer .contact-group li{
+    margin-bottom: 14px;
+}
+.site-footer .contact-group li:last-child{
+    margin-bottom: 20px;
+}
+.site-footer .nav-left{
+    float: left;
+}
+.site-footer .nav-right{
+    float: right;
+    font-size: 12px;
+    text-align: center;
+    margin-right: 34px;
+}
+.site-footer .nav-right .logo-qr img{
+    width: 100px;
+    height: 100px;
+    margin-top: 8px;
+    margin-bottom: 13px;
+}
+.site-footer .copyright{
+    font-size: 12px;
+    margin-top: 20px;
+}
+.site-footer .copyright .beian {
+    margin-top: 10px;
+}
+.site-footer .copyright .beian a img {
+    height: 20px;
+    vertical-align: middle;
+}
+.site-footer .copyright .beian a span {
+    margin-left: 8px;
+    vertical-align: middle;
+}
+/*移动端二维码*/
+.site-footer .btn-erweima{position: relative;}
+.site-footer .btn-erweima .popover{height: 133px;bottom: 25px!important;left: -50px!important;box-shadow: 0 0 5px 0 rgba(0,0,0,0.16);background: #fff;border-radius: 4px;}
+.site-footer .btn-erweima .popover .arrow{left: 70px!important;}
+/*.site-footer .btn-erweima .popover .popover-title{display: none;font-weight: normal;}*/
+.site-footer .btn-erweima .popover .popover-content{position: relative;text-align: center;height: 100%;}
+.site-footer .btn-erweima .popover .popover-content .qr-code img{width: 110px;height: 110px;margin-bottom: 3px;position: static;}
+
+/*footer-bg的定位*/
+.footer-bg{
+    position: absolute;
+    bottom: 0;
+    left: 0;
+    width: 100%;
+    height: 240px;
+    background-image: url(https://cdn.oss.kaoshixing.com/ksxing_static/website-4.0/images/home/footer-bg.png);
+    background-position: center bottom;
+    background-repeat: no-repeat;
+    background-size: cover;
+    -ms-filter:"progid:DXImageTransform.Microsoft.AlphaImageLoader(src='https://cdn.oss.kaoshixing.com/ksxing_static/website-4.0/images/home/footer-bg.png',sizingMethod='scale')";
+    filter:progid:DXImageTransform.Microsoft.AlphaImageLoader(src='https://cdn.oss.kaoshixing.com/ksxing_static/website-4.0/images/home/footer-bg.png',sizingMethod='scale');
+}
+/*<!-- contact-us -->*/
+.contact-us{
+    background: #FFF;
+    box-shadow: 0 2px 6px 0 rgba(58,62,81,0.10);
+    border-radius: 6px 0 0 6px;
+    width: 236px;
+    height: 222px;
+    padding: 6px 0;
+    position: fixed;
+    z-index: 99;
+    right: -172px;
+    top: 270px;
+    -webkit-transition: all .35s ease-in-out;
+    -o-transition: all .35s ease-in-out;
+    transition: all .35s ease-in-out;
+}
+.contact-us .item {
+    height: 70px;
+}
+.contact-us .icon,.contact-us .intro{
+    display: inline-block;
+    vertical-align: middle;
+}
+.contact-us .icon {
+    width: 64px;
+    height: 70px;
+    color: #3A3E51;
+    font-size: 24px;
+    text-align: center;
+    line-height: 70px;
+}
+.contact-us .msg {
+    cursor: pointer;
+}
+.contact-us .msg:hover,
+.contact-us .register:hover {
+    background: #F7F8FA;
+}
+.contact-us .register .icon {
+    font-size: 26px;
+}
+.contact-us .intro {
+    font-size: 24px;
+    letter-spacing: 0.3px;
+    line-height: 53px;
+}
+.contact-us .intro .title {
+    font-size: 16px;
+    color: #3A3E51;
+    line-height: 22px;
+}
+.contact-us .intro .detail {
+    font-size: 14px;
+    color: #6D717C;
+    line-height: 20px;
+}
+.contact-us .telephone .intro .detail {
+    font-size: 16px;
+    color: #FE8545;
+    font-weight: 600;
+}
+.contact-us:hover{right: 0}
+
+@media (max-width:768px) {
+    .hidden-xs{
+        display: none!important;
+    }
+    .visible-xs{
+        display: block!important;
+    }
+    body,.site-main,.site-footer{
+        width: 100%!important;
+    }
+    body{
+        width: 100%!important;
+        -webkit-overflow-scrolling: touch;
+        overflow-x: hidden;
+        min-width: 100%!important;
+    }
+    .m-site-header{
+        width: 100%;
+        position: fixed;
+        left: 0;
+        top: 0;
+        height: 50px;
+        z-index: 9999;
+    }
+    .m-site-header .navbar .navbar-header{
+        width: 100%;
+        padding:  11px 15px;
+    }
+    .m-site-header .navbar-header .navbar-brand{
+        float: left;
+    }
+    .m-site-header .navbar-header .navbar-brand .logo-wrap{
+        height: 28px;
+        width: 96px;
+        background-image: url(https://cdn.oss.kaoshixing.com/ksxing_static/website-4.0/images/home/logo-white.png);
+        background-repeat: no-repeat;
+        background-size: contain;
+    }
+    .m-site-header .navbar-header .btn-show-navbar{
+        font-size: 20px;
+        color: #FFF;
+        float: right;
+        margin-top: 5px;
+    }
+    .m-site-header .right-tab{
+        position: absolute;
+        /*right: 0;*/
+        top: 0;
+        background: #FFF;
+        padding: 30px 15px 15px;
+        width: 100%;
+        /*display: none;*/
+        left: 100%;
+    }
+    .m-site-header .navbar-list{
+        width: 100%;
+    }
+    .m-site-header .navbar-list li{
+        margin-bottom: 10px;
+        color: #1A8CFE;
+        text-align: center;
+    }
+    .m-site-header .navbar-list li a{
+        color: #B4B6BD;
+        display: block;
+        padding: 10px 0;
+    }
+    .m-site-header .btn-close{
+        position: absolute;
+        right: 0;
+        top: 0;
+        height: 40px;
+        width: 40px;
+        font-size: 15px;
+        color: #B4B6BD;
+        line-height: 40px;
+        text-align: center;
+    }
+    .navbar-button li{
+        text-align: center;
+    }
+    .navbar-button li a{
+        display: inline-block;
+        height: 41px;
+        width: 80%;
+        border-radius: 4px;
+        background: #1A8CFE;
+        color: #FFF;
+        margin-bottom: 10px;
+        line-height: 41px;
+    }
+    .navbar-button li:nth-child(2) a{
+        background: #FCA54B;
+    }
+
+    /*背景白色的header样式*/
+    .m-site-header-white{
+        background: #FFF;
+    }
+    .m-site-header-white .navbar-header .navbar-brand .logo-wrap{
+        background-image: url(https://cdn.oss.kaoshixing.com/ksxing_static/website-3.1/base/logo-transparent-header.svg);
+    }
+    .m-site-header-white .navbar-header .btn-show-navbar{
+        color: #1A8CFE;
+    }
+    /*页面滑动时的header样式*/
+    .m-site-header-scroll{
+        background: #FFF;
+    }
+    .m-site-header-scroll .navbar-header .navbar-brand .logo-wrap{
+        background-image: url(https://cdn.oss.kaoshixing.com/ksxing_static/website-3.1/base/logo-transparent-header.svg);
+    }
+    .m-site-header-scroll .navbar-header .btn-show-navbar{
+        color: #1A8CFE;
+    }
+
+    .site-additional{
+        background-size: 100% auto;
+        padding-bottom: 60px;
+        background-image: url("https://cdn.oss.kaoshixing.com/ksxing_static/website-4.0/images/m_img/m-base-bg-1.png");
+    }
+    .site-additional .register-bottom-box .tryout .title{
+        font-size: 22px;
+        text-align: center;
+        padding-top: 61px;
+    }
+    /*site-additional enterprise*/
+    .site-additional .enterprise{
+        width: 100%;
+        margin-top: 0;
+        padding: 0 15px;
+    }
+    .site-additional .enterprise .enterprise-list .item{
+        width: 33%;
+        height: 50px;
+        padding: 0;
+        margin: 0;
+        line-height: 50px;
+    }
+    .site-additional .enterprise .enterprise-list .item .logo{
+        max-width: 82px;
+        max-height: 100%;
+        opacity: 0.7;
+    }
+    .site-additional .enterprise .enterprise-list .item:nth-child(8) .logo{
+        height: 24px;
+    }
+    .site-additional .enterprise .enterprise-list .item:nth-child(6) .logo{
+        max-height: 26px;
+    }
+    .site-additional .enterprise .enterprise-list .item:nth-child(16) .logo{
+        max-height: 26px;
+    }
+    .site-additional .register-bottom-box{
+        width: 100%;
+    }
+
+    /*input*/
+    .site-additional .register-bottom-box .register{
+        width: 100%;
+        height: 40px;
+        max-width: 316px;
+        margin: 0 auto;
+        margin-top: 40px;
+        margin-bottom: 19px;
+    }
+    .site-additional .register-bottom-box .register input{
+        width: calc(100% - 120px);
+        height: 40px;
+    }
+    .site-additional .register-bottom-box .register button{
+        width: 100px;
+        height: 40px;
+    }
+
+
+    /*移动端footer*/
+    .site-additional .register-bottom-box{
+        margin-top: 0;
+    }
+    .site-additional .register-bottom-box .tryout{
+        position: static;
+        margin-left: 0;
+        padding: 0 30px;
+    }
+
+    /*团队照片轮播*/
+    .site-additional .team-img{
+        width: 100%;
+        padding: 0;
+        height: auto;
+        margin-top: 40px;
+    }
+    .site-additional .team-img .swiper-slide{
+        width: calc(100% - 70px) !important;
+        margin: 0 35px;
+    }
+    .site-additional .team-img .swiper-wrapper .swiper-slide img{
+        width: 305px;
+        height: 176px;
+    }
+    .site-additional-about .join-us .title{
+        padding-top: 50px;
+    }
+    .site-additional-about .join-us{
+        position: static;
+        margin-left: 0;
+        padding: 0 15px;
+        text-align: center;
+    }
+    .site-additional-about .join-us dl{
+        text-align: left;
+    }
+    .site-additional .team-img .btn-prev,.site-additional .team-img .btn-next{
+        width: 30px;
+        height: 30px;
+        font-size: 30px;
+    }
+
+    /*site-footer*/
+    .site-footer{
+        -webkit-box-sizing: border-box;
+        -moz-box-sizing: border-box;
+        box-sizing: border-box;
+        padding: 0 30px;
+    }
+    .site-footer .container{
+        width: 100%;
+        font-size: 12px;
+    }
+    .site-footer .group-title{
+        border: 0;
+        margin-bottom: 6px;
+        font-weight: 600;
+    }
+    .site-footer .nav-group{
+        margin-bottom: 20px;
+    }
+    .site-footer .copyright{
+        font-size: 12px;
+        padding-bottom: 25px;
+        margin-top: 25px;
+        text-align: center;
+    }
+    .site-footer .copyright .beian {
+        width: 328px;
+        margin: 0 auto;
+        margin-top: 10px;
+    }
+    .site-footer .copyright .beian a {
+        float: right;
+    }
+    /*二维码定位*/
+    .site-footer .logo-qr{
+        position: absolute;
+        right: 30px;
+        bottom: 70px;
+    }
+    .site-footer .nav-right .logo-qr img{
+        width: 64px;
+        height: 64px;
+        margin-bottom: 28px;
+    }
+    .footer-bg{
+        height: 400px;
+        background-image: url(https://cdn.oss.kaoshixing.com/ksxing_static/website-4.0/images/m_img/m-footer-bg.png);
+        background-size: 100% 156px
+    }
+  .contact-us{display: none;}
+}
+/*视窗宽度小于388px*/
+@media (max-width:388px) {
+    .site-footer .copyright .beian {
+        width: auto;
+    }
+    .site-footer .copyright .beian a {
+        float: none;
+    }
+    .site-footer .nav-right .logo-qr img {
+        margin-bottom: 45px;
+    }
+}
+/*视窗宽度大于1920*/
+@media (min-width:1921px) {
+	.footer-bg{
+  		background-size: 100% 100%;
+  	}
+    .site-additional {
+        background-size: 100% 100%;
+    }
+}
+
+#ZCChatFrame {
+    right: 0!important;
+}
