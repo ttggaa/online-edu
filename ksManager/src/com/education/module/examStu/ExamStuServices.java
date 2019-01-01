@@ -8,6 +8,8 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
+import javax.annotation.Resource;
+
 import org.apache.poi.hssf.usermodel.HSSFRow;
 import org.apache.poi.hssf.usermodel.HSSFSheet;
 import org.apache.poi.hssf.usermodel.HSSFWorkbook;
@@ -26,9 +28,11 @@ import com.education.framework.domain.SearchParams;
 import com.education.framework.page.Page;
 import com.education.framework.session.SessionHelper;
 import com.education.framework.util.CommonTools;
+import com.education.framework.util.cache.CacheManager;
 import com.education.framework.util.excelImp.ExcelImportTools;
 import com.education.module.exam.ExamServices;
 import com.education.module.resCourse.ResCourseServices;
+import com.hp.hpl.sparta.Sparta.Cache;
 
 @Service
 public class ExamStuServices extends BaseServices implements IDao<ExamStu>{
@@ -36,6 +40,8 @@ public class ExamStuServices extends BaseServices implements IDao<ExamStu>{
 	private ExamServices examServices;
 	@Autowired
 	private ResCourseServices resServices;
+	@Resource(name="cacheManager")
+	private CacheManager cache;
 	
 	@Override
 	public List<ExamStu> find(SearchParams searchParams, Page page) {
@@ -274,6 +280,12 @@ public class ExamStuServices extends BaseServices implements IDao<ExamStu>{
 	private boolean findIdCardExist(Integer examId, String idcard) {
 		String sql = "select count(1) from exam_stu where idcard=? and exam_id=?";
 		return dao.queryForObject(sql, new Object[]{idcard, examId}, Integer.class)>0;
+	}
+
+	public boolean reexamine(Integer uid,Integer examId, Integer cid) {
+		cache.removeExamPaper(uid, cid);
+		dao.update("update exam_course set score=0,submit_flag='0',end_time='',submit_time=null where stu_id=? and course_id=? and exam_id=?" , new Object[]{uid, cid, examId});
+		return true;
 	}
 
 }

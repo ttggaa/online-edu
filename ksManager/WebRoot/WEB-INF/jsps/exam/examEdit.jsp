@@ -119,6 +119,20 @@
 												<input class="m-wrap" type="text" style="width:50px;" size="6" name="pracList[2].score" value="${exam.pracList[2].score}"><span class="add-on">分</span>
 											</div>
 										  </div>
+										  <div class="controls">
+											<div class="input-prepend input-append">
+												<span class="add-on">填空<input type="hidden" name="pracList[3].typeCode" value="tiank"/></span>
+												<input class="m-wrap" type="text" style="width:50px;" size="6" name="pracList[3].count" value="${exam.pracList[3].count}"><span class="add-on">道</span>
+												<input class="m-wrap" type="text" style="width:50px;" size="6" name="pracList[3].score" value="${exam.pracList[3].score}"><span class="add-on">分</span>
+											</div>
+										  </div>
+										  <div class="controls">
+											<div class="input-prepend input-append">
+												<span class="add-on">简答<input type="hidden" name="pracList[4].typeCode" value="jiand"/></span>
+												<input class="m-wrap" type="text" style="width:50px;" size="6" name="pracList[4].count" value="${exam.pracList[4].count}"><span class="add-on">道</span>
+												<input class="m-wrap" type="text" style="width:50px;" size="6" name="pracList[4].score" value="${exam.pracList[4].score}"><span class="add-on">分</span>
+											</div>
+										  </div>
 										  
 										  <label class="control-label">及格分数线</label>
 										  <div class="controls" style="margin-top: 10px;"> 

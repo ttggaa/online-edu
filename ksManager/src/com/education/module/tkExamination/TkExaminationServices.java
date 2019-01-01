@@ -294,6 +294,7 @@ public class TkExaminationServices extends BaseServices implements IDao<TkExamin
 			obj.setOptionD(rs.getString("option_d"));
 			obj.setOptionE(rs.getString("option_e"));
 			obj.setOptionF(rs.getString("option_f"));
+			obj.calOptionNum();
 			return obj;
 		}
 	}

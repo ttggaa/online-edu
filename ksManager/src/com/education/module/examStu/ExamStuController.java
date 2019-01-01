@@ -88,6 +88,14 @@ public class ExamStuController extends BaseController{
 		return "redirect:/examStu";
 	}
 	
+	@RequestMapping(value = "reexamine/{uid}/{examId}/{cid}")
+	public String reexamine(@PathVariable(value="uid") Integer uid,@PathVariable(value="examId") Integer examId,@PathVariable(value="cid") Integer cid ,RedirectAttributes redirectAttributes) {
+		boolean r = services.reexamine(uid,examId,cid);
+		redirectAttributes.addFlashAttribute(MESSAGE, MESSAGE_SAVE_SUCCESS);
+		redirectAttributes.addFlashAttribute(MESSAGE_STATE, "alert-success");
+		return "redirect:/examStu";
+	}
+	
 	@RequestMapping(value = "export")
 	public String export(Model model, SearchParams searchParams,HttpServletResponse response){
 		List<ExamStu> list = services.find(searchParams,null);

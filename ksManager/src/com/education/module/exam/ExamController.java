@@ -14,7 +14,6 @@ import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 
-import com.education.beans.ApiResult;
 import com.education.domain.Exam;
 import com.education.framework.base.BaseController;
 import com.education.framework.baseModule.module.business.BusinessServices;
@@ -83,7 +82,7 @@ public class ExamController extends BaseController{
 		String pracConfOld = services.findPracConf(exam.getId());
 		services.update(exam);
 		//生成缓存试卷
-		if(pracConfOld.equals(exam.getPracConf())){
+		if(!pracConfOld.equals(exam.getPracConf())){
 			paperServices.buildExamCachePaper(exam);
 		}
 		redirectAttributes.addFlashAttribute(MESSAGE, MESSAGE_UPDATE_SUCCESS);
@@ -106,19 +105,19 @@ public class ExamController extends BaseController{
 		return t;
 	}
 	
-	@RequestMapping(value = "reqCachePaper", method = RequestMethod.GET)
-	@ResponseBody
-	public ApiResult reqCachePaper(@RequestParam(value="examId",required=true) String examId) {
-		boolean r = services.batchCachePaper(examId);
-		ApiResult result = new ApiResult();
-		return result;
-	}
-	
-	@RequestMapping(value = "reqRemoveCachePaper", method = RequestMethod.GET)
-	@ResponseBody
-	public ApiResult reqRemoveCachePaper(@RequestParam(value="examId",required=true) String examId) {
-		boolean r = services.batchRemoveCachePaper(examId);
-		ApiResult result = new ApiResult();
-		return result;
-	}
+//	@RequestMapping(value = "reqCachePaper", method = RequestMethod.GET)
+//	@ResponseBody
+//	public ApiResult reqCachePaper(@RequestParam(value="examId",required=true) String examId) {
+//		boolean r = services.batchCachePaper(examId);
+//		ApiResult result = new ApiResult();
+//		return result;
+//	}
+//	
+//	@RequestMapping(value = "reqRemoveCachePaper", method = RequestMethod.GET)
+//	@ResponseBody
+//	public ApiResult reqRemoveCachePaper(@RequestParam(value="examId",required=true) String examId) {
+//		boolean r = services.batchRemoveCachePaper(examId);
+//		ApiResult result = new ApiResult();
+//		return result;
+//	}
 }

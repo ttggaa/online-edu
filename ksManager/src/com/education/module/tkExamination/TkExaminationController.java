@@ -67,10 +67,18 @@ public class TkExaminationController extends BaseController{
 	public String createForm(TkExamination tkExamination,Model model) {
 		model.addAttribute("typeList",typeServices.find());
 		model.addAttribute("courseList",resCourseServices.find());
-//		model.addAttribute("difficultyList",DictionaryUtil.getSysDictionaryList(DictionaryConstants.difficulty));
+		model.addAttribute("difficultyList",DictionaryUtil.getSysDictionaryList(DictionaryConstants.difficulty));
 //		model.addAttribute("quesSourceList",quesSourceServices.find());
 		model.addAttribute("action","create");
 		tkExamination.setAuditState("1");
+		if(null == tkExamination.getTypeCode() || "".equals(tkExamination.getTypeCode())){
+			tkExamination.setTypeCode("danx");
+			tkExamination.setOptionNum(4);
+		}else if("danx".equals(tkExamination.getTypeCode()) || "duox".equals(tkExamination.getTypeCode())){
+			tkExamination.setOptionNum(4);
+		}else if("tiank".equals(tkExamination.getTypeCode()) || "yued".equals(tkExamination.getTypeCode())){
+			tkExamination.setOptionNum(1);
+		}
 		model.addAttribute("tkExamination", tkExamination);
 		return "/tkExamination/tkExaminationEdit";
 	}
@@ -86,7 +94,8 @@ public class TkExaminationController extends BaseController{
 		services.updateQuesSumCountByCid(tkExamination.getCourseId());
 		//更新缓存试卷
 		paperServices.buildExamCachePaperByCourseId(tkExamination.getCourseId());
-		redirectAttributes.addFlashAttribute("MESSAGE", "SUCCESS");
+		redirectAttributes.addFlashAttribute(MESSAGE, MESSAGE_SAVE_SUCCESS);
+		redirectAttributes.addFlashAttribute(MESSAGE_STATE, "alert-success");
 		return "redirect:/tkExamination/create?courseId=" + tkExamination.getCourseId() + "&typeCode=" 
 			+ tkExamination.getTypeCode();
 	}
@@ -128,6 +137,17 @@ public class TkExaminationController extends BaseController{
 		redirectAttributes.addFlashAttribute("MESSAGE", "SUCCESS");
 		return "redirect:/tkExamination?map['courseId']=" + tkExamination.getCourseId() + "&map['typeCode']=" 
 		+ tkExamination.getTypeCode() + "&map['sourceId']=" + tkExamination.getSourceId();
+	}
+	
+	@RequestMapping(value = "changeTypeCode/{action}", method = RequestMethod.POST)
+	public String changeTypeCode(@PathVariable("action") String action, TkExamination tkExamination, Model model) {
+		if(null != tkExamination && null == tkExamination.getOptionNum()) tkExamination.setOptionNum(4);
+		model.addAttribute("tkExamination", tkExamination);
+		model.addAttribute("typeList",typeServices.find());
+		model.addAttribute("courseList",resCourseServices.find());
+		model.addAttribute("difficultyList",DictionaryUtil.getSysDictionaryList(DictionaryConstants.difficulty));
+		model.addAttribute("action", action);
+		return "/tkExamination/tkExaminationEdit";
 	}
 	/**
 	 * 批量录入

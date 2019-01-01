@@ -20,7 +20,6 @@ import com.education.domain.Paper;
 import com.education.domain.PaperExamination;
 import com.education.domain.PracmainSub;
 import com.education.domain.ResCourse;
-import com.education.domain.TkExamination;
 import com.education.domain.extend.ExamPracBean;
 import com.education.framework.application.ApplicationHelper;
 import com.education.framework.base.BaseServices;

@@ -148,7 +148,7 @@
 													<td>${list.examCourse.endTime }</td> 
 													<td>
 														<a href="javascript:void();" onclick="timeDelay('${list.id}');" class="btn mini black">延时</a>
-														<a href="javascript:void();" onclick="reexamine('${list.id}');" class="btn mini black">重考</a>
+														<a href="javascript:void();" onclick="reexamine('${list.id}','${list.examId}','${list.examCourse.courseId}');" class="btn mini black">重考</a>
 													</td>
 												</tr>
 											</c:forEach>
@@ -182,21 +182,13 @@
 	</div>
 </div>
 
-<div id="responsiveReexamine" class="modal hide fade" tabindex="-1" data-width="760">
-	<div class="modal-header">
-		<button type="button" class="close" data-dismiss="modal" aria-hidden="true"></button>
-		<h3>重考</h3>
-	</div>
-	<div class="modal-body">
-		<div class="row-fluid">
-			<div class="controls">
-				您确定要对该考生做重考操作吗？
-			</div>
-		</div>
-	</div>
-	<div class="modal-footer">
-		<button type="button" class="btn blue">确定</button>
-		<button type="button" data-dismiss="modal" class="btn">关闭</button>
-	</div>
-</div>
+<script>
+    function reexamine(uid,examId,cid){
+    	if(confirm("确定要进行重考吗？")){
+    		var url = "${basePath}examStu/reexamine/" + uid + "/" + examId + "/" + cid;
+    		window.location = url;
+    	}
+    	
+    }
+</script>
 </html>

@@ -107,32 +107,30 @@
 								<table class="table table-striped table-bordered table-hover table-full-width dataTable" id="sample_1">
 									<thead>
 										<tr role="row">
-											<th style="width:40px;">题号</th>
-											<th>题型</th> 
-											<th style="width:320px;">
+											<th style="width:100px;">题型</th> 
+											<th>
 												<img src="${resPath}media/image/sort_both.png" onclick="theSort('EXAMINATION_CONTENT');"/>试题内容
 											</th> 
-											<th style="width:100px;">答案</th> 
-											<th>考试科目</th> 
-											<th>操作</th>
+											<th style="width:160px;">答案</th> 
+											<th style="width:160px;">考试科目</th> 
+											<th style="width:120px;">操作</th>
 										</tr>
 									</thead>
 									<tbody>
 										<c:set var="cTemp" value=""></c:set>
 										<c:forEach items="${list}" var="list" varStatus="status">
 											<tr class="odd gradeX">
-												<td style="${fn:substring(list.examinationContent, 0, 30) == cTemp?'background-color: #CC2E2E;':''}">${list.id }</td>
 												<td>${list.type.typename }</td> 
 												<td title="${list.examinationContent }">
-													<d:titleLimit maxCount="50" str="${list.examinationContent }"/>
+													<d:titleLimit maxCount="200" str="${list.examinationContent }"/>
 												</td> 
 												<td title="${list.answer }">
-													<d:titleLimit maxCount="10" str="${list.answer }"/>
+													<d:titleLimit maxCount="100" str="${list.answer }"/>
 												</td> 
 												<td>${list.courseName }</td> 
 												<td >
 													<a class="edit" href="${basePath}tkExamination/update/${list.id}">修改</a>&nbsp;
-													<a class="edit" href="${basePath}tkExamination/delete/${list.id}">删除</a>
+													<a class="edit" href="javascript:void();" onclick="delData('${basePath}tkExamination/delete/${list.id}');">删除</a>
 												</td>
 											</tr>
 											

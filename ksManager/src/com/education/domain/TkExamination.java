@@ -39,7 +39,7 @@ public class TkExamination implements Serializable {
     private String difficulty; 
 
     // datebase colume is course_id 
-    private int courseId; 
+    private Integer courseId; 
     private String accountCode;
     private String examinationContentHtml;
 
@@ -58,7 +58,18 @@ public class TkExamination implements Serializable {
     private String updateTime; 
     private Integer updateUser; 
     
-    public String getUpdateTime() {
+    //
+    private Integer optionNum;//选项个数
+    
+    public Integer getOptionNum() {
+		return optionNum;
+	}
+
+	public void setOptionNum(Integer optionNum) {
+		this.optionNum = optionNum;
+	}
+
+	public String getUpdateTime() {
 		return updateTime;
 	}
 
@@ -215,11 +226,11 @@ public class TkExamination implements Serializable {
         this.difficulty=difficulty; 
     } 
 
-    public int getCourseId(){ 
+    public Integer getCourseId(){ 
         return this.courseId; 
     } 
 
-    public void setCourseId(int courseId){ 
+    public void setCourseId(Integer courseId){ 
         this.courseId=courseId; 
     }
     
@@ -277,6 +288,24 @@ public class TkExamination implements Serializable {
 
 	public void setOptionF(String optionF) {
 		this.optionF = optionF;
+	}
+
+	public void calOptionNum() {
+		int ret = 0;
+		if(null != this.optionF && !"".equals(this.optionF)){
+			ret = 6;
+		}else if(null != this.optionE && !"".equals(this.optionE)){
+			ret = 5;
+		}else if(null != this.optionD && !"".equals(this.optionD)){
+			ret = 4;
+		}else if(null != this.optionC && !"".equals(this.optionC)){
+			ret = 3;
+		}else if(null != this.optionB && !"".equals(this.optionB)){
+			ret = 2;
+		}else if(null != this.optionA && !"".equals(this.optionA)){
+			ret = 1;
+		}
+		this.setOptionNum(ret);
 	} 
 
 	
