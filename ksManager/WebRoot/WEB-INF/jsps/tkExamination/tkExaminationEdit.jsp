@@ -26,7 +26,7 @@
 				<div class="row-fluid">
 					<div class="span12">
 						<h3 class="page-title">
-							试题管理
+							题库管理
 						</h3>
 					</div>
 				</div>

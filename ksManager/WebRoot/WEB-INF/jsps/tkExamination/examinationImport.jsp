@@ -23,7 +23,7 @@
 				<div class="row-fluid">
 					<div class="span12">
 						<h3 class="page-title">
-							试题管理
+							题库管理
 						</h3>
 					</div>
 				</div>
@@ -34,7 +34,7 @@
 						<div class="portlet box blue" id="form_wizard_1">
 							<div class="portlet-title">
 								<div class="caption">
-									<i class="icon-reorder"></i> 批量导入
+									<i class="icon-reorder"></i> EXCEL 批量导入试题
 								</div>
 							</div>
 							<div class="portlet-body form">
@@ -63,29 +63,7 @@
 									   		</select>
 									   </div> 
 									</div> 
-									<div class="control-group" id="accountDiv" style="display: none;"> 
-									   <label class="control-label"> 
-									      	实操账套<br /><span class="required">导入实务操作题时需选择账套</span> 
-									   </label> 
-									   <div class="controls"> 
-									       <select id="accountCode" name="accountCode" class="span6 m-wrap">
-										   		<dict:selectOption field="account" selCode="${tkExamination.accountCode}" empty="true"/>
-									   		</select>
-									   </div> 
-									</div>
-									<div class="control-group"> 
-									   <label class="control-label"> 
-									       题库集<span class="required">*</span> 
-									   </label> 
-									   <div class="controls"> 
-									       <select id="sourceId" name="sourceId" class="span2 m-wrap required">
-									       		<option value="" ></option>
-										   		<c:forEach items="${quesSourceList }" var="quesSourceList">
-										   			<option value="${quesSourceList.id }">${quesSourceList.sourceName }</option>
-										   		</c:forEach>
-									   		</select> 
-									   </div> 
-									</div> 
+									
 									<div class="control-group" id="accountDiv" > 
 									   <label class="control-label"> 
 									      	导入文件<span class="required">*</span> 

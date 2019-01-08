@@ -15,6 +15,7 @@ import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
 import com.edufe.framework.common.CommonTools;
+import com.edufe.framework.common.JsonUtils;
 import com.edufe.framework.common.Util;
 import com.edufe.framework.common.cache.CacheUtil;
 import com.edufe.framework.common.calendar.CalendarUtil;
@@ -24,6 +25,7 @@ import com.edufe.module.entity.Exam;
 import com.edufe.module.entity.ExamCourse;
 import com.edufe.module.entity.ExamStu;
 import com.edufe.module.entity.PaperExamination;
+import com.edufe.module.entity.ResCourseBean;
 import com.edufe.module.entity.Type;
 import com.edufe.module.entity.bean.ExCourseEndTimeBean;
 import com.edufe.module.entity.bean.ExamPracBean;
@@ -116,7 +118,7 @@ public class PaperServices {
 	 */
 	private String getExamCourseEndTime(String examEndtime, String endTime, String examSumTime) {
 		if(null != endTime && !"".equals(endTime)) return endTime;
-		if(null == examSumTime || "".equals(examSumTime)) {
+		if(null == examSumTime || "".equals(examSumTime) || "-1".equals(examSumTime)) {
 			//未设置科目时长时，直接返回本场考试结束时间
 			return examEndtime;
 		}
@@ -143,6 +145,17 @@ public class PaperServices {
 	}
 	
 	public String findAndUpdateExamCourseEndTime(Exam e, int examId, int cid , int stuId) throws Exception{
+		List<ResCourseBean> courseConfArr = JsonUtils.json2List(e.getCourseConf(), ResCourseBean.class);
+		String examSumTime = "";
+		if(null != courseConfArr){
+			for(ResCourseBean c : courseConfArr){
+				if(cid == c.getId().intValue()){
+					examSumTime = c.getExamSumTime();
+					break;
+				}
+			}
+		}
+		
 		String sql = "select ec.id,ec.end_time,c.exam_sum_time from exam_course ec inner join res_course c on ec.course_id=c.id where ec.exam_id=? and ec.stu_id=? and ec.course_id=?";
 		
 		ExCourseEndTimeBean ecBean = jdbc.queryForObject(sql, new Object[]{examId, stuId, cid} , new RowMapper<ExCourseEndTimeBean>(){
@@ -157,10 +170,12 @@ public class PaperServices {
 			
 		});
 		String endTime = ecBean.getEndTime();
-		
+		if(null == examSumTime || "".equals(examSumTime)){
+			examSumTime = ecBean.getExamSumTime();
+		}
 		//获取计算科目考试的结束时间点
 		if(null == endTime || "".equals(endTime)){
-			endTime = getExamCourseEndTime(e.getExamEndtime(), endTime ,ecBean.getExamSumTime());
+			endTime = getExamCourseEndTime(e.getExamEndtime(), endTime ,examSumTime);
 		}
 		//更新科目结束时间到DB
 		jdbc.update("update exam_course set end_time=? where id=?" , new Object[]{endTime, ecBean.getId()});

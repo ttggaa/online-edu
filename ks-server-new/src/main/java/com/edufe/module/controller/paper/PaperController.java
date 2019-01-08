@@ -52,7 +52,7 @@ public class PaperController extends BaseController{
         
 		String uid = jwtUtils.getUserid(token);
 		if(null != uid){
-			ExamStu examStu = loginServices.findExamStu(uid);
+			ExamStu examStu = loginServices.findExamStuObj(uid);
 			/** 暂时注释，如时间已到，进入试卷后自动提交
 			//验证考试开始及截止时间是否满足开考条件
 			boolean cFlag = paperServices.checkExamTime();

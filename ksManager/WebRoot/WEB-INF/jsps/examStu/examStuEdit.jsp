@@ -22,8 +22,7 @@
 				<div class="row-fluid">
 					<div class="span12">
 						<h3 class="page-title">
-							考生管理
-							<small>${action=='create'?'新增信息':'修改信息'}</small>
+							我的考试
 						</h3>
 					</div>
 				</div>
@@ -37,29 +36,17 @@
 							<div class="portlet-body form">
 								<form id="inputForm" class="form-horizontal" action="${basePath}examStu/${action}" method="post" >
 									<input type="hidden" name="id" value="${examStu.id }"/>
+									<input type="hidden" name="examId" value="${eid }"/>
 									<div class="alert alert-error ${empty MESSAGE ?'hide':'' }">
 										<button class="close" data-dismiss="alert"></button>
 										<span>${MESSAGE }</span>
 									</div>
 									<div class="control-group"> 
 									   <label class="control-label"> 
-									       考试<span class="required">*</span> 
-									   </label> 
-									   <div class="controls"> 
-									       <select class="m-wrap required" id="examId" name="examId" style="width:300px;">
-									       		<option></option>
-												<c:forEach items="${examList }" var="exam">
-										   			<option value="${exam.id }" ${examStu.examId==exam.id?'selected=selected':'' }>${exam.examName }</option>
-										   		</c:forEach>
-											</select>
-									   </div> 
-									</div> 
-									<div class="control-group"> 
-									   <label class="control-label"> 
 									       准考证号<span class="required">*</span> 
 									   </label> 
 									   <div class="controls"> 
-									       <input name="idcard" class="span6 m-wrap required" type="text" value="${examStu.idcard}"> 
+									       <input id="idcard" name="idcard" class="span6 m-wrap" type="text" value="${examStu.idcard}" placeholder="必填项，长度4~16位"/> 
 									   </div> 
 									</div> 
 									<div class="control-group"> 
@@ -67,18 +54,24 @@
 									       姓名<span class="required">*</span> 
 									   </label> 
 									   <div class="controls"> 
-									       <input name="truename" class="span6 m-wrap required" type="text" value="${examStu.truename}"> 
+									       <input id="truename" name="truename" class="span6 m-wrap" type="text" value="${examStu.truename}" placeholder="必填项" size="10"/> 
 									   </div> 
 									</div> 
 									<c:if test="${action == 'create'}">
 										<div class="control-group"> 
 										   <label class="control-label"> 
-										      类型 
+										      类型
 										   </label> 
 										   <div class="controls"> 
-										       <label class="checkbox">
-												  <input type="checkbox" value="1" name="testFlag"/> 是否为测试考生（测试考生不占用“可用考生人数”）
-											   </label>  
+										   	   <c:if test="${business.account <= 0}">
+										   	   		<span class="badge badge-warning">您的账户余额不足，当前仅支持创建测试类型的考生（测试考生可免费使用）</span>
+										   	   		<input type="hidden" name="testFlag" value="1"/>
+										   	   </c:if>
+										   	   <c:if test="${business.account > 0}">
+											       <label class="checkbox">
+													  <input type="checkbox" value="1" name="testFlag"/> 是否为测试考生（测试考生可免费使用）
+												   </label>
+											   </c:if>  
 										   </div> 
 										</div> 
 									</c:if>
@@ -162,7 +155,7 @@
 									
 									<div class="form-actions clearfix">
 										
-										<button class="btn blue" type="submit"><i class="icon-ok"></i>完成</button>
+										<button class="btn blue" type="button" onclick="theSave();"><i class="icon-ok"></i>完成</button>
 										&nbsp;&nbsp;
 										<a class="btn" onclick="cancle();">取消</a>
 			
@@ -181,11 +174,24 @@
 	<script src="${resPath}media/js/app.js"></script>   
 	<script>
 		jQuery(document).ready(function() { 		   
-		   $("#inputForm").validate();
 		   App.init();
 		});
 		function cancle(){
-			window.location = "${basePath}examStu";
+			window.location = "${basePath}examStu?map['eid']=${eid }";
+		}
+		function theSave(){
+			if($("#idcard").val() == ""){
+				alert("准考证号不能为空!");
+				return false;
+			}
+			if($("#idcard").val().length < 4 || $("#idcard").val().length > 16){
+				alert("准考证号必须4~16位长度范围!");
+			}
+			if($("#truename").val() == ""){
+				alert("姓名不能为空!");
+				return false;
+			}
+			$("#inputForm").submit();
 		}
 	</script>
 </body>

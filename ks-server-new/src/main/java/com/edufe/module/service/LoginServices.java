@@ -35,6 +35,8 @@ public class LoginServices {
 		sql.append("FROM exam_stu s ");
 		sql.append("inner join exam e on s.exam_id=e.id and e.business_id=? ");
 		sql.append("where s.idcard=? and s.truename=? and s.business_id=?");
+		//考试结束时间是否超出，如超出截止日期当日23：59，则不允许登录
+		sql.append(" and DATE_FORMAT(now(),'%Y-%m-%d') <= DATE_FORMAT(exam_endtime,'%Y-%m-%d') ");
 		List<ExamStu> list = jdbc.query(sql.toString(),new Object[]{business.getId(),idcard, truename,business.getId()},new RowMapper<ExamStu>(){
 			@Override
 			public ExamStu mapRow(ResultSet rs, int arg1) throws SQLException {
@@ -105,6 +107,42 @@ public class LoginServices {
 		
 		if(null != list && list.size() > 0) return list.get(0);
 		return null;
+	}
+	
+	public ExamStu findExamStuObj(String uid) {
+		if(null == uid) return null;
+		
+		StringBuffer sql = new StringBuffer();
+		sql.append("SELECT s.id,idcard,truename,exam_id,test_flag");
+		sql.append(", e.exam_name,e.exam_begintime,e.exam_endtime,e.pass_score, e.introduce,e.paper_build_count,e.prac_conf,e.course_conf ");
+		sql.append("FROM exam_stu s ");
+		sql.append("inner join exam e on s.exam_id=e.id ");
+		sql.append("where s.id=?");
+		ExamStu examStu = jdbc.queryForObject(sql.toString(),new Object[]{uid},new RowMapper<ExamStu>(){
+			@Override
+			public ExamStu mapRow(ResultSet rs, int arg1) throws SQLException {
+				ExamStu obj = new ExamStu();
+				obj.setExamId(rs.getInt("exam_id")); 
+				obj.setId(rs.getInt("id")); 
+				obj.setIdcard(rs.getString("idcard"));
+				obj.setTruename(rs.getString("truename")); 
+				obj.setTestFlag(rs.getString("test_flag"));
+				Exam exam = new Exam();
+				exam.setId(obj.getExamId());
+				exam.setExamName(rs.getString("exam_name"));
+				exam.setExamBegintime(rs.getString("exam_begintime"));
+				exam.setExamEndtime(rs.getString("exam_endtime"));
+				exam.setPassScore(rs.getFloat("pass_score"));
+				exam.setIntroduce(rs.getString("introduce"));
+				exam.setPaperBuildCount(rs.getInt("paper_build_count"));
+				exam.setPracConf(rs.getString("prac_conf"));
+				exam.setCourseConf(rs.getString("course_conf"));
+				obj.setExam(exam);
+				return obj;
+			}
+		});
+		
+		return examStu;
 	}
 
 	public LoginConfBean findLoginConf(String reqUrl) {

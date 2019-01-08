@@ -1,6 +1,7 @@
 <%@ page language="java" import="java.util.*" pageEncoding="utf-8"%>
 <%@ include file="/WEB-INF/includes/common-import.jsp"%>
 <%@ taglib uri="/page" prefix="p"%>
+<%@ taglib prefix="dict" uri="/dict"%>
 <!DOCTYPE html>
 <!--[if IE 8]> <html lang="en" class="ie8"> <![endif]-->
 <!--[if IE 9]> <html lang="en" class="ie9"> <![endif]-->
@@ -45,6 +46,16 @@
 													</div>
 												</div>
 											</div>
+											<div class="span2">
+												<div class="control-group">
+													<label class="control-label" for="examName">状态</label>
+													<div class="controls">
+														<select id="examState" name="map['examState']" class="span10 m-wrap ">
+													   		<dict:selectOption field="EXAM_STATE" selCode="${searchParams.map['examState'] }"/>
+												   		</select>											
+													</div>
+												</div>
+											</div>
 										</div>
 										<div style="text-align:center;">
 											<button type="submit" class="btn blue"><i class="icon-ok"></i> 查询</button>
@@ -79,7 +90,11 @@
 											<c:forEach items="${list}" var="list" varStatus="status">
 												<tr class="odd gradeX">
 													<td>${status.index+1 }</td>
-													<td>${list.examName }</td> 
+													<td>${list.examName }
+														<c:if test="${not empty list.msg}">
+															<div><span class="label label-warning">${list.msg}</span></div>
+														</c:if>
+													</td> 
 													<td>${list.examBegintime }</td> 
 													<td>${list.examEndtime }</td> 
 													<td>${list.examUserCount }</td> 

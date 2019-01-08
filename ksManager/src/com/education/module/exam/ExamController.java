@@ -20,6 +20,7 @@ import com.education.framework.baseModule.module.business.BusinessServices;
 import com.education.framework.domain.SearchParams;
 import com.education.framework.page.Page;
 import com.education.framework.session.SessionHelper;
+import com.education.framework.util.calendar.CalendarUtil;
 import com.education.module.paper.PaperServices;
 import com.education.module.resCourse.ResCourseServices;
 
@@ -50,9 +51,12 @@ public class ExamController extends BaseController{
 	public String createForm(Model model) {
 		Exam exam = new Exam();
 		exam.setPassScore(60);
+		exam.setExamBegintime(CalendarUtil.getCurrentDate("yyyy-MM-dd HH:mm"));
+		exam.setExamEndtime(CalendarUtil.getCurrentDate("yyyy-MM-dd HH:mm"));
 		model.addAttribute("exam", exam);
-		model.addAttribute("courseList",resCourseServices.find());
+		model.addAttribute("courseListJson", resCourseServices.convertJson(resCourseServices.find()));
 		model.addAttribute("action","create");
+		model.addAttribute("tab", "1");
 		return "/exam/examEdit";
 	}
 
@@ -68,21 +72,25 @@ public class ExamController extends BaseController{
 	}
 
 	@RequestMapping(value = "update/{id}", method = RequestMethod.GET)
-	public String updateForm(@PathVariable("id") Integer id, Model model) {
+	public String updateForm(@PathVariable("id") Integer id, Model model,ServletRequest request) {
 		Exam exam = services.findForObject(id);
 		exam.setPracList(services.convertPracConfList(exam.getPracConf()));
 		model.addAttribute("exam", exam);
-		model.addAttribute("courseList",resCourseServices.fillSelCourse(resCourseServices.find(), exam.getSelCourseArr()));
+		String json = resCourseServices.fillSelCourse(resCourseServices.find(), exam.getSelCourseArr());
+		model.addAttribute("courseListJson", json);
 		model.addAttribute("action", "update");
+		model.addAttribute("tab", request.getParameter("tab") == null ? "1" : request.getParameter("tab"));
 		return "/exam/examEdit";
 	}
 
 	@RequestMapping(value = "update", method = RequestMethod.POST)
 	public String update(Exam exam, RedirectAttributes redirectAttributes) {
-		String pracConfOld = services.findPracConf(exam.getId());
+//		String pracConfOld = services.findPracConf(exam.getId());
+		Exam examOld = services.findForObject(exam.getId());
+		String pracConfOld = examOld.getPracConf();
 		services.update(exam);
 		//生成缓存试卷
-		if(!pracConfOld.equals(exam.getPracConf())){
+		if(!pracConfOld.equals(exam.getPracConf()) || !"".equals(examOld.getMsg())){
 			paperServices.buildExamCachePaper(exam);
 		}
 		redirectAttributes.addFlashAttribute(MESSAGE, MESSAGE_UPDATE_SUCCESS);

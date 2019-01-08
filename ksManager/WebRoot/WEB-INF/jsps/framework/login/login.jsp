@@ -19,14 +19,29 @@
 	<link href="${resPath}media/css/login.css" rel="stylesheet" type="text/css"/>
 	<link rel="shortcut icon" href="${resPath}media/image/favicon.ico" />
 	<style type="text/css">
-		BODY{background:url(${resPath }images/reg-bg2.jpg) no-repeat center;background-size:100% 280%}
-		
-		@media only screen and (min-device-width : 393px) and (max-device-width : 736px) and (orientation : portrait){
-			BODY{
-				background:url(${resPath }images/reg-bg2.jpg) no-repeat center;
-				background-size:300% 280%;
-			}
+	    html {
+		    font-family: sans-serif;
+		    line-height: 1.15;
+		    -ms-text-size-adjust: 100%;
+		    -webkit-text-size-adjust: 100%;
 		}
+		html, body {
+		    width: 100%;
+		    height: 100%;
+		    overflow: hidden;
+		    margin: 0;
+		    padding: 0;
+		}
+		.login {
+		    width: 100%;
+		    height: 100%;
+		    background-image: url(${resPath }images/login-bg.jpg);
+		    background-size: cover;
+		    background-position: center;
+		    position: relative;
+		}
+		
+		
 	</style>
 </head>
 <body class="login">
@@ -65,9 +80,11 @@
 				</label>
 			</div>
 			<div class="form-actions">
+				<!-- 
 				<button type="button" class="btn pull-right" onclick="forgetPwd();">
 				忘记密码
 				</button>
+				 -->
 				<button type="button" class="btn pull-right green" onclick="login();" style="margin-right: 10px">
 				登录 <i class="m-icon-swapright m-icon-white"></i>
 				</button>

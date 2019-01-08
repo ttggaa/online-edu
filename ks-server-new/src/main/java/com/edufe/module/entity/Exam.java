@@ -20,8 +20,17 @@ public class Exam implements Serializable {
     private Integer paperBuildCount;
     private String pracConf;
     private Integer businessId;
+    private String courseConf;
     
-    public Integer getBusinessId() {
+    public String getCourseConf() {
+		return courseConf;
+	}
+
+	public void setCourseConf(String courseConf) {
+		this.courseConf = courseConf;
+	}
+
+	public Integer getBusinessId() {
 		return businessId;
 	}
 

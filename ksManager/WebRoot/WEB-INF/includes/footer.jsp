@@ -21,7 +21,7 @@
 </div>
 <div class="footer">
 	<div class="footer-inner">
-		2018 &copy; 东北财经大学培训与继续教育学院.
+		2018 &copy; 大连领航世纪科技发展有限公司.
 	</div>
 	<div class="footer-tools">
 		<span class="go-top">

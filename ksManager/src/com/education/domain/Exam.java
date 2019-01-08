@@ -4,6 +4,7 @@ import java.io.Serializable;
 import java.util.List;
 
 import com.education.domain.extend.ExamPracBean;
+import com.edufe.module.entity.ResCourseBean;
 
 /* 
  *  
@@ -36,12 +37,30 @@ public class Exam implements Serializable {
     
     private String introduce;
     private Integer businessId;
-    private String[] selCourseArr;
+    private List<ResCourseBean> selCourseArr;
     private String pracConf;
     private List<ExamPracBean> pracList ; //策略
     private Integer paperBuildCount; //试卷生成套数
     
-    private float passScore;
+    private Integer passScore;
+    private String msg;
+    private String state;
+    
+	public String getState() {
+		return state;
+	}
+
+	public void setState(String state) {
+		this.state = state;
+	}
+
+	public String getMsg() {
+		return msg;
+	}
+
+	public void setMsg(String msg) {
+		this.msg = msg;
+	}
 
 	public String getPracConf() {
 		return pracConf;
@@ -67,11 +86,11 @@ public class Exam implements Serializable {
 		this.pracList = pracList;
 	}
 
-	public String[] getSelCourseArr() {
+	public List<ResCourseBean> getSelCourseArr() {
 		return selCourseArr;
 	}
 
-	public void setSelCourseArr(String[] selCourseArr) {
+	public void setSelCourseArr(List<ResCourseBean> selCourseArr) {
 		this.selCourseArr = selCourseArr;
 	}
 
@@ -91,11 +110,11 @@ public class Exam implements Serializable {
 		this.introduce = introduce;
 	}
 
-	public float getPassScore() {
+	public Integer getPassScore() {
 		return passScore;
 	}
 
-	public void setPassScore(float passScore) {
+	public void setPassScore(Integer passScore) {
 		this.passScore = passScore;
 	}
 

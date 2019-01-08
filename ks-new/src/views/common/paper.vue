@@ -195,6 +195,7 @@
             }
           } else {
             this.$message.error(data.msg)
+            this.$router.push({ name: 'home' })
           }
         })
       },

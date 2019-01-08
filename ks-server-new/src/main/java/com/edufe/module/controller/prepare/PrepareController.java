@@ -48,10 +48,10 @@ public class PrepareController extends BaseController{
 		String uid = jwtUtils.getUserid(token);
 		if(null != uid){
 			
-			ExamStu examStu = loginServices.findExamStu(uid);
+			ExamStu examStu = loginServices.findExamStuObj(uid);
 			//考试开始，倒计时 （秒）
 			String diffSecond = CalendarUtil.dataDiffByNow(examStu.getExam().getExamBegintime());
-			List<ExamCourse> examCourseList = prepareServices.findExamCourse(examStu.getExamId(), examStu.getId());
+			List<ExamCourse> examCourseList = prepareServices.findExamCourse(examStu.getExamId(), examStu.getId(), examStu.getExam().getCourseConf());
 			
 			Map<String, Object> map = new HashMap<>();
 			map.put("truename",examStu.getTruename());

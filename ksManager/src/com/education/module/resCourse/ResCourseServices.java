@@ -9,12 +9,17 @@ import org.springframework.jdbc.core.RowMapper;
 import org.springframework.stereotype.Service;
 
 import com.education.domain.ResCourse;
+import com.education.framework.application.ApplicationHelper;
 import com.education.framework.base.BaseServices;
 import com.education.framework.baseModule.domain.SysUser;
 import com.education.framework.dao.IDao;
 import com.education.framework.domain.SearchParams;
 import com.education.framework.page.Page;
 import com.education.framework.session.SessionHelper;
+import com.edufe.module.entity.ResCourseBean;
+import com.sun.glass.ui.Application;
+
+import net.sf.json.JSONArray;
 
 @Service
 public class ResCourseServices extends BaseServices implements IDao<ResCourse>{
@@ -49,18 +54,25 @@ public class ResCourseServices extends BaseServices implements IDao<ResCourse>{
 		return list;
 	}
 	
-	public List<ResCourse> fillSelCourse(List<ResCourse> list, String[] selCourseArr) {
-		for(ResCourse c : list){
-			if(null != selCourseArr){
-				for(String selCourseId : selCourseArr){
-					if(selCourseId.equals(String.valueOf(c.getId()))){
+	public String convertJson(List<ResCourse> list) {
+		String json = JSONArray.fromObject(list).toString();
+		 return json;
+	}
+	
+	public String fillSelCourse(List<ResCourse> list, List<ResCourseBean> selCourseArr) {
+		if(null != selCourseArr){
+			for(ResCourse c : list){
+				for(ResCourseBean sel : selCourseArr){
+					if(sel.getId().intValue() == c.getId().intValue()){
 						c.setSelCourseFlag("1");
+						c.setExamSumTime(sel.getExamSumTime());
+						c.setIndexno(sel.getIndexno());
 						break;
 					}
 				}
 			}
 		}
-		return list;
+		return convertJson(list);
 	}
 	
 	public List<ResCourse> findAll() {
@@ -95,6 +107,21 @@ public class ResCourseServices extends BaseServices implements IDao<ResCourse>{
 		Object[] args = {id};
 		return dao.queryForObject(sql.toString(),args,new ResCourseRowmapper());
 	}
+	
+	public ResCourse findForObjectByName(String courseName) {
+		if(null == courseName) return null;
+		try{
+			StringBuffer sql = new StringBuffer();
+			sql.append("SELECT id,course_name,course_code,exam_sum_time,create_time,create_user,indexno,business_id FROM res_course ");
+			sql.append(" where course_name=? limit 0,1");
+			
+			Object[] args = {courseName.trim()};
+			return dao.queryForObject(sql.toString(),args,new ResCourseRowmapper());
+		}catch(Exception ex){
+			
+		}
+		return null;
+	}
 
 	@Override
 	public void update(ResCourse obj) {
@@ -110,8 +137,9 @@ public class ResCourseServices extends BaseServices implements IDao<ResCourse>{
 
 	@Override
 	public void delete(Integer id) {
-		String sql = "delete from res_course where id=?";
-		dao.update(sql, new Object[]{id});
+		dao.update("delete from tk_examination where business_id=? and course_id=?" ,new Object[]{ApplicationHelper.getInstance().getBusiness().getId(), id});
+		String sql = "delete from res_course where business_id=? and id=?";
+		dao.update(sql, new Object[]{ApplicationHelper.getInstance().getBusiness().getId(), id});
 	}
 
 	@Override

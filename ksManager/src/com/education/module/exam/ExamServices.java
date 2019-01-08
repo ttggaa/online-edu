@@ -10,7 +10,9 @@ import org.springframework.jdbc.core.RowMapper;
 import org.springframework.stereotype.Service;
 
 import com.education.domain.Exam;
+import com.education.domain.ResCourse;
 import com.education.domain.extend.ExamPracBean;
+import com.education.domain.extend.Examing;
 import com.education.framework.application.ApplicationHelper;
 import com.education.framework.base.BaseServices;
 import com.education.framework.baseModule.domain.SysUser;
@@ -19,9 +21,13 @@ import com.education.framework.domain.SearchParams;
 import com.education.framework.page.Page;
 import com.education.framework.session.SessionHelper;
 import com.education.framework.util.GUID;
+import com.education.framework.util.PinyinConv;
 import com.education.framework.util.cache.CacheManager;
 import com.education.framework.util.calendar.CalendarUtil;
+import com.education.module.resCourse.ResCourseServices;
+import com.education.utils.JsonUtils;
 import com.edufe.module.entity.PaperExaminationOld;
+import com.edufe.module.entity.ResCourseBean;
 import com.edufe.module.entity.Type;
 import com.edufe.module.entity.bean.ExaminationType;
 
@@ -33,11 +39,15 @@ public class ExamServices extends BaseServices implements IDao<Exam>{
 
 	@Autowired
 	private CacheManager cache;
+	@Autowired
+	private ResCourseServices resCourseServices;
 	
 	@Override
 	public List<Exam> find(SearchParams searchParams, Page page) {
 		StringBuffer sql = new StringBuffer();
-		sql.append("SELECT id,exam_name,exam_begintime,exam_endtime,create_time,create_user,getExamUserCount(id) examUserCount,introduce,course_conf,business_id,prac_conf, paper_build_count,pass_score FROM exam");
+		sql.append("SELECT id,exam_name,exam_begintime,exam_endtime,create_time,create_user,getExamUserCount(id) examUserCount,introduce,course_conf,business_id,prac_conf, paper_build_count,pass_score,msg ");
+		sql.append("FROM exam ");
+		
 		String lp = " where ";
 		List<Object> argsList = new ArrayList<Object>();
 		if(null != searchParams){
@@ -46,8 +56,14 @@ public class ExamServices extends BaseServices implements IDao<Exam>{
 				argsList.add("%" + searchParams.get("examName") + "%");
 				lp = " and ";
 			}
+			if(null != searchParams.get("examState") && "history".equals((String)searchParams.get("examState"))){
+				sql.append(lp).append(" DATE_FORMAT(now(),'%Y-%m-%d') > DATE_FORMAT(exam_endtime,'%Y-%m-%d') ");
+				lp = " and ";
+			}else{
+				sql.append(lp).append(" DATE_FORMAT(now(),'%Y-%m-%d') <= DATE_FORMAT(exam_endtime,'%Y-%m-%d') ");
+				lp = " and ";
+			}
 		}
-		
 		sql.append(lp).append(" business_id = ? ");
 		argsList.add(SessionHelper.getInstance().getUser().getBusinessId());
 		
@@ -59,7 +75,7 @@ public class ExamServices extends BaseServices implements IDao<Exam>{
 	
 	public List<Exam> find() {
 		StringBuffer sql = new StringBuffer();
-		sql.append("SELECT id,exam_name,exam_begintime,exam_endtime,create_time,create_user,getExamUserCount(id) examUserCount,introduce,course_conf,business_id,prac_conf, paper_build_count,pass_score FROM exam ");
+		sql.append("SELECT id,exam_name,exam_begintime,exam_endtime,create_time,create_user,getExamUserCount(id) examUserCount,introduce,course_conf,business_id,prac_conf, paper_build_count,pass_score,msg FROM exam ");
 		sql.append("where business_id=?");
 		List<Exam> list = dao.query(sql.toString(),new Object[]{SessionHelper.getInstance().getUser().getBusinessId()},new ExamRowmapper());
 		return list;
@@ -67,7 +83,7 @@ public class ExamServices extends BaseServices implements IDao<Exam>{
 	
 	public List<Exam> findAll() {
 		StringBuffer sql = new StringBuffer();
-		sql.append("SELECT id,exam_name,exam_begintime,exam_endtime,create_time,create_user,getExamUserCount(id) examUserCount,introduce,course_conf,business_id,prac_conf, paper_build_count,pass_score FROM exam");
+		sql.append("SELECT id,exam_name,exam_begintime,exam_endtime,create_time,create_user,getExamUserCount(id) examUserCount,introduce,course_conf,business_id,prac_conf, paper_build_count,pass_score,msg FROM exam");
 		
 		List<Exam> list = dao.query(sql.toString(),new ExamRowmapper());
 		return list;
@@ -76,13 +92,26 @@ public class ExamServices extends BaseServices implements IDao<Exam>{
 	@Override
 	public int save(Exam obj) {
 		String courseConf = "";
-		 String lp = "";
-		 if(null != obj.getSelCourseArr() && obj.getSelCourseArr().length >0){
-			 for(String cs : obj.getSelCourseArr()){
-				 courseConf += lp + cs;
-				 lp = ",";
+		 if(null == obj.getSelCourseArr() || obj.getSelCourseArr().size() <= 0){
+			 ResCourse resCourse = resCourseServices.findForObjectByName(obj.getExamName());
+			 if(null == resCourse){
+				 resCourse = new ResCourse();
+				 resCourse.setCourseName(obj.getExamName());
+				 resCourse.setCourseCode(PinyinConv.cn2py(obj.getExamName()));
+				 resCourse.setExamSumTime(String.valueOf(-1));
+				 resCourse.setIndexno(0);
+				 int cid = resCourseServices.save(resCourse);
+				 resCourse.setId(cid);
 			 }
+			 List<ResCourseBean> cList = new ArrayList<ResCourseBean>();
+			 cList.add(new ResCourseBean(resCourse.getId(), obj.getExamName(), "60" ,0));//默认60分钟
+			 obj.setSelCourseArr(cList);
 		 }
+		 
+		 courseConf = JsonUtils.list2Json(obj.getSelCourseArr());
+//		 if(null == courseConf || "".equals(courseConf)){
+//			 courseConf = obj.get
+//		 }
 		 String pracConf = convertPracConf(obj.getPracList());
 		 SysUser sessionUser = SessionHelper.getInstance().getUser();
 		 StringBuffer sql = new StringBuffer(); 
@@ -104,9 +133,9 @@ public class ExamServices extends BaseServices implements IDao<Exam>{
 	@Override
 	public Exam findForObject(Integer id) {
 		StringBuffer sql = new StringBuffer();
-		sql.append("SELECT id,exam_name,exam_begintime,exam_endtime,create_time,create_user,getExamUserCount(id) examUserCount,introduce,course_conf,business_id,prac_conf, paper_build_count,pass_score FROM exam ");
-		sql.append(" where id=? ");
-		Object[] args = {id};
+		sql.append("SELECT id,exam_name,exam_begintime,exam_endtime,create_time,create_user,getExamUserCount(id) examUserCount,introduce,course_conf,business_id,prac_conf, paper_build_count,pass_score,msg FROM exam ");
+		sql.append(" where id=? and business_id = ?");
+		Object[] args = {id,SessionHelper.getInstance().getUser().getBusinessId()};
 		return dao.queryForObject(sql.toString(),args,new ExamRowmapper());
 	}
 	
@@ -126,12 +155,8 @@ public class ExamServices extends BaseServices implements IDao<Exam>{
 	@Override
 	public void update(Exam obj) {
 		String courseConf = "";
-		 String lp = "";
-		 if(null != obj.getSelCourseArr() && obj.getSelCourseArr().length >0){
-			 for(String cs : obj.getSelCourseArr()){
-				 courseConf += lp + cs;
-				 lp = ",";
-			 }
+		 if(null != obj.getSelCourseArr() && obj.getSelCourseArr().size() >0){
+			 courseConf = JsonUtils.list2Json(obj.getSelCourseArr());
 		 }
 		 
 		 String pracConf = convertPracConf(obj.getPracList());
@@ -194,13 +219,19 @@ public class ExamServices extends BaseServices implements IDao<Exam>{
 			obj.setIntroduce(rs.getString("introduce"));
 			obj.setBusinessId(rs.getInt("business_id"));
 			String courseConf = rs.getString("course_conf");
-			String[] courseConfArr = courseConf.split(",");
+			List<ResCourseBean> courseConfArr = JsonUtils.json2List(courseConf, ResCourseBean.class);
 			if(null != courseConfArr){
 				obj.setSelCourseArr(courseConfArr);
 			}
 			obj.setPaperBuildCount(rs.getInt("paper_build_count"));
 			obj.setPracConf(rs.getString("prac_conf"));
-			obj.setPassScore(rs.getFloat("pass_score"));
+			obj.setPassScore(rs.getInt("pass_score"));
+			obj.setMsg(rs.getString("msg"));
+			if(CalendarUtil.compareNow(obj.getExamEndtime(), "yyyy-MM-dd") >= 0){
+				obj.setState("normal");
+			}else{
+				obj.setState("history");
+			}
 			return obj;
 		}
 	}
@@ -368,6 +399,40 @@ public class ExamServices extends BaseServices implements IDao<Exam>{
 				obj.setOptionD(rs.getString("option_d"));
 				obj.setOptionE(rs.getString("option_e"));
 				obj.setOptionF(rs.getString("option_f"));
+				return obj;
+			}
+			
+		});
+		return list;
+	}
+
+	public List<Examing> findExamingList() {
+		StringBuffer sql = new StringBuffer();
+		sql.append("SELECT id,exam_name,exam_begintime,exam_endtime,create_time,introduce,course_conf,prac_conf,getExamUserCount(id) examUserCount ");
+		sql.append(",DATE_FORMAT(exam_begintime,'%Y-%m-%d') viewDate, DATE_FORMAT(exam_begintime,'%H:%i') viewTime,msg ");
+		sql.append("FROM exam where business_id=? and DATE_FORMAT(exam_endtime,'%Y-%m-%d %H:%i') > DATE_FORMAT(now(),'%Y-%m-%d %H:%i') ");
+		sql.append(" order by exam_begintime");
+		List<Examing> list = dao.query(sql.toString(),new Object[]{SessionHelper.getInstance().getUser().getBusinessId()},new RowMapper<Examing>(){
+
+			@Override
+			public Examing mapRow(ResultSet rs, int arg1) throws SQLException {
+				Examing obj = new Examing();
+				obj.setCreateTime(rs.getString("create_time")); 
+				obj.setExamBegintime(rs.getString("exam_begintime")); 
+				obj.setExamEndtime(rs.getString("exam_endtime")); 
+				obj.setExamName(rs.getString("exam_name")); 
+				obj.setId(rs.getInt("id")); 
+				obj.setIntroduce(rs.getString("introduce"));
+				String courseConf = rs.getString("course_conf");
+				List<ResCourseBean> courseConfArr = JsonUtils.json2List(courseConf, ResCourseBean.class);
+				if(null != courseConfArr){
+					obj.setSelCourseArr(courseConfArr);
+				}
+				obj.setPracConf(rs.getString("prac_conf"));
+				obj.setExamUserCount(rs.getInt("examUserCount"));
+				obj.setViewDate(rs.getString("viewDate"));
+				obj.setViewTime(rs.getString("viewTime"));
+				obj.setMsg(rs.getString("msg"));
 				return obj;
 			}
 			

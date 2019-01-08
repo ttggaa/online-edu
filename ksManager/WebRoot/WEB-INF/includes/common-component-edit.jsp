@@ -34,6 +34,7 @@
 <link rel="stylesheet" href="${resPath}media/js/zTree_v3-master/css/zTreeStyle/zTreeStyle.css" />
 <link rel="stylesheet" type="text/css" href="${resPath}media/css/datepicker.css" />
 <link rel="stylesheet" type="text/css" href="${resPath}media/css/datetimepicker.css" />
+<script type="text/javascript" src="${resPath}media/js/date2.js"></script>
 <!-- END PAGE LEVEL STYLES -->
 <link rel="shortcut icon" href="${resPath}media/image/favicon.ico" />
 <!-- BEGIN JAVASCRIPTS(Load javascripts at bottom, this will reduce page load time) -->
@@ -84,7 +85,6 @@
 <script type="text/javascript" src="${resPath}media/js/bootstrap-datepicker.js"></script>
 <script type="text/javascript" src="${resPath}media/js/bootstrap-datetimepicker.js"></script>
 <script type="text/javascript" src="${resPath}media/js/clockface.js"></script>
-<script type="text/javascript" src="${resPath}media/js/date.js"></script>
 <script type="text/javascript" src="${resPath}media/js/common.js"></script>
 <script type="text/javascript" src="${resPath}media/js/daterangepicker.js"></script> 
 <script type="text/javascript" src="${resPath}media/js/bootstrap-colorpicker.js"></script>  
@@ -116,20 +116,3 @@
 <script src="${resPath}js/jquery.form.js" type="text/javascript"></script>   
 <script src="${resPath}js/common.js"></script>
 <script src="${resPath}js/uniteTable.js"></script>
-
-<div id="responsiveMsgBox" class="modal hide fade" tabindex="-1" data-width="760">
-	<input type="hidden" id="msgbox_callbackFunNameHid"/>
-	<div class="modal-header">
-		<button type="button" class="close" data-dismiss="modal" aria-hidden="true"></button>
-		<h3 id="msgbox_title"></h3>
-	</div>
-	<div class="modal-body">
-		<div class="row-fluid" id="msgbox_content">
-			
-		</div>
-	</div>
-	<div class="modal-footer">
-		<button type="button" onclick="alertCloseMsgBox();" class="btn blue">执意选择</button>
-		<button type="button" data-dismiss="modal" class="btn">选择其它 </button>
-	</div>
-</div>

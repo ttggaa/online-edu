@@ -101,10 +101,11 @@ public class ResCourseController extends BaseController{
 		resCourse.setCourseName(courseName);
 		resCourse.setCourseCode(PinyinConv.cn2py(courseName));
 		resCourse.setExamSumTime(String.valueOf(examSumTime));
+		
 		resCourse.setIndexno(indexno);
 		int cid = services.save(resCourse);
 		resCourse.setId(cid);
-		
+		resCourse.setSelCourseFlag("1");
 		apiResult.setCode(1);
 		apiResult.setObj(resCourse);
 		return apiResult;

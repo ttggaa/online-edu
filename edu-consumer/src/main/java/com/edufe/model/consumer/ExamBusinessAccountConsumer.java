@@ -25,7 +25,6 @@ public class ExamBusinessAccountConsumer {
 	
 	@KafkaListener(topics = {"eks_account_change"})
     public void process(String content) {
-        System.out.println("-------------------------ExamBusinessAccountConsumer() content=" + content);
         ExamAccountBean bean = null;
 		try {
 			bean = (ExamAccountBean)JsonUtil.toObject(content, ExamAccountBean.class);

@@ -101,7 +101,7 @@ public class RSACodeFactory {
 		}
 	}
 	public static void main(String[] args) {
-		String inputStr = "123456";
+		String inputStr = "简要总结一下，使用公钥加密、私钥解密，完成了乙方到甲方的一次数据传递";
 		String ret = "";
 		try {
 			ret = RSACodeFactory.getInstance().encryptDef(inputStr);

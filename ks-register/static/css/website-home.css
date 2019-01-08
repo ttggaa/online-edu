@@ -198,7 +198,7 @@
 .procedure .step .detail{font-size: 12px;color: #B4B6BD;padding-left: 57px;}
 
 .procedure .step.first-step{height: 336px;padding-left: 561px;}
-.procedure .step.first-step .sketch{width: 379px;height: 336px;left: 100px;top: 0;background-image: url(https://cdn.oss.kaoshixing.com/ksxing_static/website-3.1/home/procedure-first-step.png);}
+.procedure .step.first-step .sketch{width: 379px;height: 336px;left: 100px;top: 0;background-image: url(http://edu-online.qiniu.linghang-tech.com/exam/register/procedure-first-step-new.png);}
 .procedure .step.first-step .describe{padding-top: 75px;}
 .procedure .step.first-step .describe .detail{
     width: 375px;
@@ -206,7 +206,7 @@
 .procedure .step.first-step .title .step-icon{background: #6ED78E;}
 
 .procedure .step.second-step{height: 363px;}
-.procedure .step.second-step .sketch{width: 353px;height: 363px;right: 0;top: -8px;background-image: url(https://cdn.oss.kaoshixing.com/ksxing_static/website-3.1/home/procedure-second-step.png);}
+.procedure .step.second-step .sketch{width: 353px;height: 363px;right: 0;top: -8px;background-image: url(http://edu-online.qiniu.linghang-tech.com/exam/register/procedure-second-step.png);}
 .procedure .step.second-step .describe{position: absolute;right: 391px;top: 158px;}
 .procedure .step.second-step .describe .detail{
     width: 301px;
@@ -214,7 +214,7 @@
 .procedure .step.second-step .title .step-icon{background: #00c8ff;}
 
 .procedure .step.third-step{height: 242px;}
-.procedure .step.third-step .sketch{width: 348px;height: 363px;left: 0;top: -204px;;background-image: url(https://cdn.oss.kaoshixing.com/ksxing_static/website-3.1/home/procedure-third-step.png);}
+.procedure .step.third-step .sketch{width: 348px;height: 363px;left: 0;top: -204px;;background-image: url(http://edu-online.qiniu.linghang-tech.com/exam/register/procedure-third-step-new.png);}
 .procedure .step.third-step .describe{position: absolute;left: 338px;top: 144px;}
 .procedure .step.third-step .describe .detail{
     width: 301px;

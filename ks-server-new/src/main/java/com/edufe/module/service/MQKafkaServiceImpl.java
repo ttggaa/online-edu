@@ -56,4 +56,5 @@ public class MQKafkaServiceImpl{
 	public void savePaper(Integer stuId, Integer courseId, ExamCourse ec) {
 		
 	}
+
 }

@@ -4,7 +4,7 @@
     <div class="navbar">
         <!-- brand -->
         <div class="navbar-header">
-            <a class="navbar-brand  active" href="https://www.kaoshixing.com/">
+            <a class="navbar-brand  active" >
                 <div class="logo-wrap"></div>
             </a>
         </div>
@@ -16,7 +16,7 @@
     <div class="navbar">
         <!-- brand -->
         <div class="navbar-header clearfix">
-            <a class="navbar-brand  active" href="https://www.kaoshixing.com/">
+            <a class="navbar-brand  active">
                 <div class="logo-wrap"></div>
             </a>
             <div class="btn-show-navbar">
@@ -36,23 +36,23 @@
         <div class="first-page">
             <div class="container">
                 <div class="tryout">
-                    <p class="title">最轻量级的在线考试系统 <span class="btn-play-video pc-btn-play-video hidden-xs"><i class="icon icon-m_exam_play"></i></span></p>
-                    <span class="hidden-xs">95,000+企业的选择</span>
-                    <span class="visible-xs">1分钟组织考试 <span class="btn-play-video m-btn-play-video"><i class="icon icon-m_exam_play"></i></span></span>
+                    <p class="title">轻量级智能云端考试服务平台 <span class="btn-play-video pc-btn-play-video hidden-xs"><i class="icon icon-m_exam_play"></i></span></p>
+                    <span class="hidden-xs">在线考试的最佳选择</span>
+                    <span class="visible-xs">1分钟即可组织考试 <span class="btn-play-video m-btn-play-video"><i class="icon icon-m_exam_play"></i></span></span>
                     <div class="register-box">
                         <input  type="text" placeholder="请输入手机号" v-model="telephone">
-                        <button @click="dataFormSubmit">免费注册</button>
+                        <button @click="dataFormSubmit">申请免费使用</button>
                     </div>
-                    <span class="hidden-xs">想让每一场考试都节约大量成本吗？</span>
+                    <span class="hidden-xs">想让每一场考试都节约大量成本吗？马上申请试用吧！</span>
                 </div>
-                <img src="/static/img/home-img-1.png" alt="">
+                <img src="http://edu-online.qiniu.linghang-tech.com/exam/register/home-img-1-new.png" alt="">
             </div>
         </div>
 
             <!-- jumbotron-cases -->
         <div class="second-page cases">
             <div class="cases-wrap clearfix">
-                <div class="cases-title">3步开始考试，满足不同场景</div>
+                <div class="cases-title">只需3步即可快速开始考试</div>
                 <div class="case-box">
                     <div class="case train">
                         <div class="case-icon"></div>
@@ -117,14 +117,14 @@
             <div class="describe">
                 <div class="title">
                     <i class="step-icon icons8-test-partial-passed"></i>
-                    第一步：录题
+                    第一步：导入题库
                 </div>
                 <div class="intro">
                     支持多种题型，一键导入或订购题库
                 </div>
                 <div class="detail">
-                    支持单选、多选、判断题、填空题、问答题、阅读题<br>
-                    同时支持excel、word批量上传试题、图片
+                    支持单选、多选、判断题、填空题、简答题<br>
+                    同时支持excel批量上传试题及图片
                 </div>
             </div>
             <div class="sketch"></div>
@@ -189,7 +189,6 @@
     methods: {
       // 提交表单
       dataFormSubmit () {
-        console.log("123123123")
         this.$http({
           url: this.$http.adornUrl('/openApi/register'),
           method: 'post',

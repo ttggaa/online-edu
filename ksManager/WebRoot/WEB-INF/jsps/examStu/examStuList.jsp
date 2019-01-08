@@ -38,123 +38,117 @@
 				<div class="row-fluid">
 					<div class="span12">
 						<h3 class="page-title">
-							考生管理
+							我的考试
 						</h3>
 					</div>
 				</div>
 				<div class="row-fluid">
 					<div class="span12">
-						<div class="portlet box light-grey">
-							<div class="portlet-title"></div>
-							<div class="portlet-body">
-								<form id="searchForm" class="horizontal-form" action="${basePath }examStu" method="post">
-									<div class="portlet-body form">
-										<div class="row-fluid">
-											<div class="span3 ">
-												<div class="control-group">
-													<label class="control-label" for="examname">考试名称</label>
-													<input id="examname" name="map['examname']" class="span10" style="padding-left: 5px;" value="${searchParams.map['examname'] }">
-												</div>
-											</div>
-											<div class="span3">
-												<div class="control-group">
-													<label class="control-label" for="truename">考生姓名</label>
-													<div class="controls">
-														<input class="m-wrap span10" type="text" placeholder="考生姓名..." id="truename" name="map['truename']" value="${searchParams.map['truename'] }"/>													
-													</div>
-												</div>
-											</div>
-											<div class="span3">
-												<div class="control-group">
-													<label class="control-label" for="idcard">准考证号</label>
-													<div class="controls">
-														<input class="m-wrap span10" type="text" placeholder="准考证号..." id="idcard" name="map['idcard']" value="${searchParams.map['idcard'] }"/>													
-													</div>
-												</div>
-											</div>
-										</div>
-										<div style="text-align:center;">
-											<button type="submit" class="btn blue"><i class="icon-ok"></i> 查询</button>
-											<button type="button" class="btn" onclick="resetForm('searchForm');">重置</button>
-										</div>
-									</div>
-									<div class="alert ${MESSAGE_STATE } ${empty MESSAGE ?'hide':'' }">
-										<button class="close" data-dismiss="alert"></button>
-										<span>${MESSAGE }</span>
-									</div>
-									<div class="portlet box light-grey">
-										<div class="clearfix">
-											<div class="btn-group">
-												<c:if test="${business.account < '0'}">
-													<a href="#" class="btn icn-only green">欠费状态, 立即充值 <i class="m-icon-swapright m-icon-white"></i></a>
-												</c:if>
-												<c:if test="${business.account >= '0'}">
-													<a id="sample_editable_1_new" class="btn green" href="${basePath }examStu/create">
-														新增 <i class="icon-plus"></i>
-													</a>
-												</c:if>
-											</div>
-											<div class="btn-group pull-right">
-												<c:if test="${business.account >= '0'}">
-													<button class="btn dropdown-toggle" data-toggle="dropdown">更多 <i class="icon-angle-down"></i>
-													</button>
-													<ul class="dropdown-menu pull-right">
-														<li><a href="${basePath }examStu/imp">导入考生信息</a></li>
-														<li><a onclick="submitForm('${basePath }examStu/export','searchForm');" href="javascript:void();">导出至Excel</a></li>
-													</ul>
-												</c:if>
-											</div>
-											<div class="btn-group pull-right">
-												<select id="pageItem" name="map['pageItem']" class="span16 m-wrap">
-										       		<option value="10" ${searchParams.map['pageItem'] == 10 ? 'selected=selected':''}>每页10条</option>
-											   		<option value="20" ${searchParams.map['pageItem'] == 20 ? 'selected=selected':''}>每页20条</option>
-											   		<option value="30" ${searchParams.map['pageItem'] == 30 ? 'selected=selected':''}>每页30条</option>
-											   		<option value="50" ${searchParams.map['pageItem'] == 50 ? 'selected=selected':''}>每页50条</option>
-											   		<option value="100" ${searchParams.map['pageItem'] == 100 ? 'selected=selected':''}>每页100条</option>
-											   		<option value="200" ${searchParams.map['pageItem'] == 200 ? 'selected=selected':''}>每页200条</option>
-										   		</select>
-										   	</div>
-										</div>
-									</form>
-									<table class="table table-striped table-bordered table-hover" id="sample_1">
-										<thead>
-											<tr>
-												<th>准考证号</th> 
-												<th>姓名</th>
-												<th style="width:25%">考试科目</th> 
-												<th>成绩</th>
-												<th>本场提交截止时间</th>
-												<th style="width:130px;">操作</th>
-											</tr>
-										</thead>
-										<tbody>
-											<c:forEach items="${list}" var="list" varStatus="status">
-												<tr class="odd gradeX">
-													<td>${list.idcard }
-														<div>
-															<a href="${basePath}examStu/update/${list.id}" class="btn mini purple"><i class="icon-edit"></i> 修改</a>
-															<a href="javascript:void();" onclick="delData('${basePath}examStu/delete/${list.id}');" class="btn mini black"><i class="icon-trash"></i> 删除</a>
+						<div class="tabbable tabbable-custom boxless">
+						<ul class="nav nav-tabs">
+							<li class=""><a href="${basePath }exam/update/${searchParams.map['eid'] }?tab=1">基础信息</a></li>
+							<li><a class="" href="${basePath }exam/update/${searchParams.map['eid'] }?tab=2">高级配置</a></li>
+							<li class="active"><a href="#tab_3" data-toggle="tab">考生信息</a></li>
+							<li><a class="" href="${basePath }examRank?map['eid']=${searchParams.map['eid'] }">考试数据</a></li>
+						</ul>
+						<div class="tab-content">
+							<div class="tab-pane active" id="tab_3">
+								<div class="portlet box light-grey">
+									<div class="portlet-title"></div>
+									<div class="portlet-body">
+										<form id="searchForm" class="horizontal-form" action="${basePath }examStu" method="post">
+											<input type="hidden" id="eid" name="map['eid']" value="${searchParams.map['eid'] }"/>
+											<div class="portlet-body form">
+												<div class="row-fluid">
+													<div class="span3">
+														<div class="control-group">
+															<label class="control-label" for="truename">考生姓名</label>
+															<div class="controls">
+																<input class="m-wrap span10" type="text" placeholder="考生姓名..." id="truename" name="map['truename']" value="${searchParams.map['truename'] }"/>													
+															</div>
 														</div>
-													</td> 
-													<td>${list.truename }
-														<c:if test="${list.testFlag == '1'}"><span class="badge badge-warning">测试</span></c:if>
-													</td> 
-													<td>${list.examCourse.courseName }</td>
-													<td>
-														<c:if test="${list.examCourse.submitFlag =='1'}">
-															${list.examCourse.score }
+													</div>
+													<div class="span3">
+														<div class="control-group">
+															<label class="control-label" for="idcard">准考证号</label>
+															<div class="controls">
+																<input class="m-wrap span10" type="text" placeholder="准考证号..." id="idcard" name="map['idcard']" value="${searchParams.map['idcard'] }"/>													
+															</div>
+														</div>
+													</div>
+												</div>
+												<div style="text-align:center;">
+													<button type="submit" class="btn blue"><i class="icon-ok"></i> 查询</button>
+													<button type="button" class="btn" onclick="resetForm('searchForm');">重置</button>
+												</div>
+											</div>
+											<div class="alert ${MESSAGE_STATE } ${empty MESSAGE ?'hide':'' }">
+												<button class="close" data-dismiss="alert"></button>
+												<span>${MESSAGE }</span>
+											</div>
+											<div class="portlet box light-grey">
+												<div class="clearfix">
+													<div class="btn-group">
+														<a id="sample_editable_1_new" class="btn green" href="${basePath }examStu/create/${searchParams.map['eid'] }">
+															新增考生 <i class="icon-plus"></i>
+														</a>
+													</div>
+													<div class="btn-group">
+														<a id="sample_editable_2_new" class="btn green" href="${basePath }examStu/imp/${searchParams.map['eid'] }">
+															批量导入考生 <i class="icon-file"></i>
+														</a>
+													</div>
+													<div class="btn-group pull-right">
+														<c:if test="${business.account >= '0'}">
+															<button class="btn dropdown-toggle" data-toggle="dropdown">更多 <i class="icon-angle-down"></i>
+															</button>
+															<ul class="dropdown-menu pull-right">
+																<li><a onclick="submitForm('${basePath }examStu/export','searchForm');" href="javascript:void();">导出至Excel</a></li>
+															</ul>
 														</c:if>
-													</td> 
-													<td>${list.examCourse.endTime }</td> 
-													<td>
-														<a href="javascript:void();" onclick="timeDelay('${list.id}');" class="btn mini black">延时</a>
-														<a href="javascript:void();" onclick="reexamine('${list.id}','${list.examId}','${list.examCourse.courseId}');" class="btn mini black">重考</a>
-													</td>
-												</tr>
-											</c:forEach>
-										</tbody>
-									</table>
-									<p:page url="examStu" cpage="${page.cpage }" perItem="${page.perItem }" totalItem="${page.totalItem }"/>
+													</div>
+													<div class="btn-group pull-right">
+														<select id="pageItem" name="map['pageItem']" class="span16 m-wrap">
+												       		<option value="10" ${searchParams.map['pageItem'] == 10 ? 'selected=selected':''}>每页10条</option>
+													   		<option value="20" ${searchParams.map['pageItem'] == 20 ? 'selected=selected':''}>每页20条</option>
+													   		<option value="30" ${searchParams.map['pageItem'] == 30 ? 'selected=selected':''}>每页30条</option>
+													   		<option value="50" ${searchParams.map['pageItem'] == 50 ? 'selected=selected':''}>每页50条</option>
+													   		<option value="100" ${searchParams.map['pageItem'] == 100 ? 'selected=selected':''}>每页100条</option>
+													   		<option value="200" ${searchParams.map['pageItem'] == 200 ? 'selected=selected':''}>每页200条</option>
+												   		</select>
+												   	</div>
+												</div>
+											</form>
+											<table class="table table-striped table-bordered table-hover" id="sample_1">
+												<thead>
+													<tr>
+														<th style="text-align: center;" class="span2">序号</th> 
+														<th style="text-align: center;" class="span4">准考证号</th> 
+														<th style="text-align: center;" class="span2">姓名</th>
+														<th style="text-align: center;" class="hidden-480">考场信息</th>
+														<th class="span4">操作</th>
+													</tr>
+												</thead>
+												<tbody>
+													<c:forEach items="${list}" var="list" varStatus="status">
+														<tr class="odd gradeX">
+															<td style="text-align: center;">${status.index+1}</td> 
+															<td>${list.idcard }</td> 
+															<td>${list.truename }
+																<c:if test="${list.testFlag == '1'}"><span class="badge badge-warning">测试</span></c:if>
+															</td> 
+															<td class="hidden-480">${list.examSitename } ${list.examRoomname }</td>
+															<td>
+																<a href="${basePath}examStu/update/${list.id}" class="btn mini purple"><i class="icon-edit"></i> 修改</a>
+																<a href="javascript:void();" onclick="delData('${basePath}examStu/delete/${list.id}');" class="btn mini black"><i class="icon-trash"></i> 删除</a>
+															</td>
+														</tr>
+													</c:forEach>
+												</tbody>
+											</table>
+											<p:page url="examStu" cpage="${page.cpage }" perItem="${page.perItem }" totalItem="${page.totalItem }"/>
+										</div>
+									</div>
 								</div>
 							</div>
 						</div>

@@ -1,5 +1,5 @@
 <template>
-  <el-container>
+  <el-container class="home_container">
   	<el-header>
   		<el-menu class="el-menu-demo" mode="horizontal">
 			  <el-menu-item index="1">{{examname}}</el-menu-item>
@@ -20,17 +20,15 @@
 			    </div>
 			  </div>
 			</div>
-			<el-row :gutter="20">
-  			<el-col><div class="grid-content bg-purple">考试须知</div></el-col>
-			</el-row>
-			<el-row :gutter="20">
-  			<el-col><div class="grid-content bg-purple" v-html="examIntroduce"></div></el-col>
-			</el-row>
 			
 			<el-table :data="examCourseList" v-loading="loading2">
         <el-table-column prop="courseName" label="考试科目" width="600">
         </el-table-column>
-        <el-table-column prop="examSumTime" label="考试时间" width="120">
+        <el-table-column label="考试限时" width="120">
+        	<template slot-scope="scope">
+        		<div v-if="scope.row.examSumTime != '-1'">{{scope.row.examSumTime}}分钟</div>
+        		<div v-if="scope.row.examSumTime == '-1'">不限时</div>
+        	</template>
         </el-table-column>
         <el-table-column prop="score" label="成绩">
         </el-table-column>
@@ -42,6 +40,13 @@
           </template>
         </el-table-column>
       </el-table>
+      
+      <el-row :gutter="20" v-if="examIntroduce != ''" style="margin-top: 15px;">
+  			<el-col><div class="grid-content bg-purple">考试须知</div></el-col>
+			</el-row>
+			<el-row :gutter="20" style="margin-top: 10px;margin-left:5px;line-height: 20px;">
+  			<el-col><div class="grid-content bg-purple" v-html="examIntroduce"></div></el-col>
+			</el-row>
 		</el-main>
 		<div>
 			<el-footer style="text-align: center;position:absolute;bottom:0;width:100%;">
@@ -133,6 +138,18 @@
 </script>
 
 <style>
+	.home_container {
+		background: url(~@/assets/img/prepare_back.jpg) no-repeat center center;
+    background-attachment: fixed;
+    background-size: cover;
+    display: table;
+    height: calc(100vh);
+    width: 100%;
+    position: relative;
+    z-index: 1;
+    overflow-x: hidden;
+	}
+	
   .mod-home {
     line-height: 1.5;
   }

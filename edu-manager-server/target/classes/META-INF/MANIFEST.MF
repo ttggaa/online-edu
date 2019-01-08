@@ -3,7 +3,7 @@ Implementation-Title: edu-manager-server
 Implementation-Version: 2.1.0
 Built-By: yangchao
 Implementation-Vendor-Id: io.renren
-Build-Jdk: 1.8.0_112
+Build-Jdk: 1.8.0_152
 Implementation-URL: https://projects.spring.io/spring-boot/#/spring-bo
  ot-starter-parent/edu-manager-server
 Created-By: Maven Integration for Eclipse

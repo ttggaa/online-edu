@@ -10,15 +10,33 @@ import org.springframework.jdbc.core.RowMapper;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
+import com.edufe.framework.common.JsonUtils;
 import com.edufe.module.entity.ExamCourse;
+import com.edufe.module.entity.ResCourseBean;
 @Service
 @Transactional
 public class PrepareServices {
 
 	@Autowired
 	protected JdbcTemplate jdbc;
-
-	public List<ExamCourse> findExamCourse(int examId, int stuId) {
+	
+	private boolean checkExamCourseExist(int examId, int stuId){
+		String checksql = "SELECT count(1) FROM exam_course ec where ec.exam_id=? and ec.stu_id=?";
+		return jdbc.queryForObject(checksql, new Object[]{examId, stuId}, Integer.class) > 0;
+	}
+	
+	public List<ExamCourse> findExamCourse(int examId, int stuId, String courseConf) {
+		if( ! checkExamCourseExist(examId, stuId)){
+			List<ResCourseBean> courseConfArr = JsonUtils.json2List(courseConf, ResCourseBean.class);
+			if(null != courseConfArr){
+				for(ResCourseBean c : courseConfArr){
+					//新增考生课程关系数据
+					String insSql = "insert into exam_course(stu_id,course_id,score,submit_flag,exam_id,create_time) values(?,?,?,?,?,now())";
+					jdbc.update(insSql, new Object[]{stuId, c.getId(),0,"0", examId});
+				}
+			}
+		}
+		
 		StringBuffer sql = new StringBuffer();
 		sql.append("SELECT ec.id,ec.stu_id,ec.course_id,ec.end_time,ec.score,ec.submit_time,ec.submit_flag,ec.exam_id, rc.course_name,rc.exam_sum_time ");
 		sql.append("FROM exam_course ec inner join res_course rc on ec.course_id=rc.id ");

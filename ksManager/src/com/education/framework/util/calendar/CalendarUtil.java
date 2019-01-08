@@ -199,6 +199,21 @@ public class CalendarUtil {
 		return d;
 	}
 	
+	public static int compareNow(String date,String pattren){
+		if(null == date || "".equals(date) || "null".equalsIgnoreCase(date)) return -1;
+		Date d = null;
+		Date now = null;
+		
+		SimpleDateFormat sdf = new SimpleDateFormat(pattren);
+		try {
+			d = sdf.parse(date);
+			now = sdf.parse(getCurrentDate(pattren));
+		} catch (ParseException e) {
+			e.printStackTrace();
+		}
+		
+		return d.compareTo(now);
+	}
 	/**
 	 * 
 	 * 功能说明:
@@ -356,6 +371,16 @@ public class CalendarUtil {
 	public static boolean isDateTimeStr(String strDate) {
 		try{
 			Date d = dateFormat(strDate, "yyyy-MM-dd hh:mm:ss");
+			return true;
+		}catch(Exception ex){
+			ex.printStackTrace();
+		}
+		return false;
+	}
+	
+	public static boolean isDateTimeStr(String strDate,String pattern) {
+		try{
+			Date d = dateFormat(strDate, pattern);
 			return true;
 		}catch(Exception ex){
 			ex.printStackTrace();

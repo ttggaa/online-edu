@@ -20,6 +20,7 @@ import com.education.domain.Paper;
 import com.education.domain.PaperExamination;
 import com.education.domain.PracmainSub;
 import com.education.domain.ResCourse;
+import com.education.domain.Type;
 import com.education.domain.extend.ExamPracBean;
 import com.education.framework.application.ApplicationHelper;
 import com.education.framework.base.BaseServices;
@@ -37,7 +38,9 @@ import com.education.module.paper.bean.TPaper;
 import com.education.module.paper.bean.TQuestion;
 import com.education.module.paper.bean.TQuestionBoard;
 import com.education.module.paperExamination.PaperExaminationServices;
+import com.education.utils.JsonUtils;
 import com.edufe.module.entity.PaperExaminationCacheBean;
+import com.edufe.module.entity.ResCourseBean;
 
 @Service
 @Transactional
@@ -967,7 +970,7 @@ public class PaperServices extends BaseServices implements IDao<Paper>{
 				Exam exam = new Exam();
 				exam.setId(rs.getInt("id"));
 				String courseConf = rs.getString("course_conf");
-				String[] courseConfArr = courseConf.split(",");
+				List<ResCourseBean> courseConfArr = JsonUtils.json2List(courseConf, ResCourseBean.class);
 				if(null != courseConfArr){
 					exam.setSelCourseArr(courseConfArr);
 				}
@@ -989,8 +992,8 @@ public class PaperServices extends BaseServices implements IDao<Paper>{
 		if(null == e.getSelCourseArr()) return false;
 		if(null == courseId || "".equals(courseId)) return false;
 		boolean ret = false;
-		for(String cid : e.getSelCourseArr()){
-			if(courseId.equals(cid)){
+		for(ResCourseBean c : e.getSelCourseArr()){
+			if(courseId.equals(String.valueOf(c.getId().intValue()))){
 				ret = true;
 				break;
 			}
@@ -1007,20 +1010,21 @@ public class PaperServices extends BaseServices implements IDao<Paper>{
 		if(null == exam.getPracList()) return false;
 		if(null == exam.getSelCourseArr()) return false;
 		
-		for(String cid : exam.getSelCourseArr()){
-			if( ! buildPaperCheck(cid,exam.getPracList())) {
-				dao.update("update exam set paper_build_count=0 where id=?", new Object[]{exam.getId()});
+		for(ResCourseBean c : exam.getSelCourseArr()){
+			String msg = buildPaperCheck(c.getId(),exam.getPracList());
+			if( !"".equals(msg) ) {
+				dao.update("update exam set paper_build_count=0,msg=? where id=?", new Object[]{msg, exam.getId()});
 				return false;
 			}else{
-				dao.update("update exam set paper_build_count=? where id=?", new Object[]{paperCacheNum,exam.getId()});
+				dao.update("update exam set paper_build_count=?,msg='' where id=?", new Object[]{paperCacheNum,exam.getId()});
 			}
 			
-			buildExamCoursePaper(cid, exam.getId(),exam.getPracList());
+			buildExamCoursePaper(c.getId(), exam.getId(),exam.getPracList());
 		}
 		return true;
 	}
 
-	private boolean buildExamCoursePaper(String cid,Integer examId, List<ExamPracBean> pracList) {
+	private boolean buildExamCoursePaper(Integer cid,Integer examId, List<ExamPracBean> pracList) {
 		StringBuffer sql = new StringBuffer(); 
 		sql.append("SELECT id,type_code,examination_content,option_a,option_b,option_c,option_d,option_e,option_f,answer ");
 		sql.append("FROM tk_examination where course_id=? and type_code=? ORDER BY RAND() limit 0,?");	
@@ -1051,28 +1055,28 @@ public class PaperServices extends BaseServices implements IDao<Paper>{
 				}
 			}
 			
-			cache.setPaperExaminationList(examId,cid,i, listAll);
+			cache.setPaperExaminationList(examId,String.valueOf(cid.intValue()),i, listAll);
 		}
 		return true;
 	}
 
-	private boolean buildPaperCheck(String cid, List<ExamPracBean> pracList) {
-		boolean ret = true;
+	private String buildPaperCheck(Integer cid, List<ExamPracBean> pracList) {
 		StringBuffer sql = new StringBuffer(); 
 		sql.append("SELECT count(1) ");
-		sql.append("FROM tk_examination where course_id=? and type_code=? ORDER BY RAND() limit 0,?");	
+		sql.append("FROM tk_examination where course_id=? and type_code=? and business_id=? ORDER BY RAND() limit 0,?");	
 		
+		StringBuffer msgBuff = new StringBuffer();
 		for(ExamPracBean prac : pracList){
 			if(null != prac.getCount() && !"".equals(prac.getCount())){
-				Object[] args = {cid, prac.getTypeCode(), Integer.parseInt(prac.getCount())};
+				Object[] args = {cid, prac.getTypeCode(),ApplicationHelper.getInstance().getBusiness().getId(), Integer.parseInt(prac.getCount())};
 				int n = dao.queryForInt(sql.toString(), args);
 				if(n < Integer.parseInt(prac.getCount())){
-					ret = false;
+					msgBuff.append("题量不足，无法正常考试！");
 					break;
 				}
 			}
 		}
-		return ret;
+		return msgBuff.toString();
 	}
 
 }

@@ -40,6 +40,7 @@
 							</div>
 							<div class="portlet-body form">
 								<form id="inputForm" class="form-horizontal" action="${basePath}examStu/imp" method="post" enctype="multipart/form-data">
+									<input type="hidden" name="id" value="${exam.id }"/>
 									<div class="alert ${MESSAGE_STATE } ${empty MESSAGE ?'hide':'' }">
 										<button class="close" data-dismiss="alert"></button>
 										<span>${MESSAGE }</span>
@@ -58,19 +59,6 @@
 									   </label> 
 									   <div class="controls"> 
 									       <input type="file" name="file" class="required"/>
-									   </div> 
-									</div>
-									<div class="control-group" id="accountDiv" > 
-									   <label class="control-label"> 
-									      	考试活动
-									   </label> 
-									   <div class="controls"> 
-									       <select class="span6 chosen" id="examId" data-placeholder="请选择考试活动" tabindex="1" name="id">
-												<option value=""></option>
-												<c:forEach items="${examList }" var="exam">
-										   			<option value="${exam.id }">${exam.examName }</option>
-										   		</c:forEach>
-											</select>
 									   </div> 
 									</div>
 									<div class="control-group" id="accountDiv" > 
@@ -102,7 +90,7 @@
 		   App.init();
 		});
 		function cancle(){
-			window.location = "${basePath}examStu";
+			window.location = "${basePath}examStu?map['eid']=${exam.id }";
 		}
 	</script>
 </body>

@@ -15,7 +15,9 @@ import org.springframework.web.bind.annotation.RestController;
 import com.edufe.framework.base.BaseController;
 import com.edufe.framework.beans.R;
 import com.edufe.framework.common.JwtUtils;
+import com.edufe.framework.common.Util;
 import com.edufe.framework.common.cache.CacheUtil;
+import com.edufe.framework.common.calendar.CalendarUtil;
 import com.edufe.framework.validator.ValidatorUtils;
 import com.edufe.module.entity.ExamStu;
 import com.edufe.module.entity.bean.ExBean;
@@ -68,10 +70,16 @@ public class LoginController extends BaseController{
 		
 		ExamStu examStu = loginServices.findExamStu(examStuParam.getIdcard() , examStuParam.getTruename(), examStuParam.getReqUrl());
 		if(null != examStu){
+			
 			//登录成功,扣费,test_flag=1除外
 			if(!"1".contentEquals(examStu.getTestFlag()) && !"1".contentEquals(examStu.getCostFlag())){
-				mq.decAccount(new ExamAccountBean("dec", examStu.getId(), examStu.getExam().getBusinessId(), "1"));
+				mq.decAccount(new ExamAccountBean("login_dec", examStu.getId(), examStu.getExam().getBusinessId(), 
+						"1",Util.getClientIP(request),CalendarUtil.getCurrentDateAll()));
+				
+				//验证当前时间是否在考试时间段内，判断年月日，不含时分秒，不在时间断内，禁止登录考试平台。
+				
 			}
+			
 			//生成token
 	        String token = jwtUtils.generateToken(examStu.getId());
 	        Map<String, Object> map = new HashMap<>();

@@ -19,7 +19,6 @@ import org.springframework.stereotype.Service;
 import org.springframework.web.multipart.MultipartFile;
 
 import com.education.domain.Exam;
-import com.education.domain.ExamCourse;
 import com.education.domain.ExamStu;
 import com.education.framework.base.BaseServices;
 import com.education.framework.baseModule.domain.SysUser;
@@ -32,7 +31,7 @@ import com.education.framework.util.cache.CacheManager;
 import com.education.framework.util.excelImp.ExcelImportTools;
 import com.education.module.exam.ExamServices;
 import com.education.module.resCourse.ResCourseServices;
-import com.hp.hpl.sparta.Sparta.Cache;
+import com.edufe.module.entity.ResCourseBean;
 
 @Service
 public class ExamStuServices extends BaseServices implements IDao<ExamStu>{
@@ -46,19 +45,23 @@ public class ExamStuServices extends BaseServices implements IDao<ExamStu>{
 	@Override
 	public List<ExamStu> find(SearchParams searchParams, Page page) {
 		StringBuffer sql = new StringBuffer();
-		sql.append("SELECT es.id,idcard,identitycode,truename,es.exam_id,exam_siteid,exam_sitename,exam_roomid,exam_roomname,loginip,login_time,seatnum,es.create_time,es.create_user,photo,test_flag ");
-		sql.append(",ec.course_id,rc.course_name,ec.score,DATE_FORMAT(ec.submit_time,'%Y-%m-%d %H:%i:%s') submit_time,ec.submit_flag,ec.right_count,ec.wrong_count,ec.end_time, e.exam_name FROM exam_stu es ");
-		sql.append("inner join exam e on e.id=es.exam_id ");
-		sql.append("inner join exam_course ec on ec.stu_id=es.id and ec.exam_id=e.id ");
-		sql.append("inner join res_course rc on rc.id=ec.course_id ");
+		sql.append("SELECT es.id,idcard,identitycode,truename,es.exam_id,exam_siteid,exam_sitename,exam_roomid,exam_roomname ");
+		sql.append(",loginip,login_time,seatnum,es.create_time,es.create_user,photo,test_flag ");
+		sql.append("FROM exam_stu es ");
+//		sql.append("inner join exam e on e.id=es.exam_id ");
+//		sql.append("inner join exam_course ec on ec.stu_id=es.id and ec.exam_id=e.id ");
+//		sql.append("inner join res_course rc on rc.id=ec.course_id ");
 		String lp = " where ";
 		List<Object> argsList = new ArrayList<Object>();
 		if(null != searchParams){
-			if(null != searchParams.get("examname") && !"".equals((String)searchParams.get("examname"))){
-				sql.append(lp).append(" e.exam_name like ? ");
-				argsList.add("%" + searchParams.get("examname") + "%");
-				lp = " and ";
-			}
+			sql.append(lp).append(" es.exam_id = ? ");
+			argsList.add(searchParams.get("eid"));
+			lp = " and ";
+//			if(null != searchParams.get("examname") && !"".equals((String)searchParams.get("examname"))){
+//				sql.append(lp).append(" e.exam_name like ? ");
+//				argsList.add("%" + searchParams.get("examname") + "%");
+//				lp = " and ";
+//			}
 			if(null != searchParams.get("truename") && !"".equals((String)searchParams.get("truename"))){
 				sql.append(lp).append(" truename like ? ");
 				argsList.add("%" + searchParams.get("truename") + "%");
@@ -72,12 +75,13 @@ public class ExamStuServices extends BaseServices implements IDao<ExamStu>{
 			if(null != searchParams.get("pageItem") && !"".equals((String)searchParams.get("pageItem"))){
 				if(null != page) page.setPerItem(CommonTools.parseInt((String)searchParams.get("pageItem")));
 			}
+		}else{
+			return null;
 		}
-		sql.append(lp).append(" e.business_id = ? and es.business_id = ? ");
-		argsList.add(SessionHelper.getInstance().getUser().getBusinessId());
+		sql.append(lp).append(" es.business_id = ? ");
 		argsList.add(SessionHelper.getInstance().getUser().getBusinessId());
 		Object[] args = argsList.toArray();
-		List<ExamStu> list = dao.query(pageSQL(sql.toString(),"order by es.id, ec.course_id",page),args,new RowMapper(){
+		List<ExamStu> list = dao.query(pageSQL(sql.toString(),"order by es.id",page),args,new RowMapper(){
 			@Override
 			public ExamStu mapRow(ResultSet rs, int arg1) throws SQLException {
 				ExamStu obj = new ExamStu();
@@ -97,17 +101,6 @@ public class ExamStuServices extends BaseServices implements IDao<ExamStu>{
 				obj.setSeatnum(rs.getString("seatnum")); 
 				obj.setTruename(rs.getString("truename")); 
 				obj.setTestFlag(rs.getString("test_flag"));
-				obj.setExamName(rs.getString("exam_name"));
-				ExamCourse examCourse = new ExamCourse();
-				examCourse.setCourseId(rs.getInt("course_id"));
-				examCourse.setCourseName(rs.getString("course_name"));
-				examCourse.setSubmitFlag(rs.getString("submit_flag"));
-				examCourse.setEndTime(rs.getString("end_time"));
-				if("1".equals(examCourse.getSubmitFlag())){
-					examCourse.setSubmitTime(rs.getString("submit_time"));
-					examCourse.setScore(rs.getString("score"));
-				}
-				obj.setExamCourse(examCourse);
 				return obj;
 			}
 			
@@ -140,16 +133,16 @@ public class ExamStuServices extends BaseServices implements IDao<ExamStu>{
 		 
 		dao.update(sql.toString(), args);
 		int stuId = dao.queryForInt("SELECT LAST_INSERT_ID()"); 
-		Exam exam = examServices.findForObject(obj.getExamId());
-		if(null != exam.getSelCourseArr()){
-			for(String c : exam.getSelCourseArr()){
-				//新增考生课程关系数据
-				if(resServices.findIsExistById(Integer.parseInt(c))){
-					String insSql = "insert into exam_course(stu_id,course_id,score,submit_flag,exam_id,create_time) values(?,?,?,?,?,now())";
-					dao.update(insSql, new Object[]{stuId, c,0,"0", obj.getExamId()});
-				}
-			}
-		}
+//		Exam exam = examServices.findForObject(obj.getExamId());
+//		if(null != exam.getSelCourseArr()){
+//			for(ResCourseBean c : exam.getSelCourseArr()){
+//				//新增考生课程关系数据
+//				if(resServices.findIsExistById(c.getId())){
+//					String insSql = "insert into exam_course(stu_id,course_id,score,submit_flag,exam_id,create_time) values(?,?,?,?,?,now())";
+//					dao.update(insSql, new Object[]{stuId, c.getId(),0,"0", obj.getExamId()});
+//				}
+//			}
+//		}
 		return stuId;
 	}
 
@@ -225,8 +218,8 @@ public class ExamStuServices extends BaseServices implements IDao<ExamStu>{
 			HSSFRow hssfRow = hssfSheet.getRow(rowNum);
 			String idcard = ExcelImportTools.getInstance().getValForString(hssfRow, 0);
 			String truename = ExcelImportTools.getInstance().getValForString(hssfRow, 1);
-			String identitycode = ExcelImportTools.getInstance().getValForString(hssfRow, 2);
-			String photo = ExcelImportTools.getInstance().getValForString(hssfRow, 3);
+//			String identitycode = ExcelImportTools.getInstance().getValForString(hssfRow, 2);
+//			String photo = ExcelImportTools.getInstance().getValForString(hssfRow, 3);
 			truename = truename.replaceAll(" ", ""); 
 			if (!"".equals(idcard) && idcard != null  ) {
 				student.setIdcard(idcard);
@@ -240,12 +233,12 @@ public class ExamStuServices extends BaseServices implements IDao<ExamStu>{
 				errorList.add( "第"+rowNum+"行“姓名”不可为空");
 			}
 			//当前考试活动中是否存在
-			boolean exist = findIdCardExist(examId, idcard);
+			boolean exist = findIdCardExist(idcard);
 			if(exist){
 				errorList.add("第"+rowNum+"行“准考证号码在系统中存在，请更换其它号码重新导入！");
 			}
-			student.setIdentitycode(identitycode);
-			student.setPhoto(photo);
+//			student.setIdentitycode(identitycode);
+//			student.setPhoto(photo);
 			slist.add(student);
 		}
 		if (errorList.size()!=0) {
@@ -264,28 +257,51 @@ public class ExamStuServices extends BaseServices implements IDao<ExamStu>{
 		 sql.append("idcard,identitycode,truename,exam_id,photo,create_time,create_user,business_id,test_flag ");  
 		 sql.append(" ) values(?,?,?,?,?,now(),?,?,'0') "); //导入人员均为正式考生
 		 for(ExamStu es : slist){
+			 
 			 dao.update(sql.toString(), new Object[]{es.getIdcard(),es.getIdentitycode(),es.getTruename(), examId, es.getPhoto(), user.getId(),exam.getBusinessId()});
 			 //插入考试科目关系表数据
-			 int stuId = dao.queryForInt("SELECT LAST_INSERT_ID()"); 
-			 if(null != exam.getSelCourseArr()){
-				for(String c : exam.getSelCourseArr()){
-					//新增考生课程关系数据
-					String insSql = "insert into exam_course(stu_id,course_id,score,submit_flag,exam_id,create_time) values(?,?,?,?,?,now())";
-					dao.update(insSql, new Object[]{stuId, c,0,"0", examId});
-				}
-			 }
+//			 int stuId = dao.queryForInt("SELECT LAST_INSERT_ID()"); 
+//			 if(null != exam.getSelCourseArr()){
+//				for(ResCourseBean c : exam.getSelCourseArr()){
+//					//新增考生课程关系数据
+//					String insSql = "insert into exam_course(stu_id,course_id,score,submit_flag,exam_id,create_time) values(?,?,?,?,?,now())";
+//					dao.update(insSql, new Object[]{stuId, c.getId(),0,"0", examId});
+//				}
+//			 }
 		 }
 	}
 
-	private boolean findIdCardExist(Integer examId, String idcard) {
-		String sql = "select count(1) from exam_stu where idcard=? and exam_id=?";
-		return dao.queryForObject(sql, new Object[]{idcard, examId}, Integer.class)>0;
+	private boolean findIdCardExist(String idcard) {
+		String sql = "select count(1) from exam_stu where idcard=? and business_id=?";
+		return dao.queryForObject(sql, new Object[]{idcard, SessionHelper.getInstance().getUser().getBusinessId()}, Integer.class)>0;
 	}
 
 	public boolean reexamine(Integer uid,Integer examId, Integer cid) {
 		cache.removeExamPaper(uid, cid);
 		dao.update("update exam_course set score=0,submit_flag='0',end_time='',submit_time=null where stu_id=? and course_id=? and exam_id=?" , new Object[]{uid, cid, examId});
 		return true;
+	}
+
+	public String checkExist(ExamStu examStu) {
+		String sql = "select count(1) from exam_stu where business_id=? and idcard=?";
+		int n = dao.queryForObject(sql, new Object[]{SessionHelper.getInstance().getUser().getBusinessId(), examStu.getIdcard()}, Integer.class);
+		if(n > 0){
+			String examName = dao.queryForObject("select exam_name from exam_stu es inner join exam e on e.id=es.exam_id where es.business_id=? and es.idcard=? limit 1",
+					new Object[]{SessionHelper.getInstance().getUser().getBusinessId(), examStu.getIdcard()}, String.class);
+			return "准考证号在 [" + examName + "] 考试中已经存在，不能重复创建！";
+		}
+		return "";
+	}
+	
+	public String checkExistUpdate(ExamStu examStu) {
+		String sql = "select count(1) from exam_stu where business_id=? and idcard=? and id<>?";
+		int n = dao.queryForObject(sql, new Object[]{SessionHelper.getInstance().getUser().getBusinessId(), examStu.getIdcard(),examStu.getId()}, Integer.class);
+		if(n > 0){
+			String examName = dao.queryForObject("select exam_name from exam_stu es inner join exam e on e.id=es.exam_id where es.business_id=? and es.idcard=? limit 1",
+					new Object[]{SessionHelper.getInstance().getUser().getBusinessId(), examStu.getIdcard()}, String.class);
+			return "准考证号在 [" + examName + "] 考试中已经存在，不能重复创建！";
+		}
+		return "";
 	}
 
 }

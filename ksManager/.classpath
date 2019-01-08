@@ -171,5 +171,14 @@
 			<attribute name="owner.project.facets" value="java"/>
 		</attributes>
 	</classpathentry>
+	<classpathentry kind="lib" path="WebRoot/WEB-INF/lib/gson-2.8.0-sources.jar"/>
+	<classpathentry kind="lib" path="WebRoot/WEB-INF/lib/happy-dns-java-0.1.6.jar"/>
+	<classpathentry kind="lib" path="WebRoot/WEB-INF/lib/junit-4.12.jar"/>
+	<classpathentry kind="lib" path="WebRoot/WEB-INF/lib/okhttp-3.3.1.jar"/>
+	<classpathentry kind="lib" path="WebRoot/WEB-INF/lib/okio-1.8.0.jar"/>
+	<classpathentry kind="lib" path="WebRoot/WEB-INF/lib/org.apache.xml.serializer-2.7.1.jar"/>
+	<classpathentry kind="lib" path="WebRoot/WEB-INF/lib/pinyin4j-2.5.0.jar"/>
+	<classpathentry kind="lib" path="WebRoot/WEB-INF/lib/qiniu-java-sdk-7.2.8.jar"/>
+	<classpathentry kind="lib" path="WebRoot/WEB-INF/lib/xom-1.2.5.jar"/>
 	<classpathentry kind="output" path="WebRoot/WEB-INF/classes"/>
 </classpath>

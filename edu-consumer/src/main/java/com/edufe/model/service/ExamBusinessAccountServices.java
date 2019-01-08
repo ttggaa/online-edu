@@ -22,16 +22,20 @@ public class ExamBusinessAccountServices {
 			//增加 账户金额
 			String sql = "update business set account=account+? where id=?";
 			jdbc.update(sql, new Object[]{money, bean.getBusinessId()});
-		}else if("dec".equals(bean.getType()) && money > 0){
-			//减少 账户金额
-			String sql = "update business set account=account-? where id=?";
-			jdbc.update(sql, new Object[]{money, bean.getBusinessId()});
-			
-			if(null != bean.getExamStuId()){
-				if(bean.getExamStuId().intValue() > 0){
-					String sql2 = "update exam_stu set cost_flag='1' where id=?";
-					jdbc.update(sql2, new Object[]{bean.getExamStuId()});
-				}
+		}else if("login_dec".equals(bean.getType()) && money > 0){
+			//验证是否已扣过费
+			String costFlag = jdbc.queryForObject("select cost_flag from exam_stu where id=?", new Object[]{bean.getExamStuId()} ,String.class);
+			if(!"1".equals(costFlag)){
+				//减少 账户金额
+				String sql = "update business set account=account-? where id=?";
+				jdbc.update(sql, new Object[]{money, bean.getBusinessId()});
+				
+				String sql2 = "update exam_stu set cost_flag='1',loginip=?,login_time=? where id=?";
+				jdbc.update(sql2, new Object[]{bean.getLoginIP(), bean.getLoginTime(), bean.getExamStuId()});
+				
+				//记录日志
+				String ins = "insert into exam_logincost_log(login_user_id,money,create_time) values(?,?,now())";
+				jdbc.update(ins, new Object[]{bean.getExamStuId(),money});
 			}
 		}
 	}
