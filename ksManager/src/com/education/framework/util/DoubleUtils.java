@@ -75,6 +75,16 @@ public class DoubleUtils {
 		}
 	}
 	
+	public static String parsetStr(String d, String pattern){
+		if(null == d) return "";
+		if(isDecimal(d)){
+			DecimalFormat df = new DecimalFormat(pattern);  
+			return df.format(Double.parseDouble(d)); 
+		}else{
+			return d; 
+		}
+	}
+	
 	public static boolean isDecimal(String num){
         boolean isdecimal = false;
         if(null == num) return isdecimal; 

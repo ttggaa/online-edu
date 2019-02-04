@@ -23,6 +23,14 @@
             <icon-svg name="editor" class="site-sidebar__menu-icon"></icon-svg>
             <span slot="title">ueditor</span>
           </el-menu-item>
+          <el-menu-item index="demo-dynamicform" @click="$router.push({ name: 'demo-dynamicform' })">
+            <icon-svg name="editor" class="site-sidebar__menu-icon"></icon-svg>
+            <span slot="title">dynamicform</span>
+          </el-menu-item>
+          <el-menu-item index="demo-gojsflow" @click="$router.push({ name: 'demo-gojsflow' })">
+            <icon-svg name="editor" class="site-sidebar__menu-icon"></icon-svg>
+            <span slot="title">gojsflow</span>
+          </el-menu-item>
         </el-submenu>
         <sub-menu
           v-for="menu in menuList"

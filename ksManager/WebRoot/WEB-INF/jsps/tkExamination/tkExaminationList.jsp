@@ -27,27 +27,20 @@
 				<div class="row-fluid">
 					<div class="span12">
 						<h3 class="page-title">
-							题库管理
+							${course.courseName }<small>${course.remark }</small>
 						</h3>
 					</div>
 				</div>
 				<div class="row-fluid">
 					<div class="span12">
-						<form id="searchForm" class="form-horizontal" action="${basePath }tkExamination" method="post">
+						<form id="searchForm" class="form-horizontal" action="${basePath }tkExamination/${cid}" method="post">
 							<input type="hidden" id="typeCode" name="map['typeCode']" value="${searchParams.map['typeCode'] }" />
 							<input type="hidden" id="sourceId" name="map['sourceId']" value="${searchParams.map['sourceId'] }" />
 							<input type="hidden" id="sort" name="map['sort']" value="${searchParams.map['sort'] }" />
 							<div class="portlet">
 								<div class="portlet-title">
 									试题内容：
-									<input class="m-wrap placeholder-no-fix" type="text" id="examinationContent" name="map['examinationContent']" value="${searchParams.map['examinationContent'] }"/>
-									考试科目：
-									<select id="courseId" name="map['courseId']" class="span2 m-wrap">
-							       		<option value="" ></option>
-								   		<c:forEach items="${courseList }" var="courseList">
-								   			<option value="${courseList.id }" ${courseList.id==searchParams.map['courseId']?'selected=selected':'' }>${courseList.courseName }</option>
-								   		</c:forEach>
-							   		</select>
+									<input class="m-wrap placeholder-no-fix span8" type="text" id="examinationContent" name="map['examinationContent']" value="${searchParams.map['examinationContent'] }"/>
 									<button type="button" onclick="search();" class="btn green" >查询</button>
 								</div>
 								<div class="control-group">
@@ -90,12 +83,12 @@
 						<div class="portlet box light-grey">
 							<div class="clearfix">
 									<div class="btn-group">
-										<a id="sample_editable_1_new" class="btn green" href="${basePath }tkExamination/create">
+										<a id="sample_editable_1_new" class="btn green" href="${basePath }tkExamination/create/${cid}">
 											新增 <i class="icon-plus"></i>
 										</a>
 									</div>
 									<div class="btn-group">
-										<a href="${basePath }tkExamination/examinationImport" class="btn btn-info">导入数据</a>
+										<a href="${basePath }tkExamination/examinationImport/${cid}" class="btn btn-info">导入数据</a>
 									</div>
 									<div class="btn-group">
 										<a href="javascript:void();" onclick="exportExcel();" class="btn btn-info">导出数据</a>
@@ -107,28 +100,28 @@
 								<table class="table table-striped table-bordered table-hover table-full-width dataTable" id="sample_1">
 									<thead>
 										<tr role="row">
-											<th style="width:100px;">题型</th> 
+											<th style="text-align: center;width:100px;">序号</th>
 											<th>
 												<img src="${resPath}media/image/sort_both.png" onclick="theSort('EXAMINATION_CONTENT');"/>试题内容
 											</th> 
-											<th style="width:160px;">答案</th> 
-											<th style="width:160px;">考试科目</th> 
-											<th style="width:120px;">操作</th>
+											<th style="width:160px;text-align: center;">答案</th> 
+											<th style="width:100px;text-align: center;">题型</th> 
+											<th style="width:120px;text-align: center;">操作</th>
 										</tr>
 									</thead>
 									<tbody>
 										<c:set var="cTemp" value=""></c:set>
 										<c:forEach items="${list}" var="list" varStatus="status">
 											<tr class="odd gradeX">
-												<td>${list.type.typename }</td> 
+												<td style="text-align: center;">${status.index + 1 }</td> 
 												<td title="${list.examinationContent }">
 													<d:titleLimit maxCount="200" str="${list.examinationContent }"/>
 												</td> 
-												<td title="${list.answer }">
+												<td title="${list.answer }" style="text-align: center;">
 													<d:titleLimit maxCount="100" str="${list.answer }"/>
 												</td> 
-												<td>${list.courseName }</td> 
-												<td >
+												<td style="text-align: center;">${list.type.typename }</td> 
+												<td style="text-align: center;">
 													<a class="edit" href="${basePath}tkExamination/update/${list.id}">修改</a>&nbsp;
 													<a class="edit" href="javascript:void();" onclick="delData('${basePath}tkExamination/delete/${list.id}');">删除</a>
 												</td>
@@ -138,7 +131,7 @@
 										</c:forEach>
 									</tbody>
 								</table>
-								<p:page url="tkExamination" cpage="${page.cpage }" perItem="${page.perItem }" totalItem="${page.totalItem }"/>
+								<p:page url="tkExamination/${cid}" cpage="${page.cpage }" perItem="${page.perItem }" totalItem="${page.totalItem }"/>
 						</div>
 					</div>
 				</div>
@@ -160,12 +153,12 @@
 		$('#searchForm').attr("action", path).submit();  
 	}
 	function search(){
-		var path = "${basePath }tkExamination";
+		var path = "${basePath }tkExamination/${cid}";
 		$('#searchForm').attr("action", path).submit();  
 	}
 	function batchDel(){
 		if(confirm("您确定要进行批量删除吗？")){
-			var path = "${basePath }tkExamination/batchDel";
+			var path = "${basePath }tkExamination/batchDel/${cid}";
 			$('#searchForm').attr("action", path).submit();  
 		}
 	}

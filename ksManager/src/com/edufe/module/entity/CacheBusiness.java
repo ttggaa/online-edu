@@ -22,7 +22,42 @@ public class CacheBusiness implements Serializable {
 	private String background;
 	private int integrate;
 	private String member;
+	private int overdraft;
+	private String footerViewFlag;
+	private int onlineUser;
+	private String account;
+	private int costPrice;
 	
+	public int getCostPrice() {
+		return costPrice;
+	}
+	public void setCostPrice(int costPrice) {
+		this.costPrice = costPrice;
+	}
+	public String getAccount() {
+		return account;
+	}
+	public void setAccount(String account) {
+		this.account = account;
+	}
+	public int getOverdraft() {
+		return overdraft;
+	}
+	public void setOverdraft(int overdraft) {
+		this.overdraft = overdraft;
+	}
+	public int getOnlineUser() {
+		return onlineUser;
+	}
+	public void setOnlineUser(int onlineUser) {
+		this.onlineUser = onlineUser;
+	}
+	public String getFooterViewFlag() {
+		return footerViewFlag;
+	}
+	public void setFooterViewFlag(String footerViewFlag) {
+		this.footerViewFlag = footerViewFlag;
+	}
 	public int getIntegrate() {
 		return integrate;
 	}

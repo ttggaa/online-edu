@@ -155,7 +155,7 @@
         </div>
     </div>
 </div>
-<div class="site-footer clearfix">
+<div class="site-footer clearfix backdif">
     
     <div class="container">
         <div class="footer-nav clearfix">
@@ -174,7 +174,6 @@
         </div>
     </div>
 </div>
-<div class="footer-bg"></div>
 </div>
 </template>
 
@@ -209,7 +208,12 @@
   }
 </script>
 
-<style lang="scss">
-  
+<style>
+  .backdif{
+  	background-image: url(https://cdn.oss.kaoshixing.com/ksxing_static/website-4.0/images/home/footer-bg.png);
+    background-position: center bottom;
+    background-repeat: no-repeat;
+    background-size: cover;
+  }
 </style>
   

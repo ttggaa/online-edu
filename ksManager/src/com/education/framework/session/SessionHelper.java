@@ -45,16 +45,16 @@ public class SessionHelper implements Serializable{
 	}
 
 	/**
-	 * 是否具有总监权限
+	 * 是否具有系统管理员权限
 	 * @return
 	 */
-	public boolean isChiefInspectorRole(){
+	public boolean isAdminRole(){
 		SysUser user = getUser();
 		if(null == user) return false;
 		if(null == user.getRoleList()) return false;
 		for(SysRole role : user.getRoleList()){
-			if("3".equals(role.getRoleCode())){
-				return true;//具备总监权限
+			if("1".equals(role.getRoleCode())){
+				return true;//具备权限
 			}
 		}
 		return false;

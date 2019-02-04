@@ -36,8 +36,8 @@
 								<li class="${tab=='1'?'active':'' }"><a href="#tab_1" data-toggle="tab">基础信息</a></li>
 								<li class="${tab=='2'?'active':'' }"><a href="#tab_2" data-toggle="tab">高级配置</a></li>
 								<c:if test="${action == 'update'}">
-									<li><a class="" href="${basePath }examStu?map['eid']=${exam.id }">考生信息</a></li>
-									<li><a class="" href="${basePath }examRank?map['eid']=${exam.id }">考试数据</a></li>
+									<li><a class="" href="${basePath }examStu/${exam.id}">考生信息</a></li>
+									<li><a class="" href="${basePath }examRank/${exam.id }">考试数据</a></li>
 								</c:if>
 							</ul>
 							<form id="inputForm" class="form-horizontal" action="${basePath}exam/${action}" method="post" >

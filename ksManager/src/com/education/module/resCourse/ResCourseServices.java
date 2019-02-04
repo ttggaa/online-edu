@@ -17,7 +17,6 @@ import com.education.framework.domain.SearchParams;
 import com.education.framework.page.Page;
 import com.education.framework.session.SessionHelper;
 import com.edufe.module.entity.ResCourseBean;
-import com.sun.glass.ui.Application;
 
 import net.sf.json.JSONArray;
 
@@ -27,7 +26,7 @@ public class ResCourseServices extends BaseServices implements IDao<ResCourse>{
 	@Override
 	public List<ResCourse> find(SearchParams searchParams, Page page) {
 		StringBuffer sql = new StringBuffer();
-		sql.append("SELECT id,course_name,course_code,exam_sum_time,create_time,create_user,indexno,business_id FROM res_course");
+		sql.append("SELECT id,course_name,course_code,exam_sum_time,create_time,create_user,indexno,business_id,ques_sum_count,remark FROM res_course");
 		String lp = " where ";
 		List<Object> argsList = new ArrayList<Object>();
 		if(null != searchParams){
@@ -48,7 +47,7 @@ public class ResCourseServices extends BaseServices implements IDao<ResCourse>{
 	
 	public List<ResCourse> find() {
 		StringBuffer sql = new StringBuffer();
-		sql.append("SELECT id,course_name,course_code,exam_sum_time,create_time,create_user,indexno,business_id FROM res_course ");
+		sql.append("SELECT id,course_name,course_code,exam_sum_time,create_time,create_user,indexno,business_id,ques_sum_count,remark FROM res_course ");
 		sql.append("where business_id=?");
 		List<ResCourse> list = dao.query(sql.toString(),new Object[]{SessionHelper.getInstance().getUser().getBusinessId()},new ResCourseRowmapper());
 		return list;
@@ -77,7 +76,7 @@ public class ResCourseServices extends BaseServices implements IDao<ResCourse>{
 	
 	public List<ResCourse> findAll() {
 		StringBuffer sql = new StringBuffer();
-		sql.append("SELECT id,course_name,course_code,exam_sum_time,create_time,create_user,indexno,business_id FROM res_course");
+		sql.append("SELECT id,course_name,course_code,exam_sum_time,create_time,create_user,indexno,business_id,ques_sum_count,remark FROM res_course");
 		
 		List<ResCourse> list = dao.query(sql.toString(),new ResCourseRowmapper());
 		return list;
@@ -89,10 +88,10 @@ public class ResCourseServices extends BaseServices implements IDao<ResCourse>{
 		 StringBuffer sql = new StringBuffer(); 
 		 sql.append("insert into res_course ( "); 
 		 sql.append("course_name,course_code,exam_sum_time,create_time,create_user "); 
-		 sql.append(",indexno,business_id ");  
-		 sql.append(" ) values(?,?,?,now(),?,?,?) "); 
+		 sql.append(",indexno,business_id,remark ");  
+		 sql.append(" ) values(?,?,?,now(),?,?,?,?) "); 
 		 Object[] args = {obj.getCourseName(),obj.getCourseCode(),obj.getExamSumTime(),sysUser.getId(),obj.getIndexno() 
-		 ,sysUser.getBusinessId() };
+		 ,sysUser.getBusinessId(),obj.getRemark() };
 		 
 		 dao.update(sql.toString(), args);
 		return dao.queryForInt("SELECT LAST_INSERT_ID()"); 
@@ -101,7 +100,7 @@ public class ResCourseServices extends BaseServices implements IDao<ResCourse>{
 	@Override
 	public ResCourse findForObject(Integer id) {
 		StringBuffer sql = new StringBuffer();
-		sql.append("SELECT id,course_name,course_code,exam_sum_time,create_time,create_user,indexno,business_id FROM res_course ");
+		sql.append("SELECT id,course_name,course_code,exam_sum_time,create_time,create_user,indexno,business_id,ques_sum_count,remark FROM res_course ");
 		sql.append(" where id=? ");
 		
 		Object[] args = {id};
@@ -112,7 +111,7 @@ public class ResCourseServices extends BaseServices implements IDao<ResCourse>{
 		if(null == courseName) return null;
 		try{
 			StringBuffer sql = new StringBuffer();
-			sql.append("SELECT id,course_name,course_code,exam_sum_time,create_time,create_user,indexno,business_id FROM res_course ");
+			sql.append("SELECT id,course_name,course_code,exam_sum_time,create_time,create_user,indexno,business_id,ques_sum_count,remark FROM res_course ");
 			sql.append(" where course_name=? limit 0,1");
 			
 			Object[] args = {courseName.trim()};
@@ -129,8 +128,8 @@ public class ResCourseServices extends BaseServices implements IDao<ResCourse>{
 		 StringBuffer sql = new StringBuffer(); 
 		 sql.append("update res_course "); 
 		 sql.append("set  "); 
-		 sql.append("course_name=?,course_code=?,exam_sum_time=?,indexno=? where id=?  "); 
-		 Object[] args = {obj.getCourseName(),obj.getCourseCode(),obj.getExamSumTime(),obj.getIndexno(),obj.getId() };
+		 sql.append("course_name=?,course_code=?,exam_sum_time=?,indexno=?,remark=? where id=?"); 
+		 Object[] args = {obj.getCourseName(),obj.getCourseCode(),obj.getExamSumTime(),obj.getIndexno(),obj.getRemark(),obj.getId() };
 		 
 		 dao.update(sql.toString(), args);
 	}
@@ -165,6 +164,8 @@ public class ResCourseServices extends BaseServices implements IDao<ResCourse>{
 			obj.setExamSumTime(rs.getString("exam_sum_time")); 
 			obj.setId(rs.getInt("id")); 
 			obj.setIndexno(rs.getInt("indexno")); 
+			obj.setRemark(rs.getString("remark"));
+			obj.setQuesSumCount(rs.getInt("ques_sum_count"));
 			return obj;
 		}
 	}

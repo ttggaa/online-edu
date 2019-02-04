@@ -9,7 +9,7 @@ import java.util.Map;
 import java.util.SortedMap;
 import java.util.TreeMap;
 
-import org.apache.poi.hssf.usermodel.HSSFCell;
+import org.apache.log4j.chainsaw.Main;
 import org.apache.poi.hssf.usermodel.HSSFRow;
 import org.apache.poi.hssf.usermodel.HSSFSheet;
 import org.apache.poi.hssf.usermodel.HSSFWorkbook;
@@ -23,6 +23,7 @@ import com.education.domain.TkExamination;
 import com.education.domain.Type;
 import com.education.domain.extend.QuesTypeAnalyse;
 import com.education.domain.extend.QuesTypeCount;
+import com.education.exception.ImpCheckExcelException;
 import com.education.framework.application.ApplicationHelper;
 import com.education.framework.base.BaseServices;
 import com.education.framework.baseModule.domain.SysUser;
@@ -30,6 +31,7 @@ import com.education.framework.dao.IDao;
 import com.education.framework.domain.SearchParams;
 import com.education.framework.page.Page;
 import com.education.framework.session.SessionHelper;
+import com.education.framework.util.excelImp.ExcelImportTools;
 
 @Service
 public class TkExaminationServices extends BaseServices implements IDao<TkExamination>{
@@ -395,103 +397,42 @@ public class TkExaminationServices extends BaseServices implements IDao<TkExamin
 
 	public List<ImportReturnMessage> impExcel(TkExamination tkExamination, MultipartFile file) throws Exception {
 		List<ImportReturnMessage> importReturnMessageList = new ArrayList<ImportReturnMessage>(); 
-		
+		if(null == file || file.getSize() == 0) {
+			ImportReturnMessage importReturnMessage = new ImportReturnMessage();
+			importReturnMessage.setMessageCode(1);
+			importReturnMessage.setRetrunMessage("excel试题导入文件有误，请重选择该文件后再试!");
+			importReturnMessageList.add(importReturnMessage);
+			return importReturnMessageList;
+		}
 		Map<String,String> courseMap = new HashMap<String,String>();
 		HSSFWorkbook hssfWorkbook = new HSSFWorkbook(file.getInputStream());
-		if(hssfWorkbook.getNumberOfSheets() < 3) {
+		if(hssfWorkbook.getNumberOfSheets() == 4) {
 			ImportReturnMessage importReturnMessage = new ImportReturnMessage();
 			importReturnMessage.setMessageCode(1);
 			importReturnMessage.setRetrunMessage("导入模板sheet有误，请重新下载!");
 			importReturnMessageList.add(importReturnMessage);
-//			return  JSONObject.fromObject(importReturnMessage).toString();
+			return importReturnMessageList;
 		}
 			
 		List<TkExamination> qlist = new ArrayList<TkExamination>();
-		for(int i=0;i<3;i++){
+		for(int i=0;i<=4;i++){
 			HSSFSheet hssfSheet = hssfWorkbook.getSheetAt(i);
 			for (int rowNum = 1; rowNum <= hssfSheet.getLastRowNum(); rowNum++) {
-				HSSFRow hssfRow = hssfSheet.getRow(rowNum);
-				HSSFCell c1 = hssfRow.getCell(1);
-				HSSFCell c2 = hssfRow.getCell(2);
-				HSSFCell c3 = hssfRow.getCell(3);
-				HSSFCell c4 = hssfRow.getCell(4);
-				HSSFCell c5 = hssfRow.getCell(5);
-				HSSFCell c6 = hssfRow.getCell(6);
-				HSSFCell c7 = hssfRow.getCell(7);
-				HSSFCell c8 = hssfRow.getCell(8);
-				HSSFCell c9 = hssfRow.getCell(9);
-				HSSFCell c10 = hssfRow.getCell(10);
-				HSSFCell c11 = hssfRow.getCell(11);
-				HSSFCell cz[] ={c1,c2,c3,c4,c5,c6,c7,c8,c9,c10,c11};
-				TkExamination ques = new TkExamination();
-				ques.setCourseId(tkExamination.getCourseId());
-				ques.setTypeCode(getTypeCode(i));
-				ques.setExaminationContent(c1.toString());
-							
-				if("danx".equals(ques.getTypeCode()) || "duox".equals(ques.getTypeCode())){
-					if (cz[0]==null&&cz[0].toString().equals("")){
-						continue;
+				HSSFRow hssfRow = hssfSheet.getRow(rowNum);				
+				String typeCode = getTypeCode(i);
+				try{
+					TkExamination ques = getExamination(typeCode, tkExamination.getCourseId(),hssfRow);
+					if(null != ques){
+						qlist.add(ques);
 					}
-					//判断必填
-					for (int num=7;num<11;num++){
-						if (cz[num]==null||cz[num].toString().equals("")){
-							ImportReturnMessage importReturnMessage = new ImportReturnMessage();
-							importReturnMessage.setRowNum(rowNum);
-							importReturnMessage.setMessageCode(2);
-							importReturnMessage.setRetrunMessage("第"+num+"个值未填写。");
-							importReturnMessageList.add(importReturnMessage);
-//							return  JSONObject.fromObject(importReturnMessage).toString();
-						}
-					}
-					//判断有没有不连续的选项
-					for(int option=1;option<7;option++){
-						for (int optionNext=option+1;optionNext<6;optionNext++ ){
-							if((cz[option]==null||cz[option].toString().equals(""))&&(cz[optionNext]!=null||!cz[optionNext].toString().equals(""))){
-								ImportReturnMessage importReturnMessage = new ImportReturnMessage();
-								importReturnMessage.setRowNum(rowNum);
-								importReturnMessage.setMessageCode(3);
-								importReturnMessage.setRetrunMessage("选项不连续。");
-								importReturnMessageList.add(importReturnMessage);
-								break;
-//								return  JSONObject.fromObject(importReturnMessage).toString();
-							}
-						}
-					}
-					
-					if(c2!=null){
-						ques.setOptionA(c2.toString());
-					}
-					if(c3!=null){
-						ques.setOptionB(c3.toString());
-					}
-					if(c4!=null){
-						ques.setOptionC(c4.toString());
-					}
-					if(c5!=null){
-						ques.setOptionD(c5.toString()); 
-					}
-					if(c6!=null){
-						ques.setOptionE(c6.toString());
-					}
-					if(c7!=null){
-						ques.setOptionF(c7.toString());
-					}if(c8!=null){
-						ques.setAnswer(c8.toString());
-					}if(c9!=null){
-						ques.setDifficulty(getDifficulty(c9.toString()));
-					}if(c10!=null){
-						ques.setDefaultPoint(c10.toString());
-					}if(c11!=null){
-						ques.setKnowledgePoint(c11.toString());
-					}
-					
-				}else if("pand".equals(ques.getTypeCode())){
-					ques.setAnswer(c2.toString());
-					ques.setDifficulty(getDifficulty(c3.toString()));
-					ques.setDefaultPoint(c4.toString());
-					ques.setKnowledgePoint(c5.toString());
+				}catch(ImpCheckExcelException iceex){
+					ImportReturnMessage importReturnMessage = new ImportReturnMessage();
+					importReturnMessage.setRowNum(rowNum);
+					importReturnMessage.setMessageCode(2);
+					importReturnMessage.setTypeName(getTypeName(i));
+					importReturnMessage.setRetrunMessage(iceex.getMessage());
+					importReturnMessageList.add(importReturnMessage);
 				}
-				qlist.add(ques);
 			}
 		}
 		
@@ -546,6 +487,197 @@ public class TkExaminationServices extends BaseServices implements IDao<TkExamin
 		return null;
 	}
 	
+	private TkExamination getExamination(String typeCode, Integer courseId, HSSFRow hssfRow) throws ImpCheckExcelException{
+		String examinationContent = ExcelImportTools.getInstance().getValForString(hssfRow, 1);
+		if(null == examinationContent || "".equals(examinationContent)) return null;
+		TkExamination ques = new TkExamination();
+		ques.setCourseId(courseId);
+		ques.setTypeCode(typeCode);
+		ques.setExaminationContent(examinationContent);
+					
+		if("danx".equals(ques.getTypeCode()) || "duox".equals(ques.getTypeCode())){
+			String optionA = ExcelImportTools.getInstance().getValForString(hssfRow, 2);
+			String optionB = ExcelImportTools.getInstance().getValForString(hssfRow, 3);
+			String optionC = ExcelImportTools.getInstance().getValForString(hssfRow, 4);
+			String optionD = ExcelImportTools.getInstance().getValForString(hssfRow, 5);
+			String optionE = ExcelImportTools.getInstance().getValForString(hssfRow, 6);
+			String optionF = ExcelImportTools.getInstance().getValForString(hssfRow, 7);
+			String answer = ExcelImportTools.getInstance().getValForString(hssfRow, 8);
+			String difficulty = ExcelImportTools.getInstance().getValForString(hssfRow, 9);
+			String knowledgePoint = ExcelImportTools.getInstance().getValForString(hssfRow, 10);
+			String examinationDescription = ExcelImportTools.getInstance().getValForString(hssfRow, 11);
+			fillOptionArr(ques, optionA,optionB,optionC,optionD,optionE,optionF);
+			ques.setAnswer(answer.toLowerCase());
+			ques.setDifficulty(getDifficulty(difficulty));
+			ques.setKnowledgePoint(knowledgePoint);
+			ques.setExaminationDescription(examinationDescription);
+		}else if("pand".equals(ques.getTypeCode())){
+			String answer = ExcelImportTools.getInstance().getValForString(hssfRow, 2);
+			String difficulty = ExcelImportTools.getInstance().getValForString(hssfRow, 3);
+			String knowledgePoint = ExcelImportTools.getInstance().getValForString(hssfRow, 4);
+			String examinationDescription = ExcelImportTools.getInstance().getValForString(hssfRow, 5);
+			ques.setAnswer(answer.toLowerCase());
+			ques.setDifficulty(getDifficulty(difficulty));
+			ques.setKnowledgePoint(knowledgePoint);
+			ques.setExaminationDescription(examinationDescription);
+		}else if("tiank".equals(ques.getTypeCode())){
+			String optionA = ExcelImportTools.getInstance().getValForString(hssfRow, 2);
+			String optionB = ExcelImportTools.getInstance().getValForString(hssfRow, 3);
+			String optionC = ExcelImportTools.getInstance().getValForString(hssfRow, 4);
+			String optionD = ExcelImportTools.getInstance().getValForString(hssfRow, 5);
+			String optionE = ExcelImportTools.getInstance().getValForString(hssfRow, 6);
+			String optionF = ExcelImportTools.getInstance().getValForString(hssfRow, 7);
+			String difficulty = ExcelImportTools.getInstance().getValForString(hssfRow, 8);
+			String knowledgePoint = ExcelImportTools.getInstance().getValForString(hssfRow, 9);
+			String examinationDescription = ExcelImportTools.getInstance().getValForString(hssfRow, 10);
+			fillOptionArr(ques, optionA,optionB,optionC,optionD,optionE,optionF);
+			ques.setDifficulty(getDifficulty(difficulty));
+			ques.setKnowledgePoint(knowledgePoint);
+			ques.setAnswer(addAnswerStr(ques));
+			ques.setExaminationDescription(examinationDescription);
+			
+		}else if("jiand".equals(ques.getTypeCode())){
+			String answer = ExcelImportTools.getInstance().getValForString(hssfRow, 2);
+			String difficulty = ExcelImportTools.getInstance().getValForString(hssfRow, 3);
+			String knowledgePoint = ExcelImportTools.getInstance().getValForString(hssfRow, 4);
+			String examinationDescription = ExcelImportTools.getInstance().getValForString(hssfRow, 5);
+			ques.setAnswer(answer.toLowerCase());
+			ques.setDifficulty(getDifficulty(difficulty));
+			ques.setKnowledgePoint(knowledgePoint);
+			ques.setExaminationDescription(examinationDescription);
+		}
+		
+		checkImpData(ques);
+		return ques;
+	}
+	
+	private String addAnswerStr(TkExamination ques){
+	    StringBuffer answerTempBuff = new StringBuffer();
+	    int index = 1;
+	    if(null != ques.getOptionA() && !"".equals(ques.getOptionA())) {
+	    	answerTempBuff.append(" (").append(index).append(") ").append(ques.getOptionA());
+	    	index ++;
+	    }
+	    if(null != ques.getOptionB() && !"".equals(ques.getOptionB())) {
+	    	answerTempBuff.append(" (").append(index).append(") ").append(ques.getOptionB());
+	    	index ++;
+	    }
+	    if(null != ques.getOptionC() && !"".equals(ques.getOptionC())) {
+	    	answerTempBuff.append(" (").append(index).append(") ").append(ques.getOptionC());
+	    	index ++;
+	    }
+	    if(null != ques.getOptionD() && !"".equals(ques.getOptionD())) {
+	    	answerTempBuff.append(" (").append(index).append(") ").append(ques.getOptionD());
+	    	index ++;
+	    }
+	    if(null != ques.getOptionE() && !"".equals(ques.getOptionE())) {
+	    	answerTempBuff.append(" (").append(index).append(") ").append(ques.getOptionE());
+	    	index ++;
+	    }
+	    if(null != ques.getOptionF() && !"".equals(ques.getOptionF())) {
+	    	answerTempBuff.append(" (").append(index).append(") ").append(ques.getOptionF());
+	    	index ++;
+	    }
+	    return answerTempBuff.toString();
+	}
+
+	private void checkImpData(TkExamination ques) {
+		if("danx".equals(ques.getTypeCode())){
+			if("".equals(ques.getAnswer())){
+				throw new ImpCheckExcelException("试题答案不能为空！");
+			}
+			
+			if(!"a".equalsIgnoreCase(ques.getAnswer()) && !"b".equalsIgnoreCase(ques.getAnswer()) 
+					&& !"c".equalsIgnoreCase(ques.getAnswer()) && !"d".equalsIgnoreCase(ques.getAnswer())
+					&& !"e".equalsIgnoreCase(ques.getAnswer()) && !"f".equalsIgnoreCase(ques.getAnswer())){
+				throw new ImpCheckExcelException("试题答案输入有误，请输入[A至F区间的字符]！");
+			}
+		}else if("duox".equals(ques.getTypeCode())){
+			if("".equals(ques.getAnswer())){
+				throw new ImpCheckExcelException("试题答案不能为空");
+			}
+			StringBuffer answerBuff = new StringBuffer();
+			String lp = "";
+			for(int i=0;i<ques.getAnswer().length();i++){
+				String temp = ques.getAnswer().substring(i, i+1);
+				if(!"a".equalsIgnoreCase(temp) && !"b".equalsIgnoreCase(temp) 
+						&& !"c".equalsIgnoreCase(temp) && !"d".equalsIgnoreCase(temp)
+						&& !"e".equalsIgnoreCase(temp) && !"f".equalsIgnoreCase(temp) && !";".equalsIgnoreCase(temp)){
+					throw new ImpCheckExcelException("试题答案输入有误，请输入[A至F区间的字符]！");
+				}
+				
+				if("a".equalsIgnoreCase(temp) || "b".equalsIgnoreCase(temp) 
+						|| "c".equalsIgnoreCase(temp) || "d".equalsIgnoreCase(temp)
+						|| "e".equalsIgnoreCase(temp) || "f".equalsIgnoreCase(temp)){
+					answerBuff.append(lp).append(temp);
+					lp = ";";
+				}
+			}
+			
+			ques.setAnswer(answerBuff.toString());
+		}else if("pand".equals(ques.getTypeCode())){
+			if("".equals(ques.getAnswer())){
+				throw new ImpCheckExcelException("试题答案不能为空！");
+			}
+			
+			if(!"正确".equalsIgnoreCase(ques.getAnswer()) && !"错误".equalsIgnoreCase(ques.getAnswer())){
+				throw new ImpCheckExcelException("试题答案输入有误，请输入[正确 或 错误]！");
+			}
+		}
+	}
+	
+	private void fillOptionArr(TkExamination ques, String optionA, String optionB, String optionC, String optionD, String optionE,String optionF) {
+		List<String> optionList = new ArrayList<String>();
+		if(optionA != null && !"".equals(optionA)){
+			optionList.add(optionA);
+		}
+		if(optionB != null && !"".equals(optionB)){
+			optionList.add(optionB);
+		}
+		if(optionC != null && !"".equals(optionC)){
+			optionList.add(optionC);
+		}
+		if(optionD != null && !"".equals(optionD)){
+			optionList.add(optionD);
+		}
+		if(optionE != null && !"".equals(optionE)){
+			optionList.add(optionE);
+		}
+		if(optionF != null && !"".equals(optionF)){
+			optionList.add(optionF);
+		}
+		
+		if(optionList.size() == 0){
+			if("tiank".equals(ques.getTypeCode())){
+				throw new ImpCheckExcelException("试题答案至少要添写一项！");
+			}else{
+				throw new ImpCheckExcelException("试题选项至少要添写一项！");
+			}
+		}
+		int index = 0;
+		for(String option : optionList){
+			if(index == 0){
+				ques.setOptionA(option);
+				index ++;
+			}else if(index == 1){
+				ques.setOptionB(option);
+				index ++;
+			}else if(index == 2){
+				ques.setOptionC(option);
+				index ++;
+			}else if(index == 3){
+				ques.setOptionD(option);
+				index ++;
+			}else if(index == 4){
+				ques.setOptionE(option);
+				index ++;
+			}else if(index == 5){
+				ques.setOptionF(option);
+				index ++;
+			}
+		}
+	}
+
 	public boolean updateQuesSumCount(Map<String,String> courseMap){
 		for (String key : courseMap.keySet()) { 
 			StringBuffer sql = new StringBuffer(); 
@@ -591,11 +723,25 @@ public class TkExaminationServices extends BaseServices implements IDao<TkExamin
 		}else if(i == 2){
 			ret = "pand";
 		}else if(i == 3){
-			ret = "jf";
+			ret = "tiank";
 		}else if(i == 4){
-			ret = "al";
-		}else if(i == 5){
-			ret = "sc";
+			ret = "jiand";
+		}
+		return ret;
+	}
+	
+	private String getTypeName(int i) {
+		String ret = "";
+		if(i == 0){
+			ret = "单选题";
+		}else if(i == 1){
+			ret = "多选题";
+		}else if(i == 2){
+			ret = "判断题";
+		}else if(i == 3){
+			ret = "填空题";
+		}else if(i == 4){
+			ret = "简答题";
 		}
 		return ret;
 	}
@@ -612,9 +758,10 @@ public class TkExaminationServices extends BaseServices implements IDao<TkExamin
 
 	public boolean batchDel(SearchParams searchParams) {
 		StringBuffer sql = new StringBuffer();
-		sql.append("delete FROM tk_examination ");
-		String lp = " where ";
+		sql.append("delete FROM tk_examination where business_id=? ");
+		String lp = " and ";
 		List<Object> argsList = new ArrayList<Object>();
+		argsList.add(SessionHelper.getInstance().getUser().getBusinessId());
 		if(null != searchParams){
 			if(null != searchParams.get("examinationContent") && !"".equals((String)searchParams.get("examinationContent"))){
 				sql.append(lp).append(" examination_content like ? ");

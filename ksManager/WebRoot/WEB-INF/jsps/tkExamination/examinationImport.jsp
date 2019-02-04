@@ -23,7 +23,7 @@
 				<div class="row-fluid">
 					<div class="span12">
 						<h3 class="page-title">
-							题库管理
+							${course.courseName }
 						</h3>
 					</div>
 				</div>
@@ -40,16 +40,19 @@
 							<div class="portlet-body form">
 								<form id="inputForm" class="form-horizontal" action="${basePath}tkExamination/imp" method="post" enctype="multipart/form-data">
 									<input type="hidden" name="id" value="${tkExamination.id }"/>
+									<input type="hidden" name="courseId" value="${cid }"/>
 									<div class="alert alert-error ${empty MESSAGE ?'hide':'' }">
 										<button class="close" data-dismiss="alert"></button>
 										<span>
+											试题导入失败，原因：<br/>
 											<c:forEach items="${errorlist}" var="list"  >
-												第${list.rowNum}行 ,${list.retrunMessage} 
+												&nbsp;&nbsp;<c:if test="${list.rowNum>0}">[${list.typeName }] 第${list.rowNum}行 ,</c:if>${list.retrunMessage} 
 												<br/>
 											</c:forEach>
 
 										</span>
 									</div>
+									<!-- 
 									<div class="control-group"> 
 									   <label class="control-label"> 
 									       课程<span class="required">*</span> 
@@ -63,7 +66,7 @@
 									   		</select>
 									   </div> 
 									</div> 
-									
+									 -->
 									<div class="control-group" id="accountDiv" > 
 									   <label class="control-label"> 
 									      	导入文件<span class="required">*</span> 
@@ -76,7 +79,7 @@
 									   <label class="control-label"> 
 									   </label> 
 									   <div class="controls"> 
-									       <a href="${resPath}template/questionImpTemplate.xls" target="_blank">导入excel模板下载...</a>
+									       <a href="${resPath}template/questionImpTemplate.xls" target="_blank">请下载导入模板，按照模板格式添写数据项进行导入即可！</a>
 									   </div> 
 									</div>
 									<div class="form-actions clearfix">
@@ -99,7 +102,7 @@
 		   App.init();
 		});
 		function cancle(){
-			window.location = "${basePath}tkExamination";
+			window.location = "${basePath}tkExamination/${cid}";
 		}
 	</script>
 </body>

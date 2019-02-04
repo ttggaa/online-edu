@@ -1,12 +1,17 @@
 package com.edufe.module.service;
 
+import java.util.List;
+import java.util.Map;
+
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.kafka.core.KafkaTemplate;
 import org.springframework.stereotype.Service;
 
 import com.edufe.framework.common.JsonUtil;
-import com.edufe.module.entity.ExamCourse;
-import com.edufe.module.entity.bean.ExamAccountBean;
+import com.edufe.module.entity.bean.ExamPracBean;
+import com.edufe.module.entity.bean.ExaminationType;
+import com.edufe.module.entity.queueBean.ExamLoginMsgBean;
+import com.edufe.module.entity.queueBean.PaperSaveBean;
 
 @Service
 public class MQKafkaServiceImpl{
@@ -15,10 +20,10 @@ public class MQKafkaServiceImpl{
 	@Autowired
     KafkaTemplate<String,String> kafkaTemplate;
 
-	public void decAccount(ExamAccountBean bean) {
+	public void loginDecAccount(ExamLoginMsgBean bean) {
 		if(null == bean) ;
 		try {
-			kafkaTemplate.send(addPrefix("account_change"), JsonUtil.toJson(bean));
+			kafkaTemplate.send(addPrefix("exam_login"), JsonUtil.toJson(bean));
 		} catch (Exception e) {
 			e.printStackTrace();
 		}
@@ -53,8 +58,29 @@ public class MQKafkaServiceImpl{
 //	}
 
 
-	public void savePaper(Integer stuId, Integer courseId, ExamCourse ec) {
-		
+//	public void savePaper(ExamCourse ec) {
+//		if(null == ec) return;
+//		try {
+//			kafkaTemplate.send(addPrefix("exam_savepaper"), JsonUtil.toJson(ec));
+//		} catch (Exception e) {
+//			e.printStackTrace();
+//		}
+//		return ;
+//	}
+
+
+	public void savePaper(Integer stuId, Integer courseId, List<ExaminationType> examinationTypeList, Map<String, ExamPracBean> pracMap, Integer businessId) {
+		PaperSaveBean bean = new PaperSaveBean();
+		bean.setStuId(stuId);
+		bean.setCourseId(courseId);
+		bean.setPaperJson(JsonUtil.toJson(examinationTypeList));
+		bean.setPracConf(JsonUtil.toJson(pracMap));
+		bean.setBusinessId(businessId);
+		try {
+			kafkaTemplate.send(addPrefix("exam_savepaper"), JsonUtil.toJson(bean));
+		} catch (Exception e) {
+			e.printStackTrace();
+		}
 	}
 
 }

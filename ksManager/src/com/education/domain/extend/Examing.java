@@ -18,6 +18,16 @@ public class Examing extends Exam implements Serializable {
 
     // 显示时间 
     private String viewTime;
+    
+    private boolean examingFlag;//状态
+
+	public boolean isExamingFlag() {
+		return examingFlag;
+	}
+
+	public void setExamingFlag(boolean examingFlag) {
+		this.examingFlag = examingFlag;
+	}
 
 	public String getViewDate() {
 		return viewDate;

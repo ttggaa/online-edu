@@ -34,8 +34,27 @@ public class ResCourse implements Serializable {
 
     // datebase colume is indexno 
     private Integer indexno;
+    private String remark;
+    private Integer quesSumCount;
     
     private String selCourseFlag;
+    
+	public Integer getQuesSumCount() {
+		return quesSumCount;
+	}
+
+	public void setQuesSumCount(Integer quesSumCount) {
+		this.quesSumCount = quesSumCount;
+	}
+
+	public String getRemark() {
+		return remark;
+	}
+
+	public void setRemark(String remark) {
+		this.remark = remark;
+	}
+
 	public String getSelCourseFlag() {
 		return selCourseFlag;
 	}

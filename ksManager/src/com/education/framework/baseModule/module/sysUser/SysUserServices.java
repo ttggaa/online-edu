@@ -12,6 +12,7 @@ import org.springframework.stereotype.Service;
 
 import com.education.framework.application.ApplicationHelper;
 import com.education.framework.base.BaseServices;
+import com.education.framework.baseModule.domain.SysRole;
 import com.education.framework.baseModule.domain.SysUser;
 import com.education.framework.dao.IDao;
 import com.education.framework.domain.SearchParams;
@@ -150,8 +151,14 @@ public class SysUserServices extends BaseServices implements IDao<SysUser>{
 	}
 
 	@Override
-	public boolean findIsExist(String name) {
-		return false;
+	public boolean findIsExist(String loginname) {
+		SysUser sysUser = SessionHelper.getInstance().getUser();
+		return dao.queryForInt("select count(1) from sys_user where business_id=? and loginname=?" , new Object[]{sysUser.getBusinessId(),loginname}) > 0;
+	}
+	
+	public boolean findIsExist(int uid, String loginname) {
+		SysUser sysUser = SessionHelper.getInstance().getUser();
+		return dao.queryForInt("select count(1) from sys_user where business_id=? and id<>? and loginname=?" , new Object[]{sysUser.getBusinessId(),uid,loginname}) > 0;
 	}
 	
 	private class SysUserRowmapper implements RowMapper<SysUser> {
@@ -227,11 +234,12 @@ public class SysUserServices extends BaseServices implements IDao<SysUser>{
 		
 		dao.update("delete from sys_user_role where user_id = ?", new Object[]{uid});
 		
+		List<SysRole> roleList = SessionHelper.getInstance().getUser().getRoleList();
 		StringBuffer sql = new StringBuffer();
 		sql.append("insert into sys_user_role(user_id,role_id,create_time,create_user) values(?,?,now(),?)");
-		if(null != roleIds){
-			for(String rid : roleIds){
-				Object[] args = {uid, rid, user.getId()};
+		if(null != roleList){
+			for(SysRole role : roleList){
+				Object[] args = {uid, role.getId(), user.getId()};
 				dao.update(sql.toString(), args);
 			}
 		}

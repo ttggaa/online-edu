@@ -13,14 +13,19 @@ import org.springframework.jdbc.core.RowMapper;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
+import com.edufe.framework.common.JsonUtil;
 import com.edufe.framework.common.Util;
 import com.edufe.framework.common.cache.CacheUtil;
 import com.edufe.framework.helper.ApplicationHelper;
+import com.edufe.module.entity.CacheBusiness;
 import com.edufe.module.entity.ExamCourse;
 import com.edufe.module.entity.PaperExamination;
 import com.edufe.module.entity.bean.ExaminationType;
 import com.edufe.module.entity.bean.QuesPoint;
 import com.edufe.module.service.MQKafkaServiceImpl;
+import com.google.gson.JsonObject;
+
+import net.sf.json.JSONObject;
 @Service
 @Transactional
 public class CommonServices {
@@ -151,7 +156,7 @@ public class CommonServices {
 		return list;
 	}
 	
-	public boolean submitPaper(Integer stuId, Integer courseId, String param) {
+	public boolean submitPaper(Integer stuId, Integer courseId, String param, CacheBusiness business) {
 		if(null == stuId) return false;
 		if(null == courseId) return false;
 		if(null != param && !"".equals(param)) saveQues(stuId, courseId, param); //判分前先保存答题记录
@@ -181,21 +186,26 @@ public class CommonServices {
 					//正确
 					rightCount ++;
 					score += qp.getPoint();
+					ques.setRightFlag(true);
 				}else{
 					wrongCount ++;
+					ques.setRightFlag(false);
 				}
 			}
 		}
 		ec.setScore(String.valueOf(score));
-		mq.savePaper(stuId, courseId, ec);
+		ec.setStuId(stuId);
+		ec.setCourseId(courseId);
+		
+		mq.savePaper(stuId, courseId, ec.getExaminationTypeList(), ec.getPracMap(), business.getId());
 		//清除REDIS中的试卷
-		cache.removeExamPaper(stuId, courseId);
+//		cache.removeExamPaper(stuId, courseId);
 		Object[] args = {score,rightCount, wrongCount, ec.getExamId(), stuId, courseId};
 		//注：成绩只允许提交一次，如有成绩，不允许提交
 		int r = jdbc.update("update exam_course set submit_time=now(),submit_flag='1',score=?,right_count=?,wrong_count=? where exam_id=? and stu_id=? and course_id=? and submit_flag='0'", args);
 		return r == 1;
 	}
-
+	
 	//简答
 	private QuesPoint getQuesPointByJiand(PaperExamination ques, float point) {
 		QuesPoint qp = new QuesPoint();
@@ -276,5 +286,19 @@ public class CommonServices {
 	public boolean isSubmitFlag(int stuId, Integer cid) {
 		String sql = "select count(1) from exam_course where stu_id=? and course_id=? and submit_flag='1'";
 		return jdbc.queryForObject(sql, new Object[]{stuId, cid}, Integer.class) > 0;
+	}
+
+	/**
+	 * 切屏次数保存
+	 * @param stuId
+	 * @param courseId
+	 * @return
+	 */
+	public int savePageChange(int stuId, Integer cid) {
+		// TODO Auto-generated method stub
+		jdbc.update("update exam_course set page_change=ifnull(page_change,0)+1 where stu_id=? and course_id=? and submit_flag='0'", new Object[]{stuId, cid});
+		
+		int pageChangeCount = jdbc.queryForObject("select ifnull(page_change,0) page_change from exam_course where stu_id=? and course_id=?", new Object[]{stuId, cid}, Integer.class);
+		return pageChangeCount;
 	}
 }

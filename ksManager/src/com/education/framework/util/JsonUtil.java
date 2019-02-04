@@ -4,6 +4,8 @@ import java.util.Iterator;
 import java.util.List;
 import java.util.Map;
 
+import org.codehaus.jackson.map.ObjectMapper;
+
 import net.sf.json.JSONArray;
 import net.sf.json.JSONObject;
 /**
@@ -37,5 +39,16 @@ public class JsonUtil {
 	public static String parseJson(Map<String,Object> map){
 		JSONObject obj = JSONObject.fromObject(map);
 		return obj.toString();  
+	}
+	
+	public static String toJson(Object obj){
+		ObjectMapper objectMapper = new ObjectMapper();
+		try {
+			String json = objectMapper.writeValueAsString(obj);
+			return json;
+		} catch (Exception e1) {
+			e1.printStackTrace();
+		}
+		return "";
 	}
 }

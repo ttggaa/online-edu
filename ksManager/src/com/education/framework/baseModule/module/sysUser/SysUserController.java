@@ -197,9 +197,12 @@ public class SysUserController extends BaseController{
 	
 	@RequestMapping(value = "create", method = RequestMethod.GET)
 	public String createForm(Model model) {
-		List<SysRole> listRole = sysRoleServices.find();
+		SysUser sysUser = new SysUser();
+		sysUser.setState("1");
+		model.addAttribute("user", sysUser);
+//		List<SysRole> listRole = sysRoleServices.find();
 		model.addAttribute("action","create");
-		model.addAttribute("listRole",listRole);
+//		model.addAttribute("listRole",listRole);
 		model.addAttribute("orgList",orgServices.findForRecursive());
 		return "/framework/user/userEdit";
 	}
@@ -210,11 +213,20 @@ public class SysUserController extends BaseController{
 		sysUser.setCreateUser(sessionUser.getId());
 		sysUser.setUpdateUser(sessionUser.getId());
 		sysUser.setCreateTime(CalendarUtil.getCurrentDate());
-		int uid = services.save(sysUser);
-		services.updateUserRole(uid, roleIds);
-		redirectAttributes.addFlashAttribute(MESSAGE, MESSAGE_SAVE_SUCCESS);
-		redirectAttributes.addFlashAttribute(MESSAGE_STATE, "alert-success");
-		return "redirect:/sysUser";
+		if(!services.findIsExist(sysUser.getLoginname())){
+			int uid = services.save(sysUser);
+			services.updateUserRole(uid, roleIds);
+			redirectAttributes.addFlashAttribute(MESSAGE, MESSAGE_SAVE_SUCCESS);
+			redirectAttributes.addFlashAttribute(MESSAGE_STATE, "alert-success");
+			return "redirect:/sysUser";
+		}else{
+			model.addAttribute("action","create");
+			model.addAttribute("user", sysUser);
+			model.addAttribute("orgList",orgServices.findForRecursive());
+			model.addAttribute(MESSAGE, "创建失败，账号已存在，请更换其它账号！");
+			model.addAttribute(MESSAGE_STATE,"alert-fail");
+			return "/framework/user/userEdit";
+		}
 	}
 
 	@RequestMapping(value = "update/{id}", method = RequestMethod.GET)
@@ -229,14 +241,23 @@ public class SysUserController extends BaseController{
 	}
 	
 	@RequestMapping(value = "update", method = RequestMethod.POST)
-	public String update(SysUser sysUser,String[] roleIds, RedirectAttributes redirectAttributes) {
+	public String update(SysUser sysUser,String[] roleIds, Model model, RedirectAttributes redirectAttributes) {
 		SysUser sessionUser = SessionHelper.getInstance().getUser();
-		sysUser.setUpdateUser(sessionUser.getId());
-		services.update(sysUser);
-		services.updateUserRole(sysUser.getId(), roleIds);
-		redirectAttributes.addFlashAttribute(MESSAGE, MESSAGE_UPDATE_SUCCESS);
-		redirectAttributes.addFlashAttribute(MESSAGE_STATE, "alert-success");
-		return "redirect:/sysUser";
+		if(!services.findIsExist(sysUser.getId(), sysUser.getLoginname())){
+			sysUser.setUpdateUser(sessionUser.getId());
+			services.update(sysUser);
+			services.updateUserRole(sysUser.getId(), roleIds);
+			redirectAttributes.addFlashAttribute(MESSAGE, MESSAGE_UPDATE_SUCCESS);
+			redirectAttributes.addFlashAttribute(MESSAGE_STATE, "alert-success");
+			return "redirect:/sysUser";
+		}else{
+			model.addAttribute("action","update");
+			model.addAttribute("user", sysUser);
+			model.addAttribute("orgList",orgServices.findForRecursive());
+			model.addAttribute(MESSAGE,"修改失败，账号已存在，请更换其它账号！");
+			model.addAttribute(MESSAGE_STATE,"alert-fail");
+			return "/framework/user/userEdit";
+		}
 	}
 	
 	@RequestMapping(value = "editUserPasswd", method = RequestMethod.GET)
@@ -267,9 +288,15 @@ public class SysUserController extends BaseController{
 	
 	@RequestMapping(value = "delete/{id}")
 	public String delete(@PathVariable("id") Integer id,RedirectAttributes redirectAttributes) {
-		services.delete(id);
-		redirectAttributes.addFlashAttribute(MESSAGE, MESSAGE_DELETE_SUCCESS);
-		redirectAttributes.addFlashAttribute(MESSAGE_STATE, "alert-success");
+		if(id.intValue() == SessionHelper.getInstance().getUser().getId().intValue()){
+			//与登录用户相同，不允许删除
+			redirectAttributes.addFlashAttribute("MESSAGE", "删除失败，禁止删除当前登录用户账号!");
+			redirectAttributes.addFlashAttribute(MESSAGE_STATE, "alert-error");
+		}else{
+			services.delete(id);
+			redirectAttributes.addFlashAttribute(MESSAGE, MESSAGE_DELETE_SUCCESS);
+			redirectAttributes.addFlashAttribute(MESSAGE_STATE, "alert-success");
+		}
 		return "redirect:/sysUser";
 	}
 	

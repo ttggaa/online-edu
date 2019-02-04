@@ -24,6 +24,17 @@ public class LoginConfBean implements Serializable {
 	@ApiModelProperty(value = "登录页背景图")
 	private String background;
 
+	@ApiModelProperty(value = "页尾是否显示")
+	private String footerViewFlag;
+	
+	public String getFooterViewFlag() {
+		return footerViewFlag;
+	}
+
+	public void setFooterViewFlag(String footerViewFlag) {
+		this.footerViewFlag = footerViewFlag;
+	}
+
 	public String getProName() {
 		return proName;
 	}

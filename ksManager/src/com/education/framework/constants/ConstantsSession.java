@@ -19,7 +19,7 @@ public interface ConstantsSession {
 	public final static String MESSAGE_DELETE_SUCCESS = "删除成功";
 	public final static String MESSAGE_OPTER_SUCCESS = "成功";
 	
-	public final static String MESSAGE_SAVE_FAIL = "保存成功";
-	public final static String MESSAGE_UPDATE_FAIL = "修改成功";
-	public final static String MESSAGE_DELETE_FAIL = "删除成功";
+	public final static String MESSAGE_SAVE_FAIL = "保存失败";
+	public final static String MESSAGE_UPDATE_FAIL = "修改失败";
+	public final static String MESSAGE_DELETE_FAIL = "删除失败";
 }

@@ -68,32 +68,6 @@
 												</div>
 											</div>
 											
-											<div class="span3">
-												<div class="control-group">
-													<label class="control-label" for="orgId">部门</label>
-													<div class="controls">
-														<select id="orgId" name="map['orgId']">
-															<option value="">全部</option>
-													   		<c:forEach items="${orgList }" var="org">
-													   			<option value="${org.id }" ${org.id==searchParams.map['orgId']?'selected=selected':'' }>${org.orgName }</option>
-													   		</c:forEach>
-												   		</select>												
-													</div>
-												</div>
-											</div>
-											<div class="span3">
-												<div class="control-group">
-													<label class="control-label" for="roleId">角色</label>
-													<div class="controls">
-														<select id="roleId" name="map['roleId']">
-															<option value="">全部</option>
-													   		<c:forEach items="${listRole }" var="rList">
-													   			<option value="${rList.id }" ${rList.id==searchParams.map['roleId']?'selected=selected':'' }>${rList.roleName }</option>
-													   		</c:forEach>
-												   		</select>												
-													</div>
-												</div>
-											</div>
 											<!--/span-->
 										</div>
 										<div style="text-align:center;">
@@ -123,11 +97,9 @@
 												<th class="hidden-480" style="width:40px;">序号</th>
 												<th>账号</th>
 												<th>姓名</th>
-												<th class="hidden-480">部门</th>
-												<th class="hidden-480 span4">角色</th>
 												<th class="hidden-480">邮箱</th>
 												<th class="hidden-480">联系电话</th>
-												<th style="width:200px;">操作</th>
+												<th class="span4">操作</th>
 											</tr>
 										</thead>
 										<tbody>
@@ -136,14 +108,22 @@
 													<td class="hidden-480">${status.index+1 }</td>
 													<td>${list.loginname }</td>
 													<td>${list.truename }</td>
-													<td class="hidden-480"><d:view tableName="sys_org" field="org_name" primaryValue="${list.orgId }"/></td>
-													<td class="hidden-480">${list.roles }</td>
 													<td class="hidden-480"><a href="mailto:${list.email }">${list.email }</a></td>
 													<td class="hidden-480">${list.telephone }</td>
 													<td>
-														<a href="${basePath}sysUser/update/${list.id}" class="btn mini purple"><i class="icon-edit"></i> 修改</a>
-														<a href="javascript:void();" onclick="delData('${basePath}sysUser/delete/${list.id}');" class="btn mini black"><i class="icon-trash"></i> 删除</a>
-														<a href="javascript:void();" onclick="resetPwd('${list.id}','${list.truename }');" class="btn mini black"><i class="icon-share-alt"></i> 密码重置</a>
+														<div class="btn-group">
+															<a class="btn purple" href="#" data-toggle="dropdown">
+															<i class="icon-user"></i> 设置
+															<i class="icon-angle-down"></i>
+															</a>
+															<ul class="dropdown-menu">
+																<li><a href="${basePath}sysUser/update/${list.id}"><i class="icon-trash"></i> 修改</a></li>
+																<li class="divider"></li>
+																<li><a href="javascript:void();" onclick="delData('${basePath}sysUser/delete/${list.id}');"><i class="icon-remove"></i> 删除</a></li>
+																<li class="divider"></li>
+																<li><a href="javascript:void();" onclick="resetPwd('${list.id}','${list.truename }');"><i class="icon-share-alt"></i> 重置密码</a></li>
+															</ul>
+														</div>
 													</td>
 												</tr>
 											</c:forEach>

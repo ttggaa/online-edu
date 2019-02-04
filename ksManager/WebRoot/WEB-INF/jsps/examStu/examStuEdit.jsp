@@ -177,7 +177,7 @@
 		   App.init();
 		});
 		function cancle(){
-			window.location = "${basePath}examStu?map['eid']=${eid }";
+			window.location = "${basePath}examStu/${eid }";
 		}
 		function theSave(){
 			if($("#idcard").val() == ""){

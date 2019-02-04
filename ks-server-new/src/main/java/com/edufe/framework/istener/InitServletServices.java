@@ -61,7 +61,7 @@ public class InitServletServices {
 
 	public void initBusinessCache() {
 		StringBuffer sql = new StringBuffer();
-		sql.append("select id,business_name,kind,logo,advert_logo,domain,auth_flag,pro_name,summary,background from business ");
+		sql.append("select id,business_name,kind,logo,advert_logo,domain,auth_flag,pro_name,summary,background,footer_view_flag,online_user,account,overdraft,member,cost_price from business ");
 		sql.append("where audit_flag='1'");
 		List<CacheBusiness> list = jdbc.query(sql.toString(), new RowMapper<CacheBusiness>(){
 			@Override
@@ -77,6 +77,12 @@ public class InitServletServices {
 				obj.setProName(rs.getString("pro_name"));
 				obj.setSummary(rs.getString("summary"));
 				obj.setBackground(rs.getString("background"));
+				obj.setFooterViewFlag(rs.getString("footer_view_flag"));
+				obj.setOnlineUser(rs.getInt("online_user"));
+				obj.setAccount(rs.getString("account"));
+				obj.setOverdraft(rs.getInt("overdraft"));
+				obj.setMember(rs.getString("member"));
+				obj.setCostPrice(rs.getInt("cost_price"));
 				return obj;
 			}
 		});

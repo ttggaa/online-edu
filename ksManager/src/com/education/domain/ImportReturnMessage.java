@@ -3,7 +3,15 @@ package com.education.domain;
 public class ImportReturnMessage {
 	private int messageCode ;
 	private String retrunMessage ;
+	private String typeName;
 	private int rowNum ;
+	
+	public String getTypeName() {
+		return typeName;
+	}
+	public void setTypeName(String typeName) {
+		this.typeName = typeName;
+	}
 	public int getMessageCode() {
 		return messageCode;
 	}

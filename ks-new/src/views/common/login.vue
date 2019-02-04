@@ -1,6 +1,6 @@
 <template>
   <div class="site-wrapper site-page--login">
-    <div class="site-content__wrapper">
+    <div class="site-content__wrapper login_back" v-bind:style="{'background-image': background}">
       <div class="site-content">
         <div class="brand-info">
           <h2 class="brand-info__text">{{proName}}</h2>
@@ -13,10 +13,15 @@
               <el-input v-model="dataForm.idcard" placeholder="准考证号"></el-input>
             </el-form-item>
             <el-form-item prop="truename">
-              <el-input v-model="dataForm.truename" type="text" placeholder="姓名"></el-input>
+              <el-input v-model.trim="dataForm.truename" type="text" placeholder="姓名"></el-input>
             </el-form-item>            
             <el-form-item>
               <el-button class="login-btn-submit" type="primary" @click="dataFormSubmit()">登录</el-button>
+            </el-form-item>
+            <el-form-item v-if="footerViewFlag==1">
+              <p class="brand-info__intro" style="text-align: center;">
+              	<a href="http://www.linghang-tech.com" target="_blank" style="color:#0055AA;">大连领航世纪科技发展有限公司 技术支持</a>
+              </p>
             </el-form-item>
           </el-form>
         </div>
@@ -26,12 +31,15 @@
 </template>
 
 <script>
+	import screenfull from 'screenfull'
   export default {
     data () {
       return {
       	proName: '',
         summary: '',
-        backround: '',
+        background: '',
+        footerViewFlag: '',
+        isFullscreen: false,
         dataForm: {
           idcard: '',
           truename: ''
@@ -57,8 +65,8 @@
           if (data && data.code === 0) {
             this.proName = data.lcb.proName
             this.summary = data.lcb.summary
-            this.backround = data.backround
-            console.log(this.proName)
+            this.background = 'url(' + data.lcb.background + ')'
+            this.footerViewFlag = data.lcb.footerViewFlag
           } else {
             this.$message.error(data.msg)
           }
@@ -67,6 +75,7 @@
     methods: {
       // 提交表单
       dataFormSubmit () {
+      	this.buttoncli()
         this.$refs['dataForm'].validate((valid) => {
           if (valid) {
             this.$http({
@@ -86,6 +95,14 @@
             })
           }
         })
+      },
+      buttoncli () {
+        if (!screenfull.enabled) { // 如果不允许进入全屏，发出不允许提示
+      	  this.isFullscreen = false
+          return false
+        }
+        this.isFullscreen = true
+        screenfull.request()
       }
     }
   }
@@ -100,16 +117,15 @@
     left: 0;
     background-color: rgba(38, 50, 56, .6);
     overflow: hidden;
-    &:before {
-      position: fixed;
+    .login_back{
+    	position: fixed;
       top: 0;
       left: 0;
-      z-index: -1;
       width: 100%;
       height: 100%;
       content: "";
-      background-image: url(~@/assets/img/login_bg.jpg);
       background-size: cover;
+      background-size: 78% 100%;
     }
     .site-content__wrapper {
       position: absolute;
@@ -159,5 +175,57 @@
       width: 100%;
       margin-top: 38px;
     }
+    
+ 
+		@media screen and (min-width: 960px) and (max-width: 1199px) {
+			.el-input__inner{
+				height: 69px;
+			}
+			.login-title {
+				font-size: 30px;
+			}
+		}
+		 
+		 
+		@media screen and (min-width: 768px) and (max-width: 959px) {
+			.el-input__inner{
+				height: 69px;
+			}
+			.login-title {
+				font-size: 30px;
+			}
+		}
+		 
+		 
+		@media only screen and (min-width: 480px) and (max-width: 767px){
+			.el-input__inner{
+				height: 69px;
+			}
+			.login-title {
+				font-size: 30px;
+			}
+		}
+		 
+		 
+		@media only screen and (max-width: 479px) {
+			.brand-info__text {
+				font-size: 58px;
+			}
+			.el-input__inner{
+				height: 69px;
+			}
+			.login-title {
+				font-size: 30px;
+			}
+			.el-input--medium {
+				font-size: 24px;
+			}
+			.login-btn-submit{
+				font-size: 30px;
+			}
+			.brand-info__intro {
+				font-size: 27px;
+			}
+		}
   }
 </style>

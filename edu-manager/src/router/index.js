@@ -37,6 +37,10 @@ const mainRoutes = {
     { path: '/theme', component: _import('common/theme'), name: 'theme', meta: { title: '主题' } },
     { path: '/demo-echarts', component: _import('demo/echarts'), name: 'demo-echarts', meta: { title: 'demo-echarts', isTab: true } },
     { path: '/demo-ueditor', component: _import('demo/ueditor'), name: 'demo-ueditor', meta: { title: 'demo-ueditor', isTab: true } }
+    ,
+    { path: '/demo-dynamicform', component: _import('demo/dynamicform'), name: 'demo-dynamicform', meta: { title: 'demo-dynamicform动态表单生成器', isTab: true } }
+  	,
+    { path: '/demo-gojsflow', component: _import('demo/gojsflow'), name: 'demo-gojsflow', meta: { title: 'demo-gojsflow', isTab: true } }
   ],
   beforeEnter (to, from, next) {
     let token = Vue.cookie.get('token')

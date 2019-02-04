@@ -49,22 +49,24 @@ public class TkExaminationController extends BaseController{
 	@Autowired
 	private PaperServices paperServices;
 	
-	@RequestMapping(value = "")
-	public String list(Model model, SearchParams searchParams,Page page,ServletRequest request){
+	@RequestMapping(value = "/{cid}")
+	public String list(@PathVariable("cid") Integer cid, Model model, SearchParams searchParams,Page page,ServletRequest request){
+		searchParams.getMap().put("courseId", String.valueOf(cid));
 		List<TkExamination> list = services.find(searchParams,page);
 		model.addAttribute("list", list);
 		model.addAttribute("page", page);
-		model.addAttribute("courseList",resCourseServices.find());
+		model.addAttribute("course",resCourseServices.findForObject(cid));
 		model.addAttribute("batchList",services.findBatch());
 		model.addAttribute("typeList",typeServices.find());
 		model.addAttribute("quesTypeAnalyseList", services.quesTypeAnalyse(searchParams,page));
 		model.addAttribute("quesSourceList",quesSourceServices.find());
 		model.addAttribute("searchParams", searchParams);
+		model.addAttribute("cid", cid);
 		return "/tkExamination/tkExaminationList";
 	}
 	
-	@RequestMapping(value = "create", method = RequestMethod.GET)
-	public String createForm(TkExamination tkExamination,Model model) {
+	@RequestMapping(value = "create/{cid}", method = RequestMethod.GET)
+	public String createForm(@PathVariable("cid") Integer cid, TkExamination tkExamination,Model model) {
 		model.addAttribute("typeList",typeServices.find());
 		model.addAttribute("courseList",resCourseServices.find());
 		model.addAttribute("difficultyList",DictionaryUtil.getSysDictionaryList(DictionaryConstants.difficulty));
@@ -78,6 +80,10 @@ public class TkExaminationController extends BaseController{
 			tkExamination.setOptionNum(4);
 		}else if("tiank".equals(tkExamination.getTypeCode()) || "yued".equals(tkExamination.getTypeCode())){
 			tkExamination.setOptionNum(1);
+		}
+		tkExamination.setCourseId(cid);
+		if(null == tkExamination.getDifficulty() || "".equals(tkExamination.getDifficulty())){
+			tkExamination.setDifficulty("1");
 		}
 		model.addAttribute("tkExamination", tkExamination);
 		return "/tkExamination/tkExaminationEdit";
@@ -96,7 +102,7 @@ public class TkExaminationController extends BaseController{
 		paperServices.buildExamCachePaperByCourseId(tkExamination.getCourseId());
 		redirectAttributes.addFlashAttribute(MESSAGE, MESSAGE_SAVE_SUCCESS);
 		redirectAttributes.addFlashAttribute(MESSAGE_STATE, "alert-success");
-		return "redirect:/tkExamination/create?courseId=" + tkExamination.getCourseId() + "&typeCode=" 
+		return "redirect:/tkExamination/create/" + tkExamination.getCourseId() + "?courseId=" + tkExamination.getCourseId() + "&typeCode=" 
 			+ tkExamination.getTypeCode();
 	}
 
@@ -123,9 +129,8 @@ public class TkExaminationController extends BaseController{
 		
 		//更新缓存试卷
 		paperServices.buildExamCachePaperByCourseId(tkExamination.getCourseId());
-		redirectAttributes.addFlashAttribute("MESSAGE", "SUCCESS");
-		return "redirect:/tkExamination?map['courseId']=" + tkExamination.getCourseId() + "&map['typeCode']=" 
-			+ tkExamination.getTypeCode() + "&map['sourceId']=" + tkExamination.getSourceId();
+		redirectAttributes.addFlashAttribute("MESSAGE", "保存成功");
+		return "redirect:/tkExamination/" + tkExamination. getCourseId();
 	}
 	
 	@RequestMapping(value = "delete/{id}")
@@ -134,9 +139,8 @@ public class TkExaminationController extends BaseController{
 		services.delete(id);
 		//更新缓存试卷
 		paperServices.buildExamCachePaperByCourseId(tkExamination.getCourseId());
-		redirectAttributes.addFlashAttribute("MESSAGE", "SUCCESS");
-		return "redirect:/tkExamination?map['courseId']=" + tkExamination.getCourseId() + "&map['typeCode']=" 
-		+ tkExamination.getTypeCode() + "&map['sourceId']=" + tkExamination.getSourceId();
+		redirectAttributes.addFlashAttribute("MESSAGE", "删除成功");
+		return "redirect:/tkExamination/" + tkExamination.getCourseId();
 	}
 	
 	@RequestMapping(value = "changeTypeCode/{action}", method = RequestMethod.POST)
@@ -187,9 +191,10 @@ public class TkExaminationController extends BaseController{
 			+ "&defaultPoint=" + tkExamination.getDefaultPoint() + "&difficulty="+tkExamination.getDifficulty()+"&sourceId=" + tkExamination.getSourceId();
 	}
 	
-	@RequestMapping(value = "examinationImport", method = RequestMethod.GET)
-	public String examinationImport(Model model) {
-		model.addAttribute("courseList",resCourseServices.find());
+	@RequestMapping(value = "examinationImport/{cid}", method = RequestMethod.GET)
+	public String examinationImport(@PathVariable("cid") Integer cid, Model model) {
+		model.addAttribute("cid", cid);
+		model.addAttribute("course",resCourseServices.findForObject(cid));
 		model.addAttribute("quesSourceList",quesSourceServices.find());
 		return "/tkExamination/examinationImport";
 	}
@@ -205,7 +210,7 @@ public class TkExaminationController extends BaseController{
 				model.addAttribute("MESSAGE","导入成功。");
 				//更新缓存试卷
 				paperServices.buildExamCachePaperByCourseId(tkExamination.getCourseId());
-				return "redirect:/tkExamination";
+				return "redirect:/tkExamination/" + tkExamination.getCourseId();
 			}else{
 				model.addAttribute("MESSAGE","导入失败。");
 				model.addAttribute("errorlist",r);
@@ -220,8 +225,8 @@ public class TkExaminationController extends BaseController{
 			model.addAttribute("MESSAGE","导入失败。");
 			model.addAttribute("errorlist",r);
 		}
-		model.addAttribute("courseList",resCourseServices.find());
 		model.addAttribute("quesSourceList",quesSourceServices.find());
+		model.addAttribute("cid", tkExamination.getCourseId());
 		return "/tkExamination/examinationImport";
 	}
 	
@@ -251,14 +256,15 @@ public class TkExaminationController extends BaseController{
 		return null;
 	}
 	
-	@RequestMapping(value = "batchDel")
-	public String batchDel(Model model, SearchParams searchParams,RedirectAttributes redirectAttributes){
+	@RequestMapping(value = "batchDel/{cid}")
+	public String batchDel(@PathVariable("cid") Integer cid, Model model, SearchParams searchParams,RedirectAttributes redirectAttributes){
+		searchParams.getMap().put("courseId", String.valueOf(cid));
 		if(services.batchDel(searchParams)){
 			redirectAttributes.addFlashAttribute("MESSAGE", "删除成功");
 		}else{
 			redirectAttributes.addFlashAttribute("MESSAGE", "删除失败");
 		}
-		return "redirect:/tkExamination";
+		return "redirect:/tkExamination/"+String.valueOf(cid);
 	}
 	
 	/**

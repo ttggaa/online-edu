@@ -7,7 +7,12 @@
 		<div class="container-fluid">
 			<!-- BEGIN LOGO -->
 			<a class="brand" href="${basePath}console" style="width:265px;">
-				<img src="${resPath}media/image/logo.png" style="width:265px;color: white;"/>
+				<c:if test="${reqBusiness.logo==null || reqBusiness.logo==''}">
+				  <img src="${resPath}media/image/logo.png" style="width:265px;color: white;"/>
+				</c:if>
+				<c:if test="${reqBusiness.logo!=null && reqBusiness.logo!=''}">
+				  <img src="${reqBusiness.logo }" style="width:265px;height:29px;color: white;"/>
+				</c:if>
 			</a>
 			
 			<!-- BEGIN RESPONSIVE MENU TOGGLER -->
@@ -45,7 +50,7 @@
 					<ul class="dropdown-menu">
 						<li><a href="${basePath}sysUser/editUserPasswd"><i class="icon-user"></i> 密码修改</a></li>
 						<li class="divider"></li>
-						<li><a href="${basePath}sysUser/logout"><i class="icon-key"></i> 退出</a></li>
+						<li><a href="${basePath}sysUser/logout"><i class="icon-off"></i> 退出</a></li>
 
 					</ul>
 				</li>

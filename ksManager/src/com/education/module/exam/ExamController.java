@@ -86,13 +86,15 @@ public class ExamController extends BaseController{
 	@RequestMapping(value = "update", method = RequestMethod.POST)
 	public String update(Exam exam, RedirectAttributes redirectAttributes) {
 //		String pracConfOld = services.findPracConf(exam.getId());
-		Exam examOld = services.findForObject(exam.getId());
-		String pracConfOld = examOld.getPracConf();
+//		Exam examOld = services.findForObject(exam.getId());
+//		String pracConfOld = examOld.getPracConf();
 		services.update(exam);
 		//生成缓存试卷
-		if(!pracConfOld.equals(exam.getPracConf()) || !"".equals(examOld.getMsg())){
-			paperServices.buildExamCachePaper(exam);
-		}
+//		if(!pracConfOld.equals(exam.getPracConf()) || !"".equals(examOld.getMsg())){
+		exam = services.findForObject(exam.getId());
+		exam.setPracList(services.convertPracConfList(exam.getPracConf()));
+		paperServices.buildExamCachePaper(exam);
+//		}
 		redirectAttributes.addFlashAttribute(MESSAGE, MESSAGE_UPDATE_SUCCESS);
 		redirectAttributes.addFlashAttribute(MESSAGE_STATE, "alert-success");
 		return "redirect:/exam";

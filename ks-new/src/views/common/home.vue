@@ -57,6 +57,8 @@
 </template>
 <script>
     import { clearLoginInfo } from '@/utils'
+    import screenfull from 'screenfull'
+    import Vue from 'vue'
     export default {
       data () {
         return {
@@ -74,27 +76,33 @@
         }
       },
       created () {
-        this.$http({
-          url: this.$http.adornUrl('/prepare/getExamPrepareData'),
-          method: 'post'
-        }).then(({data}) => {
-          if (data && data.code === 0) {
-            this.truename = data.truename
-            this.idcard = data.idcard
-            this.examname = data.examname
-            this.SysSecond = data.diffSecond
-            this.examCourseList = data.examCourseList
-            this.examIntroduce = data.examIntroduce
-            this.testFlag = data.testFlag
-            console.log("data.testFlag",data.testFlag)
-            this.viewRemainTime()
-            this.InterValObj = window.setInterval(this.SetRemainTime, 1000);
-          } else {
-            this.$message.error(data.msg)
-          }
-        })
+      	this.initWebSocket()
+      },
+      destroyed () {
+      	this.websock.close()
       },
       methods: {
+      	initPage (){
+      		this.$http({
+	          url: this.$http.adornUrl('/prepare/getExamPrepareData'),
+	          method: 'post'
+	        }).then(({data}) => {
+	          if (data && data.code === 0) {
+	            this.truename = data.truename
+	            this.idcard = data.idcard
+	            this.examname = data.examname
+	            this.SysSecond = data.diffSecond
+	            this.examCourseList = data.examCourseList
+	            this.examIntroduce = data.examIntroduce
+	            this.testFlag = data.testFlag
+	            console.log("data.testFlag",data.testFlag)
+	            this.viewRemainTime()
+	            this.InterValObj = window.setInterval(this.SetRemainTime, 1000);
+	          } else {
+	            this.$message.error(data.msg)
+	          }
+	        })
+      	},
         viewRemainTime () {
           var second = Math.floor(this.SysSecond % 60)
           var minite = Math.floor((this.SysSecond / 60) % 60)
@@ -121,6 +129,12 @@
           }
         },
         startExam (courseId) {
+        	if (!screenfull.enabled) { // 如果不允许进入全屏，发出不允许提示
+      	    this.isFullscreen = false
+          }else{
+          	this.isFullscreen = true
+          	screenfull.request()
+          }
           this.$router.replace({ name: 'paper', params: { cid: courseId}})
         },
         logoutHandle () {
@@ -130,9 +144,41 @@
             type: 'warning'
           }).then(() => {
             clearLoginInfo()
+            this.websock.close()
             this.$router.push({ name: 'login' })
           }).catch(() => {})
-        }
+        },
+        initWebSocket(){ //初始化weosocket
+        	var domain = window.location.host
+        	console.log("domain", domain)
+        	console.log("domain3", this.$http.adornWebsocketUrl("/ws?t=" + Vue.cookie.get('token') + "&r=" + domain))
+	        const wsuri = this.$http.adornWebsocketUrl("/ws?t=" + Vue.cookie.get('token') + "&r=" + domain)
+	        this.websock = new WebSocket(wsuri)
+	        this.websock.onmessage = this.websocketonmessage
+	        this.websock.onopen = this.websocketonopen
+	        this.websock.onerror = this.websocketonerror
+	        this.websock.onclose = this.websocketclose
+	      },
+	      websocketonopen(){ //连接建立之后执行send方法发送数据
+	        //let actions = {"test":"12345"};        this.websocketsend(JSON.stringify(actions));
+	        console.log("ws open....")
+	        this.initPage()
+	      },
+	      websocketonerror(){//连接建立失败重连
+	        //this.initWebSocket();
+	        console.log("ws error....")
+	        this.$message.error("服务器连接异常或超出同时在线考生数量 , 请稍候刷新重试！")
+	      },
+	      websocketonmessage(e){ //数据接收
+	        const redata = JSON.parse(e.data);
+	        console.log("websocketonmessage=", redata)
+	      },
+	      websocketsend(Data){//数据发送
+	        //this.websock.send(Data);
+	      },
+	      websocketclose(e){  //关闭
+	        console.log('断开连接',e);
+	      }
       }
     }
 </script>

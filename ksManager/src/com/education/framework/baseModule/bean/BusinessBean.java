@@ -17,6 +17,7 @@ public class BusinessBean implements Serializable {
 	private String advertLogo;
 	private String domain;
 	private String authFlag;
+	private String authExpire;
 	private String account;
 	private int examAvailableCount;
 	private String proName;
@@ -24,7 +25,56 @@ public class BusinessBean implements Serializable {
 	private String background;
 	private int integrate;
 	private String member;
+	private int onlineUser;
 	
+	private String telephone;
+	private String mail;
+	private String businessRemark;
+	private int examUserNum;
+	private int apiDayCount;
+	
+	public String getAuthExpire() {
+		return authExpire;
+	}
+	public void setAuthExpire(String authExpire) {
+		this.authExpire = authExpire;
+	}
+	public int getExamUserNum() {
+		return examUserNum;
+	}
+	public void setExamUserNum(int examUserNum) {
+		this.examUserNum = examUserNum;
+	}
+	public int getApiDayCount() {
+		return apiDayCount;
+	}
+	public void setApiDayCount(int apiDayCount) {
+		this.apiDayCount = apiDayCount;
+	}
+	public String getTelephone() {
+		return telephone;
+	}
+	public void setTelephone(String telephone) {
+		this.telephone = telephone;
+	}
+	public String getMail() {
+		return mail;
+	}
+	public void setMail(String mail) {
+		this.mail = mail;
+	}
+	public String getBusinessRemark() {
+		return businessRemark;
+	}
+	public void setBusinessRemark(String businessRemark) {
+		this.businessRemark = businessRemark;
+	}
+	public int getOnlineUser() {
+		return onlineUser;
+	}
+	public void setOnlineUser(int onlineUser) {
+		this.onlineUser = onlineUser;
+	}
 	public String getAccount() {
 		return account;
 	}

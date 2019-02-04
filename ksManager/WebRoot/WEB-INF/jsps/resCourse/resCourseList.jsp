@@ -25,7 +25,7 @@
 				<div class="row-fluid">
 					<div class="span12">
 						<h3 class="page-title">
-							考试科目管理
+							考试题库管理
 						</h3>
 					</div>
 				</div>
@@ -39,9 +39,9 @@
 										<div class="row-fluid">
 											<div class="span4">
 												<div class="control-group">
-													<label class="control-label" for="courseName">科目名称</label>
+													<label class="control-label" for="courseName">题库名称</label>
 													<div class="controls">
-														<input class="m-wrap span12" type="text" placeholder="科目名称..." id="courseName" name="map['courseName']" value="${searchParams.map['courseName'] }"/>													
+														<input class="m-wrap span12" type="text" placeholder="题库名称..." id="courseName" name="map['courseName']" value="${searchParams.map['courseName'] }"/>													
 													</div>
 												</div>
 											</div>
@@ -68,8 +68,9 @@
 										<thead>
 											<tr>
 												<th style="width:40px;">序号</th>
-												<th>考试科目名称</th> 
-												<th>单场考试时长(分钟)</th> 
+												<th>题库名称</th> 
+												<th>总题量</th> 
+												<th>说明</th>
 												<th style="width:130px;">操作</th>
 											</tr>
 										</thead>
@@ -78,10 +79,19 @@
 												<tr class="odd gradeX">
 													<td>${status.index+1 }</td>
 													<td>${list.courseName }</td> 
-													<td>${list.examSumTime }</td>
+													<td>${list.quesSumCount }</td>
+													<td>${list.remark }</td>
 													<td>
-														<a href="${basePath}resCourse/update/${list.id}" class="btn mini purple"><i class="icon-edit"></i> 修改</a>
-														<a href="javascript:void();" onclick="delData('${basePath}resCourse/delete/${list.id}');" class="btn mini black"><i class="icon-trash"></i> 删除</a>
+														<div class="btn-group">
+															<a href="${basePath}tkExamination/${list.id}" class="btn mini" style="margin-right: 5px;">进入题库</a>
+															<a class="btn dropdown-toggle mini" data-toggle="dropdown" href="#">
+															更多 <i class="icon-angle-down"></i>
+															</a>
+															<ul class="dropdown-menu">
+																<li><a href="${basePath}resCourse/update/${list.id}"><i class="icon-edit"></i> 修改</a></li>
+																<li><a href="javascript:void();" onclick="delData('${basePath}resCourse/delete/${list.id}');"><i class="icon-trash"></i> 删除</a></li>
+															</ul>
+														</div>
 													</td>
 												</tr>
 											</c:forEach>

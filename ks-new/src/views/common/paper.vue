@@ -1,7 +1,16 @@
 <template>
   <el-container v-loading="loadingState">
-  	<el-container v-if="examCourseLoadingState=='0'" style="float:left;z-index: 2001;margin-left: 20px;margin-top: 20px;">
-			<el-tag type="danger">抱歉，系统打开试卷失败，请尝试手动刷新页面 或 与管理员联系解决此问题！</el-tag>
+  	<el-container v-if="loadingState && lockSecond > 0 && isFullscreen" style="position:fixed;top:100;float:left;z-index: 2001;margin-left: 20px;margin-top: 20px;">
+			<el-tag type="danger" style="font-size: 16px;">警告: 答题过程中请保持在当前页面，如切换到其它的网站页面，系统将会自动锁定，解锁倒计时：{{lockSecond}}</el-tag>
+		</el-container>
+		<el-container v-if="loadingState && isFullscreen == false" style="position:fixed;top:100;float:left;z-index: 2001;margin-left: 20px;margin-top: 20px;">
+			<div class="fullscreen-msg-class">
+				警告: <br/>考试过程中请保持全屏状态，禁止切换其它网站页面，否则系统将会自动锁定。<br/>解锁倒计时：{{lockSecond}} <br/>
+		  	<el-button type="info" @click="buttoncli" style="height:40px;margin-top: 15px;" v-if="loadingState && lockSecond <= 0">立即全屏解锁考试</el-button>
+		  </div>
+		</el-container>
+  	<el-container v-if="examCourseLoadingState=='0'" style="position:fixed;top:100;float:left;z-index: 2001;margin-left: 20px;margin-top: 20px;">
+			<el-tag type="danger" style="font-size: 16px;">抱歉，系统打开试卷失败，请尝试手动刷新页面 或 与管理员联系解决此问题！</el-tag>
 		</el-container>
   	<el-header style="position:fixed;top:0;width:100%;background-color:#fff;z-index: 1999;" v-if="examCourseLoadingState=='1'">
   		<el-menu class="el-menu-demo" mode="horizontal">
@@ -12,8 +21,8 @@
 			  </div>
 			</el-menu>
   	</el-header>
-  	<el-container style="margin-top: 60px; border: 1px solid #eee" v-if="examCourseLoadingState=='1'">
-		  <el-aside width="240px" style="background-color: rgb(238, 241, 246);position: fixed;top:60px;width:240px;">
+  	<el-container style="margin-top: 60px; border: 1px solid #eee;" v-if="examCourseLoadingState=='1'">
+		  <el-aside style="background-color: rgb(238, 241, 246);position: fixed;top:60px;width:240px;" id="el-aside">
 		  	<h3 id="ji-chu-yong-fa" style="margin-left: 10px;"><i class="el-icon-edit" style="margin-right: 4px;"></i>{{truename}}</h3>
 		    <el-menu :default-openeds="open_list">
 		      <el-submenu :index="itemIndex" v-for="(p, itemIndex) in examCourse.examinationTypeList">
@@ -149,6 +158,8 @@
 	</el-container>
 </template>
 <script>
+	  import screenfull from 'screenfull'
+	  import Vue from 'vue'
 		var saveQueueMap = new Map()
     export default {
       data () {
@@ -164,42 +175,135 @@
           loadingState: true,
           open_list: [0,1,2,3,4],
           timeIntervalDjs: null,
-          examCourseLoadingState: ''
+          examCourseLoadingState: '',
+          isFullscreen: false,
+          pageChange: 0,
+          lockSecondBase: 10,
+          lockSecond: 0
         }
       },
       created () {
-      	let that = this
-      	this.cid = this.$route.params.cid
-        this.$http({
-          url: this.$http.adornUrl('/paper/getExamPaperData'),
-          method: 'post',
-          data: this.$http.adornData({
-            'cid': this.cid
-          })
-        }).then(({data}) => {
-          if (data && data.code === 0) {
-            this.truename = data.truename
-            this.idcard = data.idcard
-            this.examname = data.examname
-            this.SysSecond = data.overTimeSecond
-            this.examCourse = data.examCourse
-            console.log("examCourseLoadingState====", this.examCourseLoadingState)
-            if(data.examCourseLoadingState == 'true'){
-            	this.examCourseLoadingState = '1'
-            	this.viewRemainTime()
-            	this.InterValObj = window.setInterval(this.SetRemainTime, 1000);
-            	this.timeIntervalDjs = window.setInterval(this.reqTimeIntervalDjs, 15000);
-            }else{
-            	this.examCourseLoadingState = '0'
-            	this.$message.error("试卷加载失败,请稍候刷新重试！")
-            }
-          } else {
-            this.$message.error(data.msg)
-            this.$router.push({ name: 'home' })
+      	//this.buttoncli()
+      	if(this.checkFull()){
+      		this.isFullscreen = true
+          this.loadingState = false
+      	}
+      	this.initWebSocket();
+      	document.addEventListener("visibilitychange", () => { 
+			    if(document.hidden) {
+			        // 页面被挂起
+			        console.log("页面被挂起")
+			    }
+			    else {
+			        // 页面呼出
+			        console.log("页面呼出")
+			        this.pageChange ++
+			        if(this.pageChange > 5){
+			        	this.lockSecondBase += 2
+			        	this.lockSecond = this.lockSecondBase
+			        	this.loadingState = true
+			        }
+			    }
+			  });
+      },
+      destroyed () {
+      	this.websock.close()
+      },
+      mounted() {
+        window.onresize = () => {
+          // 全屏下监控是否按键了ESC
+          if (!this.checkFull()) {
+          	console.log("mounted esc.....")
+          	// 全屏下按键esc后要执行的动作
+            this.isFullscreen = false
+            this.loadingState = true
+            this.lockSecondBase += 2
+	        	this.lockSecond = this.lockSecondBase
+          }else{
+          	this.loadingState = false
+          	this.isFullscreen = true
           }
-        })
+        }
       },
       methods: {
+        buttoncli () {
+          if (!screenfull.enabled) { // 如果不允许进入全屏，发出不允许提示
+          	this.isFullscreen = false
+            return false
+          }
+          this.isFullscreen = true
+          screenfull.request()
+        },
+        checkFull() {
+          var isFull = document.fullscreenEnabled || window.fullScreen || document.webkitIsFullScreen || document.msFullscreenEnabled;
+          if (isFull === undefined) {
+            isFull = false;
+          }
+          return isFull;
+        },
+        initWebSocket(){ //初始化weosocket
+        	var domain = window.location.host
+	        const wsuri = "ws://exam-websocket.linghang-tech.com:9989/ws?t=" + Vue.cookie.get('token') + "&r=" + domain
+	        this.websock = new WebSocket(wsuri)
+	        this.websock.onmessage = this.websocketonmessage
+	        this.websock.onopen = this.websocketonopen
+	        this.websock.onerror = this.websocketonerror
+	        this.websock.onclose = this.websocketclose
+	      },
+	      websocketonopen(){ //连接建立之后执行send方法发送数据
+	        //let actions = {"test":"12345"};        this.websocketsend(JSON.stringify(actions));
+	        console.log("ws open....")
+	        this.loadPaper();
+	      },
+	      websocketonerror(){//连接建立失败重连
+	        //this.initWebSocket();
+	        console.log("ws error....")
+	        this.$message.error("服务器连接异常或超出同时在线考生数量 , 请稍候刷新重试！")
+	      },
+	      websocketonmessage(e){ //数据接收
+	        const redata = JSON.parse(e.data);
+	        console.log("websocketonmessage=", redata)
+	      },
+	      websocketsend(Data){//数据发送
+	        //this.websock.send(Data);
+	      },
+	      websocketclose(e){  //关闭
+	        console.log('断开连接',e);
+	      },
+        loadPaper () {
+        	let that = this
+	      	this.cid = this.$route.params.cid
+	        this.$http({
+	          url: this.$http.adornUrl('/paper/getExamPaperData'),
+	          method: 'post',
+	          data: this.$http.adornData({
+	            'cid': this.cid
+	          })
+	        }).then(({data}) => {
+	          if (data && data.code === 0) {
+	            this.truename = data.truename
+	            this.idcard = data.idcard
+	            this.examname = data.examname
+	            this.SysSecond = data.overTimeSecond
+	            this.examCourse = data.examCourse
+	            if(data.examCourseLoadingState == 'true'){
+	            	this.examCourseLoadingState = '1'
+	            	this.viewRemainTime()
+	            	this.InterValObj = window.setInterval(this.SetRemainTime, 1000);
+	            	this.timeIntervalDjs = window.setInterval(this.reqTimeIntervalDjs, 15000);
+	            	window.setTimeout(function exit(){
+	            		this.buttoncli()
+	              },3000)
+	            }else{
+	            	this.examCourseLoadingState = '0'
+	            	this.$message.error("试卷加载失败,请稍候刷新重试！")
+	            }
+	          } else {
+	            this.$message.error(data.msg)
+	            this.$router.push({ name: 'home' })
+	          }
+	        })
+        },
         viewRemainTime () {
           var second = Math.floor(this.SysSecond % 60)
           var minite = Math.floor((this.SysSecond / 60) % 60)
@@ -222,13 +326,19 @@
           if (this.SysSecond > 0) {
             this.SysSecond = this.SysSecond - 1
             this.viewRemainTime()
-            this.loadingState = false
+            if(this.lockSecond > 0) {
+            	this.lockSecond --
+            } else if (this.isFullscreen == false){
+            	this.loadingState = true
+            } else{
+            	this.loadingState = false
+            }
           }
         },
         reqTimeIntervalDjs (){
         	if (this.SysSecond > 0) {
             this.$http({
-		          url: this.$http.adornUrl('/paper/getOverTimeSecond'),
+		          url: this.$http.adornChannelUrl('/common/getOverTimeSecond'),
 		          method: 'post',
 		          data: this.$http.adornData({
 		            'cid': this.cid
@@ -286,7 +396,7 @@
 					});
 					let that = this
 			    this.$http({
-	          url: this.$http.adornUrl('/common/saveQues'),
+	          url: this.$http.adornChannelUrl('/common/saveQues'),
 	          method: 'post',
 	          data: this.$http.adornData({
 	            'courseId': this.cid,
@@ -343,7 +453,7 @@
 	        })
         },
         gotoLocation (id) {
-        	//document.querySelector("#question_" + id).scrollIntoView(true);
+        	document.querySelector("#question_" + id).scrollIntoView(true);
           var anchor = this.$el.querySelector("#question_" + id)
           document.documentElement.scrollTop = anchor.offsetTop - 80
         },
@@ -388,6 +498,7 @@
   	margin-top: 5px;
   	margin-bottom: 10px;
   	font-size: 18px;
+  	line-height: 26px;
   }
   .option-div {
   	margin-top: 5px;
@@ -399,5 +510,36 @@
   .txt_op_div{
   	margin-top: 10px;
   }
+  .fullscreen-msg-class {
+  	font-size: 16px;
+  	color: brown;
+  	line-height: 25px;
+  	width:640px;
+  }
+  
+  
+  @media screen and (min-width: 960px) and (max-width: 1199px) {
+			
+	}
+		 
+		 
+	@media screen and (min-width: 768px) and (max-width: 959px) {
+			
+	}
+		 
+		 
+	@media only screen and (min-width: 480px) and (max-width: 767px){
+			
+	}
+		 
+		 
+	@media only screen and (max-width: 479px) {
+			.fullscreen-msg-class {
+		  	font-size: 16px;
+		  	color: brown;
+		  	line-height: 25px;
+		  	width:340px;
+		  }
+	}
 </style>
 

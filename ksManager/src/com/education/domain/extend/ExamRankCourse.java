@@ -10,8 +10,16 @@ public class ExamRankCourse implements Serializable {
 	private int examingCount; //开考人数
 	private int submitCount; //交卷人数
 	private String passRate; //通过率
+	private int passCount;
 	private String maxScore; //最高分
 	private String maxScoreUserInfo;//最高分用户信息
+	
+	public int getPassCount() {
+		return passCount;
+	}
+	public void setPassCount(int passCount) {
+		this.passCount = passCount;
+	}
 	public int getCid() {
 		return cid;
 	}

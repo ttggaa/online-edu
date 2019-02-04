@@ -2,7 +2,6 @@ package com.edufe.module.common;
 
 
 import java.util.ArrayList;
-import java.util.Calendar;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
@@ -21,12 +20,16 @@ import org.springframework.web.bind.annotation.RestController;
 import com.edufe.framework.base.BaseController;
 import com.edufe.framework.beans.R;
 import com.edufe.framework.common.JwtUtils;
-import com.edufe.framework.common.calendar.CalendarUtil;
+import com.edufe.framework.common.Util;
+import com.edufe.framework.common.cache.CacheUtil;
 import com.edufe.framework.helper.ApplicationHelper;
 import com.edufe.module.entity.ApiResult;
+import com.edufe.module.entity.CacheBusiness;
 import com.edufe.module.entity.PaperExamination;
 import com.edufe.module.entity.Type;
 import com.edufe.module.entity.bean.ExaminationType;
+import com.edufe.module.entity.bean.LoginConfBean;
+import com.edufe.module.entity.bean.PageChangeBean;
 import com.edufe.module.entity.bean.SaveQuesBean;
 import com.edufe.module.entity.bean.SubmitBean;
 
@@ -39,6 +42,8 @@ public class CommonController extends BaseController{
     private JwtUtils jwtUtils;
 	@Autowired
 	private CommonServices commonServices;
+	@Autowired
+	private CacheUtil cache;
 	
 	private final Logger log = LoggerFactory.getLogger(this.getClass());
 	
@@ -83,8 +88,9 @@ public class CommonController extends BaseController{
 			if(commonServices.isSubmitFlag(stuId, bean.getCourseId())){
 				return R.error("请勿重复提交！");
 			}
+			CacheBusiness business = cache.getBusiness(Util.getUrlPrefix(bean.getReqUrl()));
 			//未提交情况，继续提交
-			boolean f = commonServices.submitPaper(stuId,bean.getCourseId(), bean.getParam());
+			boolean f = commonServices.submitPaper(stuId,bean.getCourseId(), bean.getParam(), business);
 			if(f){
 				Map<String, Object> map = new HashMap<>();
 				map.put("retData", "success");
@@ -94,6 +100,29 @@ public class CommonController extends BaseController{
 			}
 		}else{
 			return R.error("请求参数异常！");
+		}
+	}
+	
+	/**
+	 * 考试切屏
+	 * @param stuId
+	 * @param courseId
+	 * @return
+	 */
+	@RequestMapping("pageChange")
+	public R pageChange(
+			@RequestBody PageChangeBean bean, @RequestHeader("token") String token) {
+		String uid = jwtUtils.getUserid(token);
+		if(null != uid){
+			int stuId = Integer.parseInt(uid);
+			//未提交情况，继续提交
+			int pageChangeCount = commonServices.savePageChange(stuId,bean.getCourseId());
+			Map<String, Object> map = new HashMap<>();
+			map.put("retData", "success");
+			map.put("pageChangeCount", pageChangeCount);
+			return R.ok(map);
+		}else{
+			return R.error("fail！");
 		}
 	}
 	

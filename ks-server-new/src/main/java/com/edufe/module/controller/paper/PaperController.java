@@ -96,27 +96,27 @@ public class PaperController extends BaseController{
 		}
 	}
 	
-	@PostMapping("getOverTimeSecond")
-	@ApiOperation("服务器时间倒计时同步接口")
-	public R getOverTimeSecond(@RequestBody ExCourseBean cBean, @RequestHeader("token") String token){
-		//表单校验
-        ValidatorUtils.validateEntity(cBean);
-        
-		String uid = jwtUtils.getUserid(token);
-		if(null != uid){
-			ExamStu examStu = loginServices.findExamStu(uid);
-			//计算本科考试剩余秒数
-			try {
-				String endTime = paperServices.findExamCourseEndTime(examStu.getExamId(), Integer.parseInt(cBean.getCid()), examStu.getId());
-				String overTimeSecond = String.valueOf(CalendarUtil.dataDiff(endTime));
-				Map<String, Object> map = new HashMap<>();
-				map.put("overTimeSecond",overTimeSecond);
-				return R.ok(map);
-			} catch (Exception e) {
-				e.printStackTrace();
-			}
-		}
-
-		return R.error("请求数据失败！");
-	}
+//	@PostMapping("getOverTimeSecond")
+//	@ApiOperation("服务器时间倒计时同步接口")
+//	public R getOverTimeSecond(@RequestBody ExCourseBean cBean, @RequestHeader("token") String token){
+//		//表单校验
+//        ValidatorUtils.validateEntity(cBean);
+//        
+//		String uid = jwtUtils.getUserid(token);
+//		if(null != uid){
+//			ExamStu examStu = loginServices.findExamStu(uid);
+//			//计算本科考试剩余秒数
+//			try {
+//				String endTime = paperServices.findExamCourseEndTime(examStu.getExamId(), Integer.parseInt(cBean.getCid()), examStu.getId());
+//				String overTimeSecond = String.valueOf(CalendarUtil.dataDiff(endTime));
+//				Map<String, Object> map = new HashMap<>();
+//				map.put("overTimeSecond",overTimeSecond);
+//				return R.ok(map);
+//			} catch (Exception e) {
+//				e.printStackTrace();
+//			}
+//		}
+//
+//		return R.error("请求数据失败！");
+//	}
 }

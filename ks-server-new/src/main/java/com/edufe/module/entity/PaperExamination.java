@@ -19,7 +19,7 @@ public class PaperExamination implements Serializable {
 	private String answer;//正确答案
 //	private String difficulty;
 	@JsonIgnore
-	private Integer paperId;
+	private Integer paperId = 0;
 //	private String examinationDescription;
 	private String typeCode;
 	private String quesTypeName;

@@ -90,7 +90,7 @@
 		   App.init();
 		});
 		function cancle(){
-			window.location = "${basePath}examStu?map['eid']=${exam.id }";
+			window.location = "${basePath}examStu/${exam.id }";
 		}
 	</script>
 </body>

@@ -33,6 +33,7 @@ public class SysDictionaryController extends BaseController{
 	
 	@RequestMapping(value = "")
 	public String list(Model model, SearchParams searchParams,Page page,ServletRequest request){
+		if(!SessionHelper.getInstance().isAdminRole()) return null;
 		List<SysDictionary> list = services.find(searchParams,page);
 		model.addAttribute("list", list);
 		model.addAttribute("page", page);
@@ -43,12 +44,14 @@ public class SysDictionaryController extends BaseController{
 	
 	@RequestMapping(value = "create", method = RequestMethod.GET)
 	public String createForm(Model model) {
+		if(!SessionHelper.getInstance().isAdminRole()) return null;
 		model.addAttribute("action","create");
 		return "/framework/sysDictionary/sysDictionaryEdit";
 	}
 
 	@RequestMapping(value = "create", method = RequestMethod.POST)
 	public String create(SysDictionary sysDictionary, Model model,RedirectAttributes redirectAttributes) {
+		if(!SessionHelper.getInstance().isAdminRole()) return null;
 		SysUser sessionUser = SessionHelper.getInstance().getUser();
 		sysDictionary.setCreateUser(sessionUser.getId());
 		sysDictionary.setUpdateUser(sessionUser.getId());
@@ -62,6 +65,7 @@ public class SysDictionaryController extends BaseController{
 
 	@RequestMapping(value = "update/{id}", method = RequestMethod.GET)
 	public String updateForm(@PathVariable("id") Integer id, Model model) {
+		if(!SessionHelper.getInstance().isAdminRole()) return null;
 		SysDictionary sysDictionary = services.findForObject(id);
 		model.addAttribute("sysDictionary", sysDictionary);
 		model.addAttribute("action", "update");
@@ -70,6 +74,7 @@ public class SysDictionaryController extends BaseController{
 
 	@RequestMapping(value = "update", method = RequestMethod.POST)
 	public String update(SysDictionary sysDictionary, RedirectAttributes redirectAttributes) {
+		if(!SessionHelper.getInstance().isAdminRole()) return null;
 		SysUser sessionUser = SessionHelper.getInstance().getUser();
 		sysDictionary.setUpdateUser(sessionUser.getId());
 		services.update(sysDictionary);
@@ -82,6 +87,7 @@ public class SysDictionaryController extends BaseController{
 	
 	@RequestMapping(value = "delete/{id}")
 	public String delete(@PathVariable("id") Integer id,RedirectAttributes redirectAttributes) {
+		if(!SessionHelper.getInstance().isAdminRole()) return null;
 		services.delete(id);
 		ApplicationHelper.getInstance().setSysDictionaryList(services.find());
 		cache.setDictList(ApplicationHelper.getInstance().getSysDictionaryList());  //更新至REDIS

@@ -20,6 +20,7 @@ import com.education.framework.dao.IDao;
 import com.education.framework.domain.SearchParams;
 import com.education.framework.page.Page;
 import com.education.framework.session.SessionHelper;
+import com.education.framework.util.CommonTools;
 import com.education.framework.util.GUID;
 import com.education.framework.util.PinyinConv;
 import com.education.framework.util.cache.CacheManager;
@@ -45,7 +46,7 @@ public class ExamServices extends BaseServices implements IDao<Exam>{
 	@Override
 	public List<Exam> find(SearchParams searchParams, Page page) {
 		StringBuffer sql = new StringBuffer();
-		sql.append("SELECT id,exam_name,exam_begintime,exam_endtime,create_time,create_user,getExamUserCount(id) examUserCount,introduce,course_conf,business_id,prac_conf, paper_build_count,pass_score,msg ");
+		sql.append("SELECT id,exam_name,DATE_FORMAT(exam_begintime,'%Y-%m-%d %H:%i') exam_begintime,DATE_FORMAT(exam_endtime,'%Y-%m-%d %H:%i') exam_endtime,create_time,create_user,getExamUserCount(id) examUserCount,introduce,course_conf,business_id,prac_conf, paper_build_count,pass_score,msg ");
 		sql.append("FROM exam ");
 		
 		String lp = " where ";
@@ -191,6 +192,19 @@ public class ExamServices extends BaseServices implements IDao<Exam>{
 		}
 		return list;
 	}
+	
+	public boolean checkPracConf(String pracConf){
+		if(null == pracConf || "".equals(pracConf)) return false;
+		JSONArray array = JSONArray.fromObject(pracConf);
+		for(int i=0;i<array.size();i++){
+			JSONObject json = array.getJSONObject(i);
+			ExamPracBean b = (ExamPracBean)JSONObject.toBean(json,ExamPracBean.class);
+			if(CommonTools.parseInt(b.getCount()) > 0 && CommonTools.parseInt(b.getScore()) > 0){
+				return true;
+			}
+		}
+		return false;
+	}
 
 	@Override
 	public void delete(Integer id) {
@@ -219,14 +233,24 @@ public class ExamServices extends BaseServices implements IDao<Exam>{
 			obj.setIntroduce(rs.getString("introduce"));
 			obj.setBusinessId(rs.getInt("business_id"));
 			String courseConf = rs.getString("course_conf");
-			List<ResCourseBean> courseConfArr = JsonUtils.json2List(courseConf, ResCourseBean.class);
-			if(null != courseConfArr){
-				obj.setSelCourseArr(courseConfArr);
-			}
 			obj.setPaperBuildCount(rs.getInt("paper_build_count"));
 			obj.setPracConf(rs.getString("prac_conf"));
 			obj.setPassScore(rs.getInt("pass_score"));
-			obj.setMsg(rs.getString("msg"));
+			
+			List<ResCourseBean> courseConfArr = JsonUtils.json2List(courseConf, ResCourseBean.class);
+			if(null != courseConfArr){
+				obj.setSelCourseArr(courseConfArr);
+				if(checkPracConf(obj.getPracConf())){
+					obj.setMsg(rs.getString("msg"));
+				}else{
+					obj.setMsg("组卷设置尚未配置！");
+				}
+			}else{
+				obj.setMsg("考试题库尚未配置,请尽快在高级配置中设置考试题库！");
+			}
+			
+			
+			
 			if(CalendarUtil.compareNow(obj.getExamEndtime(), "yyyy-MM-dd") >= 0){
 				obj.setState("normal");
 			}else{
@@ -408,8 +432,9 @@ public class ExamServices extends BaseServices implements IDao<Exam>{
 
 	public List<Examing> findExamingList() {
 		StringBuffer sql = new StringBuffer();
-		sql.append("SELECT id,exam_name,exam_begintime,exam_endtime,create_time,introduce,course_conf,prac_conf,getExamUserCount(id) examUserCount ");
+		sql.append("SELECT id,exam_name,DATE_FORMAT(exam_begintime,'%Y-%m-%d %H:%i') exam_begintime,DATE_FORMAT(exam_endtime,'%Y-%m-%d %H:%i') exam_endtime,create_time,introduce,course_conf,prac_conf,getExamUserCount(id) examUserCount ");
 		sql.append(",DATE_FORMAT(exam_begintime,'%Y-%m-%d') viewDate, DATE_FORMAT(exam_begintime,'%H:%i') viewTime,msg ");
+		sql.append(",DATE_FORMAT(exam_begintime,'%Y-%m-%d %H:%i') <= DATE_FORMAT(now(),'%Y-%m-%d %H:%i') examingFlag ");
 		sql.append("FROM exam where business_id=? and DATE_FORMAT(exam_endtime,'%Y-%m-%d %H:%i') > DATE_FORMAT(now(),'%Y-%m-%d %H:%i') ");
 		sql.append(" order by exam_begintime");
 		List<Examing> list = dao.query(sql.toString(),new Object[]{SessionHelper.getInstance().getUser().getBusinessId()},new RowMapper<Examing>(){
@@ -433,6 +458,7 @@ public class ExamServices extends BaseServices implements IDao<Exam>{
 				obj.setViewDate(rs.getString("viewDate"));
 				obj.setViewTime(rs.getString("viewTime"));
 				obj.setMsg(rs.getString("msg"));
+				obj.setExamingFlag(rs.getInt("examingFlag")>0);
 				return obj;
 			}
 			

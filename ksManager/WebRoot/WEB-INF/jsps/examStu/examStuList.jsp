@@ -49,15 +49,14 @@
 							<li class=""><a href="${basePath }exam/update/${searchParams.map['eid'] }?tab=1">基础信息</a></li>
 							<li><a class="" href="${basePath }exam/update/${searchParams.map['eid'] }?tab=2">高级配置</a></li>
 							<li class="active"><a href="#tab_3" data-toggle="tab">考生信息</a></li>
-							<li><a class="" href="${basePath }examRank?map['eid']=${searchParams.map['eid'] }">考试数据</a></li>
+							<li><a class="" href="${basePath }examRank/${searchParams.map['eid'] }">考试数据</a></li>
 						</ul>
 						<div class="tab-content">
 							<div class="tab-pane active" id="tab_3">
 								<div class="portlet box light-grey">
 									<div class="portlet-title"></div>
 									<div class="portlet-body">
-										<form id="searchForm" class="horizontal-form" action="${basePath }examStu" method="post">
-											<input type="hidden" id="eid" name="map['eid']" value="${searchParams.map['eid'] }"/>
+										<form id="searchForm" class="horizontal-form" action="${basePath }examStu/${searchParams.map['eid'] }" method="post">
 											<div class="portlet-body form">
 												<div class="row-fluid">
 													<div class="span3">
@@ -146,7 +145,7 @@
 													</c:forEach>
 												</tbody>
 											</table>
-											<p:page url="examStu" cpage="${page.cpage }" perItem="${page.perItem }" totalItem="${page.totalItem }"/>
+											<p:page url="examStu/${searchParams.map['eid'] }" cpage="${page.cpage }" perItem="${page.perItem }" totalItem="${page.totalItem }"/>
 										</div>
 									</div>
 								</div>

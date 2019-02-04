@@ -56,7 +56,7 @@ public class PaperServices {
 
 	public ExamCourse findExamCourseByStu(Integer cid, ExamStu examStu) {
 		int stuId = examStu.getId();
-		ExamCourse ec = cache.getExamPaper(stuId,cid);
+		ExamCourse ec = null;//cache.getExamPaper(stuId,cid);
 		if(null == ec || (null != ec && null == ec.getExaminationTypeList())){
 			ec = findExamCourseObject(examStu.getExamId(), cid, stuId);
 			//随机获取试卷ID

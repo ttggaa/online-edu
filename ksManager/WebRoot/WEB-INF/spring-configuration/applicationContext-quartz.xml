@@ -13,7 +13,7 @@
 		http://www.springframework.org/schema/context/spring-context-2.5.xsd">
 		
 	<!--  *****************Job**********************   -->
-	<bean id="webServicesLogClearJob" class="com.education.framework.util.quartz.webServicesLogJob.WebServicesLogClearJob" ></bean>
+	<bean id="webServicesLogClearJob" class="com.education.framework.util.quartz.task.ClearTask" ></bean>
 	
 	<!--  *****************JobDetail**********************   -->
 	<!--webserviceslog 数据清除任务 -->
@@ -27,9 +27,8 @@
 	<!--每天凌晨1点执行一次 -->
 	<bean id="trigger2" class="org.springframework.scheduling.quartz.CronTriggerBean">
 		<property name="jobDetail" ref="webServicesLogClearJobDetail" />
-		<property name="cronExpression" value="0 0 1 * * ?" />
+		<property name="cronExpression" value="0 0/60 * * * ?" />
 	</bean>
-	
 	<bean class="org.springframework.scheduling.quartz.SchedulerFactoryBean">
 		<property name="triggers">
 			<list>

@@ -56,7 +56,7 @@ public class InitServices extends BaseServices{
 	 */
 	public void initBusinessCache() {
 		StringBuffer sql = new StringBuffer();
-		sql.append("select id,business_name,kind,logo,advert_logo,domain,auth_flag,pro_name,summary,background from business ");
+		sql.append("select id,business_name,kind,logo,advert_logo,domain,auth_flag,pro_name,summary,background,footer_view_flag,online_user,account,overdraft,member,cost_price from business ");
 		sql.append("where audit_flag='1'");
 		List<CacheBusiness> list = dao.query(sql.toString(), new RowMapper<CacheBusiness>(){
 			@Override
@@ -72,6 +72,12 @@ public class InitServices extends BaseServices{
 				obj.setProName(rs.getString("pro_name"));
 				obj.setSummary(rs.getString("summary"));
 				obj.setBackground(rs.getString("background"));
+				obj.setFooterViewFlag(rs.getString("footer_view_flag"));
+				obj.setOnlineUser(rs.getInt("online_user"));
+				obj.setAccount(rs.getString("account"));
+				obj.setOverdraft(rs.getInt("overdraft"));
+				obj.setMember(rs.getString("member"));
+				obj.setCostPrice(rs.getInt("cost_price"));
 				return obj;
 			}
 		});
@@ -79,7 +85,44 @@ public class InitServices extends BaseServices{
 		if(null != list){
 			for(CacheBusiness obj : list){
 				boolean r = cache.setBusiness(obj);
-				System.out.println(obj.getDomain() + ", r=" + r);
+			}
+		}
+	}
+	
+	/**
+	 * 缓存商户信息
+	 */
+	public void initBusinessCache(String id) {
+		StringBuffer sql = new StringBuffer();
+		sql.append("select id,business_name,kind,logo,advert_logo,domain,auth_flag,pro_name,summary,background,footer_view_flag,online_user,account,overdraft,member,cost_price from business ");
+		sql.append("where audit_flag='1' and id=?");
+		List<CacheBusiness> list = dao.query(sql.toString(), new Object[]{id} ,new RowMapper<CacheBusiness>(){
+			@Override
+			public CacheBusiness mapRow(ResultSet rs, int arg1) throws SQLException {
+				CacheBusiness obj = new CacheBusiness();
+				obj.setId(rs.getInt("id"));
+				obj.setBusinessName(rs.getString("business_name"));
+				obj.setKind(rs.getString("kind"));
+				obj.setLogo(rs.getString("logo"));
+				obj.setAdvertLogo(rs.getString("advert_logo"));
+				obj.setDomain(rs.getString("domain"));
+				obj.setAuthFlag(rs.getString("auth_flag"));
+				obj.setProName(rs.getString("pro_name"));
+				obj.setSummary(rs.getString("summary"));
+				obj.setBackground(rs.getString("background"));
+				obj.setFooterViewFlag(rs.getString("footer_view_flag"));
+				obj.setOnlineUser(rs.getInt("online_user"));
+				obj.setAccount(rs.getString("account"));
+				obj.setOverdraft(rs.getInt("overdraft"));
+				obj.setMember(rs.getString("member"));
+				obj.setCostPrice(rs.getInt("cost_price"));
+				return obj;
+			}
+		});
+		
+		if(null != list){
+			for(CacheBusiness obj : list){
+				boolean r = cache.setBusiness(obj);
 			}
 		}
 	}

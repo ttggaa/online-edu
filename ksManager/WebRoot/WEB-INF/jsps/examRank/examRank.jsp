@@ -48,15 +48,14 @@
 						<ul class="nav nav-tabs">
 							<li class=""><a href="${basePath }exam/update/${searchParams.map['eid'] }?tab=1">基础信息</a></li>
 							<li><a href="${basePath }exam/update/${searchParams.map['eid'] }?tab=2">高级配置</a></li>
-							<li><a href="${basePath }examStu?map['eid']=${searchParams.map['eid'] }">考生信息</a></li>
+							<li><a href="${basePath }examStu/${searchParams.map['eid'] }">考生信息</a></li>
 							<li class="active"><a href="#tab_3"  data-toggle="tab">考试数据</a></li>
 						</ul>
 						<div class="tab-content">
 							<div class="tab-pane active" id="tab_3">
 								<div class="row-fluid">
 									<div class="span9">
-										<form id="searchForm" class="form-horizontal" action="${basePath }examRank" method="post">
-											<input type="hidden" id="eid" name="map['eid']" value="${searchParams.map['eid'] }"/>
+										<form id="searchForm" class="form-horizontal" action="${basePath }examRank/${searchParams.map['eid'] }" method="post">
 											<div class="portlet-body form">
 												<div class="row-fluid">
 													<div class="span6">
@@ -88,7 +87,8 @@
 															<button class="btn dropdown-toggle" data-toggle="dropdown">更多 <i class="icon-angle-down"></i>
 															</button>
 															<ul class="dropdown-menu pull-right">
-																<li><a onclick="submitForm('${basePath }examStu/export','searchForm');" href="javascript:void();">导出至Excel</a></li>
+																<li><a onclick="javascript:$('#responsiveExport').modal('show');" data-toggle="modal" href="javascript:void();">导出至Excel</a></li>
+																<!-- <li><a onclick="submitForm('${basePath }examRank/export/${searchParams.map['eid'] }','searchForm');" href="javascript:void();">导出至Excel</a></li> -->
 															</ul>
 														</c:if>
 													</div>
@@ -102,6 +102,38 @@
 													   		<option value="200" ${searchParams.map['pageItem'] == 200 ? 'selected=selected':''}>每页200条</option>
 												   		</select>
 												   	</div>
+												</div>
+												<div id="responsiveExport" class="modal hide fade" tabindex="-1" data-width="760">
+													<div class="modal-header">
+														<button type="button" class="close" data-dismiss="modal" aria-hidden="true"></button>
+														<h3>数据导出</h3>
+													</div>
+													<div class="modal-body">
+														<div class="row-fluid">
+																<label class="checkbox">
+																	<input type="checkbox" name="expColsCheckbox" value="rankIndex" checked=checked /> 排名
+																</label>
+																<label class="checkbox">
+																	<input type="checkbox" name="expColsCheckbox" value="idcard" checked=checked /> 准考证号
+																</label>	
+																<label class="checkbox">
+																	<input type="checkbox" name="expColsCheckbox" value="truename" checked=checked /> 姓名
+																</label>
+																<label class="checkbox">
+																	<input type="checkbox" name="expColsCheckbox" value="score" checked=checked /> 分数
+																</label>
+																<label class="checkbox">
+																	<input type="checkbox" name="expColsCheckbox" value="ip" checked=checked /> IP地址
+																</label>
+																<label class="checkbox">
+																	<input type="checkbox" name="expColsCheckbox" value="submitTime" /> 交卷时间
+																</label>
+														</div>
+													</div>
+													<div class="modal-footer">
+														<button type="button" data-dismiss="modal" class="btn">关闭</button>
+														<button type="button" class="btn blue" onclick="submitForm('${basePath }examRank/export/${searchParams.map['eid'] }','searchForm');">确定</button>
+													</div>
 												</div>
 											</form>
 											<table class="table table-striped table-bordered table-hover" id="sample_1">
@@ -120,7 +152,7 @@
 													<c:forEach items="${list}" var="list" varStatus="status">
 														<tr class="odd gradeX">
 															<td style="text-align: center;">${list.examCourse.courseName }</td>
-															<td style="text-align: center;">${status.index+1}</td> 
+															<td style="text-align: center;">${list.examCourse.rankIndex}</td> 
 															<td>${list.idcard }</td> 
 															<td>${list.truename }
 																<c:if test="${list.testFlag == '1'}"><span class="badge badge-warning">测试</span></c:if>
@@ -155,14 +187,14 @@
 													</c:forEach>
 												</tbody>
 											</table>
-											<p:page url="examStu" cpage="${page.cpage }" perItem="${page.perItem }" totalItem="${page.totalItem }"/>
+											<p:page url="examRank/${searchParams.map['eid'] }" cpage="${page.cpage }" perItem="${page.perItem }" totalItem="${page.totalItem }"/>
 										</div>
 									</div>
 									
 									<div class="span3">
 										<div class="portlet solid bordered light-grey">
 											<div class="portlet-title">
-												<div class="caption"><i class="icon-bar-chart"></i>概况</div>
+												<div class="caption"><i class="icon-bar-chart"></i>总体概况</div>
 											</div>
 											<div class="portlet-body">
 												<div class="control-group"> 
@@ -172,7 +204,7 @@
 												</div> 
 												<div class="control-group"> 
 												   <label class="control-label"> 
-												     登录/未登录人数 <span class="badge badge-info">${erb.loginCount }</span>人 / <span class="badge badge-info">${erb.noLoginCount }</span>人
+												     登录 <span class="badge badge-info">${erb.loginCount }</span>人, 未登录 <span class="badge badge-info">${erb.noLoginCount }</span>人
 												   </label> 
 												</div>  
 											</div>
@@ -200,13 +232,16 @@
 													</div> 
 													<div class="control-group"> 
 													   <label class="control-label"> 
-													     最高分 <span class="badge badge-info">${erc.maxScore }分</span>
-													     <div>${erc.maxScoreUserInfo }</div>
+													     最高分 <span class="badge badge-info">${erc.maxScore }分 ↑</span>
+													     <c:if test="${not empty erc.maxScoreUserInfo }">
+													     	<span class="badge badge-info">${erc.maxScoreUserInfo }</span>
+													     </c:if>
 													   </label> 
 													</div> 
 												</div>
 											</div>
 										</c:forEach>
+										<!-- 
 										<div class="portlet solid bordered light-grey">
 											<div class="portlet-title">
 												<div class="caption"><i class="icon-bar-chart"></i>考点统计</div>
@@ -226,6 +261,7 @@
 												</div>
 											</div>
 										</div>
+										 -->
 									</div>
 								</div>
 							</div>

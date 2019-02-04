@@ -50,8 +50,8 @@
 				<div class="row-fluid">
 					<div class="span12">
 						<h3 class="page-title">
-							用户账号管理
-							 <small>${action=='create'?'新增用户账号信息':'修改用户账号信息'}</small>
+							管理员账号管理
+							 <small>${action=='create'?'新增管理员账号信息':'修改管理员账号信息'}</small>
 						</h3>
 						<!-- END PAGE TITLE & BREADCRUMB-->
 					</div>
@@ -111,33 +111,8 @@
 													<input name="truename" class="m-wrap span6" type="text" placeholder="" value="${user.truename}" maxlength="20"/>
 												</div>
 											</div>
-											<div class="control-group"> 
-											   <label class="control-label">部门</label> 
-											   <div class="controls"> 
-													<select data-placeholder="部门" class="chosen span6" tabindex="-1" id="selS0V" name="orgId" style="width:150px;">
-														<option value=""></option>
-														<c:forEach items="${orgList }" var="org">
-															<optgroup label="${org.orgName }">
-																<c:forEach items="${org.subList }" var="sub">
-																	<option value="${sub.id }" ${user.orgId==sub.id?'selected=selected':'' } >${sub.orgName }</option>
-																</c:forEach>
-															</optgroup>
-														</c:forEach>
-													</select>
-											   </div> 
-											</div> 
 											<div class="control-group">
-												<label class="control-label">角色</label>
-												<div class="controls">
-													<c:forEach items="${listRole }" var="rList">
-											   			<label class="checkbox">
-															<input type="checkbox" name="roleIds" value="${rList.id }" ${rList.select != null && rList.select ==1?'checked=checked':'' }/> ${rList.roleName }
-														</label>
-											   		</c:forEach>
-												</div>
-											</div>
-											<div class="control-group">
-												<label class="control-label">性别${user.gender}</label>
+												<label class="control-label">性别</label>
 												<div class="controls">
 													<label class="radio">
 															<span><input name="gender" type="radio" value="男" data-title="男" ${user.gender=='男'?'checked':'' } /></span>
@@ -161,15 +136,6 @@
 												<div class="controls">
 													<input name="email" class="span6 m-wrap" type="text" value="${user.email}" maxlength="40"/>
 													<span class="help-inline">常用电子邮箱地址</span>
-												</div>
-											</div>
-											<div class="control-group">
-												<label class="control-label">入职时间</label>
-												<div class="controls">
-													<div class="input-append date date-picker ">
-														<input name="entryTime" size="16" type="text" value="${user.entryTime}" readonly class="m-wrap span8">
-														<span class="add-on"><i class="icon-calendar"></i></span>
-													</div>
 												</div>
 											</div>
 											<div class="control-group">

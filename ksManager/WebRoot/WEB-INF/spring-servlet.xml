@@ -130,5 +130,5 @@
 	   </property>
 	</bean>
 	
-	<!--<import resource="spring-configuration/applicationContext-quartz.xml" /> -->  
+	<import resource="spring-configuration/applicationContext-quartz.xml" />
 </beans>

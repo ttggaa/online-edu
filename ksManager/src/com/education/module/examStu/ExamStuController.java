@@ -40,8 +40,9 @@ public class ExamStuController extends BaseController{
 	@Autowired
 	private BusinessServices businessServices;
 	
-	@RequestMapping(value = "")
-	public String list(Model model, SearchParams searchParams,Page page,ServletRequest request){
+	@RequestMapping(value = "{eid}")
+	public String list(@PathVariable("eid") Integer eid, Model model, SearchParams searchParams,Page page,ServletRequest request){
+		searchParams.getMap().put("eid", eid);
 		List<ExamStu> list = services.find(searchParams,page);
 		model.addAttribute("list", list);
 		model.addAttribute("page", page);
@@ -77,7 +78,7 @@ public class ExamStuController extends BaseController{
 			services.save(examStu);
 			redirectAttributes.addFlashAttribute(MESSAGE, MESSAGE_SAVE_SUCCESS);
 			redirectAttributes.addFlashAttribute(MESSAGE_STATE, "alert-success");
-			return "redirect:/examStu?map['eid']=" + examStu.getExamId();
+			return "redirect:/examStu/" + examStu.getExamId();
 		}
 		
 	}
@@ -108,7 +109,7 @@ public class ExamStuController extends BaseController{
 		services.update(examStu);
 		redirectAttributes.addFlashAttribute(MESSAGE, MESSAGE_UPDATE_SUCCESS);
 		redirectAttributes.addFlashAttribute(MESSAGE_STATE, "alert-success");
-		return "redirect:/examStu?map['eid']=" + examStu.getExamId();
+		return "redirect:/examStu/" + examStu.getExamId();
 	}
 	
 	@RequestMapping(value = "delete/{id}")
@@ -117,7 +118,7 @@ public class ExamStuController extends BaseController{
 		services.delete(id);
 		redirectAttributes.addFlashAttribute(MESSAGE, MESSAGE_DELETE_SUCCESS);
 		redirectAttributes.addFlashAttribute(MESSAGE_STATE, "alert-success");
-		return "redirect:/examStu?map['eid']=" + examStu.getExamId();
+		return "redirect:/examStu/" + examStu.getExamId();
 	}
 	
 	@RequestMapping(value = "export")
@@ -152,7 +153,7 @@ public class ExamStuController extends BaseController{
 			r = services.impExcel(exam,file);
 			if(r==null){
 				model.addAttribute("MESSAGE","导入成功。");
-				return "redirect:/examStu?map['eid']=" + exam.getId();
+				return "redirect:/examStu/" + exam.getId();
 			}else{
 				model.addAttribute("exam",exam);
 				model.addAttribute("MESSAGE","导入失败。");

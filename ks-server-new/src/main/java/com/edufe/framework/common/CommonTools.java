@@ -46,6 +46,19 @@ public class CommonTools {
     		return false;
     }
 	
+	public static double parseDouble(String str) {
+    	if(str==null || str.trim().equals("") || str.trim().equalsIgnoreCase("NULL")){
+    		return 0;
+    	}else{
+    		try{
+    			return Double.parseDouble(str);
+    		}catch(Exception ex){
+    			ex.printStackTrace();
+    		}
+    	}
+    	return 0;
+    }
+	
 	/**
 	 * 读取4为数字的随机码
 	 * @return String 4位

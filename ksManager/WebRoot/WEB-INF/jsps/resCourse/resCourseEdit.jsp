@@ -22,7 +22,7 @@
 				<div class="row-fluid">
 					<div class="span12">
 						<h3 class="page-title">
-							考试科目管理
+							考试题库管理
 							<small>${action=='create'?'新增信息':'修改信息'}</small>
 						</h3>
 					</div>
@@ -42,6 +42,7 @@
 
 								<form id="inputForm" class="form-horizontal" action="${basePath}resCourse/${action}" method="post" >
 									<input type="hidden" name="id" value="${resCourse.id }"/>
+									<input type="hidden" name="examSumTime" value="60"/>
 									<div class="alert alert-error ${empty MESSAGE ?'hide':'' }">
 										<button class="close" data-dismiss="alert"></button>
 										<span>${MESSAGE }</span>
@@ -49,7 +50,7 @@
 									
 									<div class="control-group"> 
 									   <label class="control-label"> 
-									       	考试科目名称<span class="required">*</span> 
+									       	题库名称<span class="required">*</span> 
 									   </label> 
 									   <div class="controls"> 
 									       <input name="courseName" class="span6 m-wrap required" type="text" value="${resCourse.courseName}"> 
@@ -57,18 +58,10 @@
 									</div> 
 									<div class="control-group"> 
 									   <label class="control-label"> 
-									       代码<span class="required">*</span> 
+									              说明
 									   </label> 
 									   <div class="controls"> 
-									       <input name="courseCode" class="span6 m-wrap required" type="text" value="${resCourse.courseCode}"> 
-									   </div> 
-									</div> 
-									<div class="control-group"> 
-									   <label class="control-label"> 
-									       单场考试时长(分钟)<span class="required">*</span> 
-									   </label> 
-									   <div class="controls"> 
-									       <input name="examSumTime" class="span6 m-wrap required number" type="text" value="${resCourse.examSumTime}"> 
+									       <textarea id="remark" name="remark" class="span6 m-wrap" rows="5">${exam.remark }</textarea>
 									   </div> 
 									</div> 
 									

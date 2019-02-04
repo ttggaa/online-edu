@@ -17,6 +17,9 @@ import io.swagger.annotations.ApiModelProperty;
 public class SubmitBean implements Serializable {
 
 	private static final long serialVersionUID = 2L;
+	@ApiModelProperty(value = "请求URL")
+    @NotBlank(message="请求URL不能为空")
+	private String reqUrl;
 	
 	@ApiModelProperty(value = "科目ID")
     @NotBlank(message="科目ID不能为空")
@@ -25,6 +28,12 @@ public class SubmitBean implements Serializable {
 	@ApiModelProperty(value = "试题保存参数")
 	private String param;
 
+	public String getReqUrl() {
+		return reqUrl;
+	}
+	public void setReqUrl(String reqUrl) {
+		this.reqUrl = reqUrl;
+	}
 	public Integer getCourseId() {
 		return courseId;
 	}

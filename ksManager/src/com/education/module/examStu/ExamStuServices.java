@@ -27,6 +27,7 @@ import com.education.framework.domain.SearchParams;
 import com.education.framework.page.Page;
 import com.education.framework.session.SessionHelper;
 import com.education.framework.util.CommonTools;
+import com.education.framework.util.DictionaryUtil;
 import com.education.framework.util.cache.CacheManager;
 import com.education.framework.util.excelImp.ExcelImportTools;
 import com.education.module.exam.ExamServices;
@@ -289,6 +290,15 @@ public class ExamStuServices extends BaseServices implements IDao<ExamStu>{
 			String examName = dao.queryForObject("select exam_name from exam_stu es inner join exam e on e.id=es.exam_id where es.business_id=? and es.idcard=? limit 1",
 					new Object[]{SessionHelper.getInstance().getUser().getBusinessId(), examStu.getIdcard()}, String.class);
 			return "准考证号在 [" + examName + "] 考试中已经存在，不能重复创建！";
+		}
+		if("".equals(examStu.getTestFlag())){
+			//验证每个考核测试人员是否超出
+			String chkTestSql = "select count(1) from exam_stu where business_id=? and exam_id=? and test_flag='1'";
+			int testUserCount = dao.queryForInt(chkTestSql, new Object[]{SessionHelper.getInstance().getUser().getBusinessId(), examStu.getExamId()});
+			int testUserCountDict = CommonTools.parseInt(DictionaryUtil.getCodeForObj("TEST_USER_COUNT"));
+			if(testUserCount >= testUserCountDict){
+				return "测试考生账号不能超过5个！";
+			}
 		}
 		return "";
 	}

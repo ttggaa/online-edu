@@ -180,5 +180,7 @@
 	<classpathentry kind="lib" path="WebRoot/WEB-INF/lib/pinyin4j-2.5.0.jar"/>
 	<classpathentry kind="lib" path="WebRoot/WEB-INF/lib/qiniu-java-sdk-7.2.8.jar"/>
 	<classpathentry kind="lib" path="WebRoot/WEB-INF/lib/xom-1.2.5.jar"/>
+	<classpathentry kind="lib" path="WebRoot/WEB-INF/lib/alipay-sdk-java20170324180803-source.jar"/>
+	<classpathentry kind="lib" path="WebRoot/WEB-INF/lib/alipay-sdk-java20170324180803.jar"/>
 	<classpathentry kind="output" path="WebRoot/WEB-INF/classes"/>
 </classpath>

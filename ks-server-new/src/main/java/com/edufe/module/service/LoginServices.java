@@ -10,6 +10,7 @@ import org.springframework.jdbc.core.RowMapper;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
+import com.edufe.framework.common.CommonTools;
 import com.edufe.framework.common.Util;
 import com.edufe.framework.common.cache.CacheUtil;
 import com.edufe.module.entity.CacheBusiness;
@@ -152,7 +153,32 @@ public class LoginServices {
 		bean.setProName(business.getProName());
 		bean.setSummary(business.getSummary());
 		bean.setBackground(business.getBackground());
+		bean.setFooterViewFlag(business.getFooterViewFlag());
 		return bean;
+	}
+	
+	/**
+	 * 判断允许透支金额，是否超出
+	 * @param reqUrl
+	 * @return true: 已透支  ， false:未透支
+	 */
+	public boolean getAccountOverdraftFlag(String reqUrl) {
+		CacheBusiness business = cache.getBusiness(Util.getUrlPrefix(reqUrl));
+		if(null == business) return false;
+		if(CommonTools.parseDouble(business.getAccount()) > business.getOverdraft()){
+			return false;
+		}
+		return true;
+	}
+
+	/**
+	 * 取商户配置信息
+	 * @param reqUrl
+	 * @return
+	 */
+	public CacheBusiness getBusiness(String reqUrl) {
+		CacheBusiness business = cache.getBusiness(Util.getUrlPrefix(reqUrl));
+		return business;
 	}
 	
 }

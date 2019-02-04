@@ -168,6 +168,16 @@ public class DictionaryUtil {
 		return code;
 	}
 	
+	public static String getCodeForObj(String field) {
+		String code = "";
+		List<SysDictionary> dictionaryList = getSysDictionaryList(field);
+		for(SysDictionary dictionary : dictionaryList) {
+			code = dictionary.getCode();
+			break;
+		}
+		return code;
+	}
+	
 	/**
 	 * 
 	 * 描述: 根据code取得SysDictionary
